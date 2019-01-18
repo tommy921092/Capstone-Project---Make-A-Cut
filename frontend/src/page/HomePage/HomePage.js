@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Segment, Container, Header, Icon, Form, Select, Input, List, Grid } from 'semantic-ui-react'
 
-import Navbar from '../../components/Navbar'
 import Recommend from './Recommend'
 import Article from './Article'
-import Footer from './Footer'
 
 
 import bg from './img/bg.jpeg';
@@ -73,7 +71,6 @@ export default class HomePage extends Component {
                         as="h1">Barber News</Header>
                     <Article />
                 </Container>
-                <Footer />
             </Container>
         )
     }

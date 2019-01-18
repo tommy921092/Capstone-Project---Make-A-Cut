@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Menu, Segment, Container, Responsive } from 'semantic-ui-react'
+import LoginModal from '../page/Login/LoginModal';
 
 export default class Navbar extends Component {
-    state = { activeItem: 'home' }
-
+    state = { activeItem: 'home'};
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
     render() {
         const { activeItem } = this.state
 
@@ -36,18 +35,11 @@ export default class Navbar extends Component {
                                 onClick={this.handleItemClick}
                             />
                             <Menu.Menu position='right'>
-                                <Menu.Item
-                                    name='signup'
-                                    active={activeItem === 'signup'}
-                                    onClick={this.handleItemClick}>
-                                    Sign Up
-                                 </Menu.Item>
-
-                                <Menu.Item
+                                <Menu.Item as={LoginModal}
                                     name='login'
                                     active={activeItem === 'login'}
                                     onClick={this.handleItemClick}>
-                                    Login
+                                    
                                 </Menu.Item>
                             </Menu.Menu>
                         </Container>
