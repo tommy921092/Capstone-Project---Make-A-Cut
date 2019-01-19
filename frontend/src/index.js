@@ -8,7 +8,10 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
 import { Provider } from 'react-redux';
-import Navbar from './components/Navbar'
+
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
 import routes from './routes';
 
 
@@ -21,10 +24,13 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <Navbar />
     <Router routes={routes}>
+    <div>
+      <Navbar />
       {routes}
+      </div>
     </Router>
+    <Footer />
   </Provider>,
   document.getElementById('root')
 );
