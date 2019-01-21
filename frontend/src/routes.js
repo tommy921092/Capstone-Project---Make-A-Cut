@@ -15,6 +15,7 @@ export default (
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={LoginModal} />
         <Route path="/about" component={About} />
-        <Route path="/test" component={Articles} />
+        <Route exact path="/test" component={Articles} />
+        <Route path="/article/:articleid" component={Articles} />
     </div>
 )
