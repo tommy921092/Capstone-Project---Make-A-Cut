@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Grid, Image, Icon } from 'semantic-ui-react'
+import { Grid, Image} from 'semantic-ui-react'
 
 export default class ArticleColumn extends Component {
     render() {

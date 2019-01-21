@@ -4,15 +4,11 @@ import validator from "validator";
 import {
   Button,
   Form,
-  Grid,
   Header,
-  Image,
-  Message,
   Icon,
-  Segment,
   Divider
 } from "semantic-ui-react";
-import { LabelInputField, CheckboxField } from "react-semantic-redux-form";
+import { LabelInputField} from "react-semantic-redux-form";
 const validate = values => {
   const errors = {};
 
@@ -27,11 +23,12 @@ const validate = values => {
   } else if (!validator.isAlpha(values.lastName)) {
     errors.lastName = "Your name should only contain alphabets";
   }
-  
+
   if (!values.contactNumber) {
     errors.contactNumber = "Contact number is Required";
   } else if (!validator.isMobilePhone(values.contactNumber)) {
-    errors.contactNumber = "Your contact number should be in correct format(only contains number)";
+    errors.contactNumber =
+      "Your contact number should be in correct format(only contains number)";
   }
 
   if (!values.email) {
@@ -60,6 +57,9 @@ const UserSignUpForm = () => (
     <Divider style={{ width: "40%", margin: "1rem auto" }} />
     <div class="ui stacked segment" style={{ maxWidth: 450, margin: "0 auto" }}>
       <Form size="large">
+        <Header as="h4" color="black" textAlign="left">
+          First Name:
+        </Header>
         <Field
           name="firstName"
           type="text"
@@ -68,6 +68,9 @@ const UserSignUpForm = () => (
           labelPosition="left"
           placeholder="First Name"
         />
+        <Header as="h4" color="black" textAlign="left">
+          Last Name:
+        </Header>
         <Field
           name="lastName"
           type="text"
@@ -76,6 +79,9 @@ const UserSignUpForm = () => (
           labelPosition="left"
           placeholder="Last Name"
         />
+        <Header as="h4" color="black" textAlign="left">
+          Contact Number:
+        </Header>
         <Field
           name="contactNumber"
           type="text"
@@ -84,6 +90,9 @@ const UserSignUpForm = () => (
           labelPosition="left"
           placeholder="Contact Number"
         />
+        <Header as="h4" color="black" textAlign="left">
+          Email:
+        </Header>
         <Field
           name="email"
           type="email"
@@ -92,6 +101,9 @@ const UserSignUpForm = () => (
           labelPosition="left"
           placeholder="Email"
         />
+        <Header as="h4" color="black" textAlign="left">
+          Password:
+        </Header>
         <Field
           name="password"
           component={LabelInputField}

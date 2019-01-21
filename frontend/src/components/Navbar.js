@@ -6,7 +6,6 @@ import {
   Responsive,
   Visibility
 } from "semantic-ui-react";
-import LoginModal from "../page/Login/LoginModal";
 import { Link } from "react-router-dom";
 
 export default class Navbar extends Component {
@@ -64,11 +63,11 @@ export default class Navbar extends Component {
                   <Menu.Item
                     as={Link}
                     to="/login"
-                    name="login"
                     active={activeItem === "login"}
                     onClick={this.handleItemClick}
-                    buttonColor={!fixed ? "black" : null}
-                  />
+                    buttonColor={!fixed ? "black" : null}>
+                    Login/Sign up
+                    </Menu.Item>
                 </Menu.Menu>
               </Container>
             </Menu>

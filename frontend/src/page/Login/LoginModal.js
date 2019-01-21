@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Header, Image, Modal, Grid, Segment, Divider } from "semantic-ui-react";
+import { Button, Image, Modal, Grid, Segment, Divider } from "semantic-ui-react";
 import shop from "./img/shop.jpeg";
 import user from "./img/user.jpeg";
 

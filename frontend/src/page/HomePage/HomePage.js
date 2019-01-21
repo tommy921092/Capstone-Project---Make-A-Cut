@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Segment, Container, Header, Icon, Form, Select, Input, List, Grid } from 'semantic-ui-react'
+import { Segment, Container, Header, Form, Select, Input} from 'semantic-ui-react'
 
 import Recommend from './Recommend'
 import Article from './Article'

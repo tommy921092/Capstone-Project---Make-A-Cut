@@ -1,25 +1,29 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Image,
-  Message,
-  Icon,
-  Segment,
-  Divider
-} from "semantic-ui-react";
+import validator from "validator";
+import { Button, Form, Header, Icon, Divider } from "semantic-ui-react";
 import {
   LabelInputField,
-  CheckboxField,
-  SelectField
+  SelectField,
+  Dropdown,
+  TextAreaField,
+  Upload
 } from "react-semantic-redux-form";
 const validate = values => {
   const errors = {};
+  if (!values.contactNumber) {
+    errors.contactNumber = "Contact number is Required";
+  } else if (!validator.isMobilePhone(values.contactNumber)) {
+    errors.contactNumber =
+      "Your contact number should be in correct format(only contains number)";
+  }
+
   if (!values.email) {
     errors.email = "Email is Required";
+  } else if (!validator.isEmail(values.email)) {
+    errors.email = `Please include @ in the email address, ${
+      values.email
+    } is missing an @`;
   }
 
   if (!values.password) {
@@ -48,63 +52,227 @@ const districtOptions = [
   { text: "Tuen Mun", value: "Tuen Mun" },
   { text: "Yuen Long", value: "Yuen Long" }
 ];
-const ShopSignUpForm = () => (
-  <div className="login-form" style={{ paddingTop: "5em" }}>
-    {/*
-      Heads up! The styles below are necessary for the correct render of this example.
-      You can do same with CSS, the main idea is that all the elements up to the `Grid`
-      below must have a height of 100%.
-    */}
-    <Header as="h2" color="black" textAlign="center">
-      Merchant Sign Up
-    </Header>
-    <Divider style={{ width: "40%", margin: "1rem auto" }} />
-    <div class="ui stacked segment" style={{ maxWidth: 600, margin: "0 auto" }}>
-      <Form size="large">
-        <Header as="h3" color="black" textAlign="center">
-          LOGIN INFO
+
+const feeOptions = [
+  { text: "Cannot provide", value: "Cannot provide" },
+  { text: "Less than $100", value: "Less than $100" },
+  { text: "$101-250", value: "$101-250" },
+  { text: "$251-500", value: "$251-500" },
+  { text: "More than $500", value: "More than $500" }
+];
+//options for tags
+const options = [];
+class ShopSignUpForm extends React.Component {
+  state = { options, numImage: 0 };
+
+  handleAddition = (e, { value }) => {
+    if (this.state.options.length < 5 && value.length < 10) {
+      this.setState({
+        options: [{ text: value, value }, ...this.state.options]
+      });
+    } else return;
+  };
+
+  handleChange = (e, { value }) => {
+    this.setState({ currentValues: value });
+  };
+
+  render() {
+    //values for tags
+    const { currentValues } = this.state;
+    const imageChildren = [];
+    for (var i = 0; i < this.state.numImage; i += 1) {
+      imageChildren.push(
+        <Field
+          key={i}
+          number={i}
+          name="mainPhoto"
+          required
+          component={Upload}
+        />
+      );
+    }
+    return (
+      <div className="login-form" style={{ paddingTop: "5em" }}>
+        {/*
+            Heads up! The styles below are necessary for the correct render of this example.
+            You can do same with CSS, the main idea is that all the elements up to the `Grid`
+            below must have a height of 100%.
+          */}
+        <Header as="h2" color="black" textAlign="center">
+          Merchant Sign Up
         </Header>
-        <Field
-          name="email"
-          type="email"
-          component={LabelInputField}
-          label={{ content: <Icon name="mail" /> }}
-          labelPosition="left"
-          placeholder="Email"
-        />
-        <Field
-          name="password"
-          component={LabelInputField}
-          type="password"
-          label={{ content: <Icon name="lock" /> }}
-          labelPosition="left"
-          placeholder="Password"
-        />
-        <Header as="h3" color="black" textAlign="center">
-          BASIC INFO
-        </Header>
-        <Field
-          name="name"
-          component={LabelInputField}
-          type="text"
-          label={{ content: <Icon name="user" /> }}
-          labelPosition="left"
-          placeholder="Shop Name"
-        />
-        <Header as="h3" color="black" textAlign="center">
-          DETAIL INFO
-        </Header>
-        <Field
-          name="district"
-          component={SelectField}
-          options={districtOptions}
-          placeholder="District"
-        />
-        <Form.Group />
-      </Form>
-    </div>
-  </div>
-);
+        <Divider style={{ width: "40%", margin: "1rem auto" }} />
+        <div
+          class="ui stacked segment"
+          style={{ maxWidth: 600, margin: "0 auto" }}
+        >
+          <Form size="large">
+            <Header as="h3" color="black" textAlign="center">
+              LOGIN INFO
+            </Header>
+            <Header as="h4" color="black" textAlign="left">
+              Email:
+            </Header>
+            <Field
+              required
+              name="email"
+              type="email"
+              component={LabelInputField}
+              label={{ content: <Icon name="mail" /> }}
+              labelPosition="left"
+              placeholder="Email"
+            />
+            <Header as="h4" color="black" textAlign="left">
+              Password:
+            </Header>
+            <Field
+              name="password"
+              required
+              component={LabelInputField}
+              type="password"
+              label={{ content: <Icon name="lock" /> }}
+              labelPosition="left"
+              placeholder="Password"
+            />
+            <Header as="h3" color="black" textAlign="center">
+              BASIC INFO
+            </Header>
+            <Header as="h4" color="black" textAlign="left">
+              Shop Name:
+            </Header>
+            <Field
+              required
+              name="name"
+              component={LabelInputField}
+              type="text"
+              label={{ content: <Icon name="user" /> }}
+              labelPosition="left"
+              placeholder="Shop Name"
+            />
+            <Header as="h3" color="black" textAlign="center">
+              DETAIL INFO
+            </Header>
+            <Header as="h4" color="black" textAlign="left">
+              District:
+            </Header>
+            <Field
+              name="district of your barber shop"
+              component={SelectField}
+              options={districtOptions}
+              placeholder="District"
+            />
+
+            <Header as="h4" color="black" textAlign="left">
+              ADD TAGS HERE FOR YOUR SHOP
+              <br />
+              (maximum five tags and each with less than 10 characters)
+            </Header>
+            <Field
+              name="tag"
+              component={Dropdown}
+              placeholder="add tags by pressing enter key"
+              options={this.state.options}
+              selection
+              fluid
+              multiple
+              allowAdditions
+              value={currentValues}
+              onAddItem={this.handleAddition}
+              onChange={this.handleChange}
+            />
+            <br />
+            <Header as="h4" color="black" textAlign="left">
+              Contact Number:
+            </Header>
+            <Field
+              name="contactNumber"
+              type="text"
+              component={LabelInputField}
+              label={{ content: <Icon name="phone" /> }}
+              labelPosition="left"
+              placeholder="Contact Number"
+            />
+            <Header as="h4" color="black" textAlign="left">
+              Website:
+            </Header>
+            <Field
+              name="website"
+              type="text"
+              component={LabelInputField}
+              labelPosition="left"
+              placeholder="Website URL"
+            />
+            <Header as="h4" color="black" textAlign="left">
+              Opening Hours:
+            </Header>
+            <Field
+              name="openinghours"
+              type="text"
+              component={LabelInputField}
+              labelPosition="left"
+              placeholder="Opening Hours"
+            />
+            <Header as="h4" color="black" textAlign="left">
+              Average Fee:
+            </Header>
+            <Field
+              name="average fee of your services"
+              component={SelectField}
+              options={feeOptions}
+              placeholder="averageFee"
+            />
+            <Form.Group />
+            <Header as="h4" color="black" textAlign="left">
+              Self-description:
+            </Header>
+            <Field
+              name="Description"
+              component={TextAreaField}
+              placeholder="Tell us about your shop"
+            />
+            <Header as="h4" color="black" textAlign="left">
+              Main photo:
+            </Header>
+            <Field name="mainPhoto" required component={Upload} />
+            <Header as="h4" color="black" textAlign="left">
+              Other photo:
+            </Header>
+            {imageChildren}
+            <Button
+              icon
+              onClick={e => {
+                e.preventDefault();
+                this.setState({ numImage: this.state.numImage + 1 });
+              }}
+            >
+              <Icon name="add" />
+            </Button>
+            <Button
+              icon
+              onClick={e => {
+                e.preventDefault();
+                this.setState({ numImage: this.state.numImage - 1 });
+              }}
+            >
+              <Icon name="minus" />
+            </Button>
+            <Form.Field
+              style={{ width: "70%", margin: "1rem auto" }}
+              control={Button}
+              color="black"
+              className="submit-btn"
+              type="submit"
+              fluid
+            >
+              Sign up
+            </Form.Field>
+          </Form>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default reduxForm({
   form: "shopSignUpForm", // a unique identifier for this form
