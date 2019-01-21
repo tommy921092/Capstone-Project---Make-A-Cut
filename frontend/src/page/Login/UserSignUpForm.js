@@ -23,26 +23,47 @@ const validate = values => {
   }
   return errors;
 };
-const UserLoginForm = () => (
-  <div className="login-form" style={{ padding: "5%" }}>
+const UserSignUpForm = () => (
+  <div className="login-form" style={{ paddingTop: "5em" }}>
     {/*
       Heads up! The styles below are necessary for the correct render of this example.
       You can do same with CSS, the main idea is that all the elements up to the `Grid`
       below must have a height of 100%.
     */}
-    <Header as="h2" color="black" textAlign="center">
-      User Login
+    <Header
+      as="h2"
+      color="black"
+      textAlign="center"
+    >
+      User SignUp
     </Header>
-    <Divider style={{ width: "40%", margin: "1rem auto" }} />
+    <Divider style={{width: '40%', margin: '1rem auto'}}/>
     <div class="ui stacked segment" style={{ maxWidth: 450, margin: "0 auto" }}>
-      <Button fluid color="facebook" style={{ marginBottom: "1em" }}>
-        <Icon name="facebook" /> Login with Facebook
-      </Button>
-      <Button fluid color="google plus">
-        <Icon name="google" /> Login with Google
-      </Button>
-      <Divider horizontal>Or</Divider>
       <Form size="large">
+        <Field
+          name="first-name"
+          type="text"
+          component={LabelInputField}
+          label={{ content: <Icon name="user" /> }}
+          labelPosition="left"
+          placeholder="First Name"
+        />
+        <Field
+          name="last-name"
+          type="text"
+          component={LabelInputField}
+          label={{ content: <Icon name="user" /> }}
+          labelPosition="left"
+          placeholder="Last Name"
+        />
+        <Field
+          name="contact-number"
+          type="text"
+          component={LabelInputField}
+          label={{ content: <Icon name="phone" /> }}
+          labelPosition="left"
+          placeholder="Contact Number"
+        />
         <Field
           name="email"
           type="email"
@@ -73,18 +94,14 @@ const UserLoginForm = () => (
           type="submit"
           fluid
         >
-          Login
+          Sign up
         </Form.Field>
       </Form>
-      <Message style={{ textAlign: "center" }}>Forgot password?</Message>
-      <Message style={{ textAlign: "center" }}>
-        New to us? <a href="/user/signup">Sign Up</a>
-      </Message>
     </div>
   </div>
 );
 
 export default reduxForm({
-  form: "userLoginForm", // a unique identifier for this form
+  form: "userSignUpForm", // a unique identifier for this form
   validate
-})(UserLoginForm);
+})(UserSignUpForm);
