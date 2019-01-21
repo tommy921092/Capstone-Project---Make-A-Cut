@@ -18,7 +18,9 @@ const validate = values => {
   if (!values.email) {
     errors.email = "Email is Required";
   } else if (!validator.isEmail(values.email)) {
-    errors.email = `Please include @ in the email address, ${values.email} is missing an @`;
+    errors.email = `Please include @ in the email address, ${
+      values.email
+    } is missing an @`;
   }
 
   if (!values.password) {
@@ -26,7 +28,7 @@ const validate = values => {
   }
   return errors;
 };
-const UserLoginForm = () => (
+const ShopLoginForm = () => (
   <div className="login-form" style={{ padding: "5%" }}>
     {/*
       Heads up! The styles below are necessary for the correct render of this example.
@@ -34,13 +36,10 @@ const UserLoginForm = () => (
       below must have a height of 100%.
     */}
     <Header as="h2" color="black" textAlign="center">
-      User Login
+      MerchantLogin
     </Header>
     <Divider style={{ width: "40%", margin: "1rem auto" }} />
     <div class="ui stacked segment" style={{ maxWidth: 450, margin: "0 auto" }}>
-      <Button fluid color="facebook" style={{ marginBottom: "1em" }}>
-        <Icon name="facebook" /> Login with Facebook
-      </Button>
       <Button fluid color="google plus">
         <Icon name="google" /> Login with Google
       </Button>
@@ -81,13 +80,13 @@ const UserLoginForm = () => (
       </Form>
       <Message style={{ textAlign: "center" }}>Forgot password?</Message>
       <Message style={{ textAlign: "center" }}>
-        New to us? <a href="/user/signup">Sign Up</a>
+        New to us? <a href="/shop/signup">Sign Up</a>
       </Message>
     </div>
   </div>
 );
 
 export default reduxForm({
-  form: "userLoginForm", // a unique identifier for this form
+  form: "shopLoginForm", // a unique identifier for this form
   validate
-})(UserLoginForm);
+})(ShopLoginForm);
