@@ -48,7 +48,7 @@ export default class Navbar extends Component {
                     active={activeItem === "login"}
                     onClick={this.handleItemClick}
                   >
-                    Login/SignUp
+                    Login/Sign Up
                   </Menu.Item>
                 </Menu.Menu>
               </Container>

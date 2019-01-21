@@ -7,6 +7,7 @@ import LoginPage from "./page/Login/LoginPage";
 import UserLoginForm from "./page/Login/UserLoginForm";
 import UserSignUpForm from "./page/Login/UserSignUpForm";
 import ShopLoginForm from "./page/Login/ShopLoginForm";
+import ShopSignUpForm from "./page/Login/ShopSignUpForm";
 export default (
   <div className="container">
     <Route exact path="/" component={HomePage} />
@@ -14,5 +15,6 @@ export default (
     <Route exact path="/user/login" component={UserLoginForm} />
     <Route exact path="/user/signup" component={UserSignUpForm} />
     <Route exact path="/shop/login" component={ShopLoginForm} />
+    <Route exact path="/shop/signup" component={ShopSignUpForm} />
   </div>
 );

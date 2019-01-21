@@ -1,5 +1,6 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import validator from "validator";
 import {
   Button,
   Form,
@@ -16,6 +17,10 @@ const validate = values => {
   const errors = {};
   if (!values.email) {
     errors.email = "Email is Required";
+  } else if (!validator.isEmail(values.email)) {
+    errors.email = `Please include @ in the email address, ${
+      values.email
+    } is missing an @`;
   }
 
   if (!values.password) {

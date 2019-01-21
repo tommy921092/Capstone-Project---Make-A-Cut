@@ -1,4 +1,4 @@
-import React from "react";
+import React,{Component} from "react";
 import {
   Button,
   Header,
@@ -12,7 +12,7 @@ import {
 import shop from "./img/shop.jpeg";
 import user from "./img/user.jpeg";
 
-class LoginPage extends React.Component {
+class LoginPage extends Component {
   state = { activeUser: false, activeShop: false };
   handleShowUser = () => this.setState({ activeUser: true });
   handleHideUser = () => this.setState({ activeUser: false });
@@ -32,7 +32,7 @@ class LoginPage extends React.Component {
         <br />
         <br />
         <Button color="red" size="large" href="/user/signup">
-          SignUp
+          Sign Up
         </Button>
       </div>
     );
@@ -48,7 +48,7 @@ class LoginPage extends React.Component {
         <br />
         <br />
         <Button color="red" size="large" href="/shop/signup">
-          SignUp
+          Sign Up
         </Button>
       </div>
     );

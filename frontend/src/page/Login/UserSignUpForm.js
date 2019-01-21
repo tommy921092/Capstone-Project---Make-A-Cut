@@ -1,5 +1,6 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import validator from "validator";
 import {
   Button,
   Form,
@@ -14,8 +15,31 @@ import {
 import { LabelInputField, CheckboxField } from "react-semantic-redux-form";
 const validate = values => {
   const errors = {};
+
+  if (!values.firstName) {
+    errors.firstName = "First name is Required";
+  } else if (!validator.isAlpha(values.firstName)) {
+    errors.firstName = "Your name should only contain alphabets";
+  }
+
+  if (!values.lastName) {
+    errors.lastName = "First name is Required";
+  } else if (!validator.isAlpha(values.lastName)) {
+    errors.lastName = "Your name should only contain alphabets";
+  }
+  
+  if (!values.contactNumber) {
+    errors.contactNumber = "Contact number is Required";
+  } else if (!validator.isMobilePhone(values.contactNumber)) {
+    errors.contactNumber = "Your contact number should be in correct format(only contains number)";
+  }
+
   if (!values.email) {
     errors.email = "Email is Required";
+  } else if (!validator.isEmail(values.email)) {
+    errors.email = `Please include @ in the email address, ${
+      values.email
+    } is missing an @`;
   }
 
   if (!values.password) {
@@ -30,18 +54,14 @@ const UserSignUpForm = () => (
       You can do same with CSS, the main idea is that all the elements up to the `Grid`
       below must have a height of 100%.
     */}
-    <Header
-      as="h2"
-      color="black"
-      textAlign="center"
-    >
-      User SignUp
+    <Header as="h2" color="black" textAlign="center">
+      User Sign Up
     </Header>
-    <Divider style={{width: '40%', margin: '1rem auto'}}/>
+    <Divider style={{ width: "40%", margin: "1rem auto" }} />
     <div class="ui stacked segment" style={{ maxWidth: 450, margin: "0 auto" }}>
       <Form size="large">
         <Field
-          name="first-name"
+          name="firstName"
           type="text"
           component={LabelInputField}
           label={{ content: <Icon name="user" /> }}
@@ -49,7 +69,7 @@ const UserSignUpForm = () => (
           placeholder="First Name"
         />
         <Field
-          name="last-name"
+          name="lastName"
           type="text"
           component={LabelInputField}
           label={{ content: <Icon name="user" /> }}
@@ -57,7 +77,7 @@ const UserSignUpForm = () => (
           placeholder="Last Name"
         />
         <Field
-          name="contact-number"
+          name="contactNumber"
           type="text"
           component={LabelInputField}
           label={{ content: <Icon name="phone" /> }}
@@ -80,13 +100,7 @@ const UserSignUpForm = () => (
           labelPosition="left"
           placeholder="Password"
         />
-        <Form.Group>
-          <Field
-            name="remember"
-            component={CheckboxField}
-            label="Stay sign in"
-          />
-        </Form.Group>
+        <Form.Group />
         <Form.Field
           control={Button}
           color="black"
