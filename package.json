@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "antd": "^3.12.3",
+    "pure-react-carousel": "^1.17.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",

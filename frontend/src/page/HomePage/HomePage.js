@@ -4,7 +4,6 @@ import { Segment, Container, Header, Icon, Form, Select, Input, List, Grid } fro
 import Recommend from './Recommend'
 import Article from './Article'
 
-
 import bg from './img/bg.jpeg';
 
 const locationOptions = [

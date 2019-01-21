@@ -6,7 +6,7 @@ export default class RecommendColumn extends Component {
     render() {
         return (
             <Grid.Column
-                verticalAlign="center"
+                verticalAlign="middle"
                 textAlign="center"
             >
                 <Icon name='hand point right' size='large' fitted>{this.props.tag}</Icon><br></br>
