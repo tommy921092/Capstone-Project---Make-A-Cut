@@ -15,10 +15,31 @@ import {
 import { LabelInputField, CheckboxField } from "react-semantic-redux-form";
 const validate = values => {
   const errors = {};
+
+  if (!values.firstName) {
+    errors.firstName = "First name is Required";
+  } else if (!validator.isAlpha(values.firstName)) {
+    errors.firstName = "Your name should only contain alphabets";
+  }
+
+  if (!values.lastName) {
+    errors.lastName = "First name is Required";
+  } else if (!validator.isAlpha(values.lastName)) {
+    errors.lastName = "Your name should only contain alphabets";
+  }
+  
+  if (!values.contactNumber) {
+    errors.contactNumber = "Contact number is Required";
+  } else if (!validator.isMobilePhone(values.contactNumber)) {
+    errors.contactNumber = "Your contact number should be in correct format(only contains number)";
+  }
+
   if (!values.email) {
     errors.email = "Email is Required";
   } else if (!validator.isEmail(values.email)) {
-    errors.email = `Please include @ in the email address, ${values.email} is missing an @`;
+    errors.email = `Please include @ in the email address, ${
+      values.email
+    } is missing an @`;
   }
 
   if (!values.password) {
@@ -26,26 +47,43 @@ const validate = values => {
   }
   return errors;
 };
-const UserLoginForm = () => (
-  <div className="login-form" style={{ padding: "5%" }}>
+const UserSignUpForm = () => (
+  <div className="login-form" style={{ paddingTop: "5em" }}>
     {/*
       Heads up! The styles below are necessary for the correct render of this example.
       You can do same with CSS, the main idea is that all the elements up to the `Grid`
       below must have a height of 100%.
     */}
     <Header as="h2" color="black" textAlign="center">
-      User Login
+      User Sign Up
     </Header>
     <Divider style={{ width: "40%", margin: "1rem auto" }} />
     <div class="ui stacked segment" style={{ maxWidth: 450, margin: "0 auto" }}>
-      <Button fluid color="facebook" style={{ marginBottom: "1em" }}>
-        <Icon name="facebook" /> Login with Facebook
-      </Button>
-      <Button fluid color="google plus">
-        <Icon name="google" /> Login with Google
-      </Button>
-      <Divider horizontal>Or</Divider>
       <Form size="large">
+        <Field
+          name="firstName"
+          type="text"
+          component={LabelInputField}
+          label={{ content: <Icon name="user" /> }}
+          labelPosition="left"
+          placeholder="First Name"
+        />
+        <Field
+          name="lastName"
+          type="text"
+          component={LabelInputField}
+          label={{ content: <Icon name="user" /> }}
+          labelPosition="left"
+          placeholder="Last Name"
+        />
+        <Field
+          name="contactNumber"
+          type="text"
+          component={LabelInputField}
+          label={{ content: <Icon name="phone" /> }}
+          labelPosition="left"
+          placeholder="Contact Number"
+        />
         <Field
           name="email"
           type="email"
@@ -62,13 +100,7 @@ const UserLoginForm = () => (
           labelPosition="left"
           placeholder="Password"
         />
-        <Form.Group>
-          <Field
-            name="remember"
-            component={CheckboxField}
-            label="Stay sign in"
-          />
-        </Form.Group>
+        <Form.Group />
         <Form.Field
           control={Button}
           color="black"
@@ -76,18 +108,14 @@ const UserLoginForm = () => (
           type="submit"
           fluid
         >
-          Login
+          Sign up
         </Form.Field>
       </Form>
-      <Message style={{ textAlign: "center" }}>Forgot password?</Message>
-      <Message style={{ textAlign: "center" }}>
-        New to us? <a href="/user/signup">Sign Up</a>
-      </Message>
     </div>
   </div>
 );
 
 export default reduxForm({
-  form: "userLoginForm", // a unique identifier for this form
+  form: "userSignUpForm", // a unique identifier for this form
   validate
-})(UserLoginForm);
+})(UserSignUpForm);

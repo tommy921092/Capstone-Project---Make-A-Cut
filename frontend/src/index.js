@@ -17,9 +17,7 @@ import routes from './routes';
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunk, logger)
-  )
+  composeWithDevTools(applyMiddleware(thunk, logger))
 );
 
 ReactDOM.render(
@@ -32,5 +30,5 @@ ReactDOM.render(
     </Router>
     <Footer />
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
