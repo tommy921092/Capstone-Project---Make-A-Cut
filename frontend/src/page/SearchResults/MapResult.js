@@ -36,11 +36,21 @@ class Map extends Component {
   }
 
   initMap = () => {
+
+    // create a map
     var point = { lat: 0, lng: 0 };
     // Add window.google... to fix is not defined error
     var map = new window.google.maps.Map(document.getElementById('map'), { zoom: 0, center: point });
+    
+    // create an info window
+    var infoWindow = new window.google.maps.InfoWindow()
+
+    // display dynamic markers
     this.state.list.map(l => {
-      
+
+      var contentString = `${l.name}`
+
+      // create a marker
       var points = { lat: parseFloat(l.lat), lng: parseFloat(l.lng) };
       var marker = new window.google.maps.Marker({ 
         position: points, 
@@ -48,6 +58,15 @@ class Map extends Component {
         title: l.name
        });
 
+       // click on a marker
+       marker.addListener('click', function() {
+
+        // change the content
+        infoWindow.setContent(contentString)
+
+        // open an infowindow
+         infoWindow.open(map, marker)
+       })
     })
   }
 

@@ -29,6 +29,9 @@ export default class SearchResults extends Component {
           { list }
         )
       })
+      .catch(error => {
+        console.log("ERROR! " + error)
+      })
   }
 
   render() {
@@ -42,7 +45,7 @@ export default class SearchResults extends Component {
                 <Item.Group link divided>
 
                   {this.state.list.map(l =>
-                    <Item>
+                    <Item key={l.id}>
                       <Item.Image size='small' rounded src={l.avatar} />
                       <Item.Content>
                         <Item.Header as='a'>{l.name}</Item.Header>
