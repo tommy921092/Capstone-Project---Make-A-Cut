@@ -14,6 +14,8 @@ import UserLoginForm from "./page/Login/UserLoginForm";
 import UserSignUpForm from "./page/Login/UserSignUpForm";
 import ShopLoginForm from "./page/Login/ShopLoginForm";
 import ShopSignUpForm from "./page/Login/ShopSignUpForm";
+
+import UserMenuWithContent from './page/UserProfile/UserMenuWithContent';
 export default (
   <div className="container">
     <Route exact path="/" component={HomePage} />
@@ -24,5 +26,6 @@ export default (
     <Route exact path="/shop/signup" component={ShopSignUpForm} />
     <Route path="/about" component={About} />
     <Route path="/test" component={Articles} />
+    <Route path="/user/profile" component={UserMenuWithContent} />
   </div>
 );

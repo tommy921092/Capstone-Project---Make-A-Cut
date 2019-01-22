@@ -9,15 +9,17 @@ import {
   TextAreaField,
   Upload
 } from "react-semantic-redux-form";
+import { TimeInput } from "semantic-ui-calendar-react";
 const validate = values => {
   const errors = {};
+  // contact validation
   if (!values.contactNumber) {
     errors.contactNumber = "Contact number is Required";
   } else if (!validator.isMobilePhone(values.contactNumber)) {
     errors.contactNumber =
       "Your contact number should be in correct format(only contains number)";
   }
-
+  // email validation
   if (!values.email) {
     errors.email = "Email is Required";
   } else if (!validator.isEmail(values.email)) {
@@ -25,9 +27,13 @@ const validate = values => {
       values.email
     } is missing an @`;
   }
-
+  // password validation
   if (!values.password) {
     errors.password = "Password is Required";
+  }
+
+  if (!values.name) {
+    errors.name = "Shop name is Required";
   }
   return errors;
 };
@@ -63,7 +69,7 @@ const feeOptions = [
 //options for tags
 const options = [];
 class ShopSignUpForm extends React.Component {
-  state = { options, numImage: 0 };
+  state = { options, numImage: 0, openTime: '' };
 
   handleAddition = (e, { value }) => {
     if (this.state.options.length < 5 && value.length < 10) {
@@ -75,6 +81,15 @@ class ShopSignUpForm extends React.Component {
 
   handleChange = (e, { value }) => {
     this.setState({ currentValues: value });
+  };
+
+  handleOpenTimeChange = (e, { value }) => {
+    this.setState({ openTime: value });
+    console.log(this.state.openTime);
+  };
+  handleCloseTimeChange = (e, { value }) => {
+    this.setState({ closeTime: value });
+    console.log(this.state.closeTime);
   };
 
   render() {
@@ -115,7 +130,6 @@ class ShopSignUpForm extends React.Component {
               Email:
             </Header>
             <Field
-              required
               name="email"
               type="email"
               component={LabelInputField}
@@ -128,7 +142,6 @@ class ShopSignUpForm extends React.Component {
             </Header>
             <Field
               name="password"
-              required
               component={LabelInputField}
               type="password"
               label={{ content: <Icon name="lock" /> }}
@@ -142,7 +155,6 @@ class ShopSignUpForm extends React.Component {
               Shop Name:
             </Header>
             <Field
-              required
               name="name"
               component={LabelInputField}
               type="text"
@@ -204,14 +216,24 @@ class ShopSignUpForm extends React.Component {
               placeholder="Website URL"
             />
             <Header as="h4" color="black" textAlign="left">
-              Opening Hours:
+              Opening time:
             </Header>
-            <Field
-              name="openinghours"
-              type="text"
-              component={LabelInputField}
-              labelPosition="left"
-              placeholder="Opening Hours"
+            <TimeInput
+              name="openTime"
+              placeholder="openTime"
+              value={this.state.openTime}
+              iconPosition="left"
+              onChange={this.handleOpenTimeChange}
+            />
+            <Header as="h4" color="black" textAlign="left">
+              Closing time:
+            </Header>
+            <TimeInput
+              name="closeTime"
+              placeholder="closeTime"
+              value={this.state.closeTime}
+              iconPosition="left"
+              onChange={this.handleCloseTimeChange}
             />
             <Header as="h4" color="black" textAlign="left">
               Average Fee:
