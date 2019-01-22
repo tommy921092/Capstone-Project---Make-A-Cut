@@ -25,12 +25,6 @@ export default class SearchResults extends Component {
       .then(res => {
         console.log(res.data);
         const list = res.data;
-
-        // const id = list.id
-        // const shop = list.name;
-        // const street = list.street;
-        // const comment = list.tag;
-
         this.setState(
           { list }
         )
@@ -61,7 +55,7 @@ export default class SearchResults extends Component {
                         </Item.Extra>
                       </Item.Content>
                     </Item>
-                    
+
                   )}
                 </Item.Group>
               </Grid.Column>
