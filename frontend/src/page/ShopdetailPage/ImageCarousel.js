@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Divider } from "semantic-ui-react";
 import { CarouselProvider, Image, Slide, Slider } from "pure-react-carousel";
 

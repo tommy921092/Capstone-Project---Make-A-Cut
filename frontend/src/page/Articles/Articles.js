@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Header, Segment, Placeholder } from 'semantic-ui-react'
+import { Grid, Segment, Placeholder } from 'semantic-ui-react'
 
 import axios from 'axios';
 import moment from 'moment';

@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop'
 
 import routes from './routes';
 
@@ -22,12 +23,16 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
+
     <Router routes={routes}>
-    <div>
-      <Navbar />
-      {routes}
-      </div>
+      <ScrollToTop>
+        <div>
+          <Navbar />
+          {routes}
+        </div>
+      </ScrollToTop>
     </Router>
+
     <Footer />
   </Provider>,
   document.getElementById("root")

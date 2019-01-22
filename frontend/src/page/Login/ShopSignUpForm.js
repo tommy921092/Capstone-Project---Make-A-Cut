@@ -1,19 +1,13 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import {
-  Button,
   Form,
-  Grid,
   Header,
-  Image,
-  Message,
   Icon,
-  Segment,
   Divider
 } from "semantic-ui-react";
 import {
   LabelInputField,
-  CheckboxField,
   SelectField
 } from "react-semantic-redux-form";
 const validate = values => {

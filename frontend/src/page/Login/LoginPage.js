@@ -4,7 +4,6 @@ import {
   Header,
   Dimmer,
   Image,
-  Modal,
   Grid,
   Segment,
   Divider

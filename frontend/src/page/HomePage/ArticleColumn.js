@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Grid, Image, Icon } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
 export default class ArticleColumn extends Component {
@@ -13,7 +13,8 @@ export default class ArticleColumn extends Component {
                     </Grid.Column>
                     <Grid.Column 
                     width={10}>
-                        <Link to={"/article/"+this.props.articleid}><p style={{ color: 'white' }} dangerouslySetInnerHTML={{__html: this.props.excerpt}}>
+                        <b style={{color:'pink'}} dangerouslySetInnerHTML={{__html: this.props.title}}></b>
+                        <Link to={"/article/"+this.props.articleid}><p style={{ color: 'white',fontSize:'0.75rem' }} dangerouslySetInnerHTML={{__html: this.props.excerpt}}>
                         </p></Link>
                     </Grid.Column>
                 </Grid.Row>

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import { Grid, Image, Icon } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 import RecommendColumn from './RecommendColumn'
 

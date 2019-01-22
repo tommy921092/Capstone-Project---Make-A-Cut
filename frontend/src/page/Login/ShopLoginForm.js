@@ -4,12 +4,9 @@ import validator from "validator";
 import {
   Button,
   Form,
-  Grid,
   Header,
-  Image,
   Message,
   Icon,
-  Segment,
   Divider
 } from "semantic-ui-react";
 import { LabelInputField, CheckboxField } from "react-semantic-redux-form";

@@ -14,6 +14,10 @@ import UserLoginForm from "./page/Login/UserLoginForm";
 import UserSignUpForm from "./page/Login/UserSignUpForm";
 import ShopLoginForm from "./page/Login/ShopLoginForm";
 import ShopSignUpForm from "./page/Login/ShopSignUpForm";
+import ShopdetailPage from './page/ShopdetailPage/ShopdetailPage';
+import ReservationPage from './page/ReservationPage/ReservationPage'
+
+
 export default (
   <div className="container">
     <Route exact path="/" component={HomePage} />
@@ -23,6 +27,7 @@ export default (
     <Route exact path="/shop/login" component={ShopLoginForm} />
     <Route exact path="/shop/signup" component={ShopSignUpForm} />
     <Route path="/about" component={About} />
-    <Route path="/test" component={Articles} />
+    <Route path="/test" component={ReservationPage} />
+    <Route path="/article/:articleid" component={Articles} />
   </div>
 );
