@@ -7,6 +7,7 @@ import About from './page/About/About'
 
 // Test only
 import Articles from './page/Articles/Articles';
+import SearchResults from './page/SearchResults/SearchResults'
 //
 
 import LoginPage from "./page/Login/LoginPage";
@@ -16,6 +17,7 @@ import ShopLoginForm from "./page/Login/ShopLoginForm";
 import ShopSignUpForm from "./page/Login/ShopSignUpForm";
 import ShopdetailPage from './page/ShopdetailPage/ShopdetailPage';
 import ReservationPage from './page/ReservationPage/ReservationPage'
+
 
 
 export default (
