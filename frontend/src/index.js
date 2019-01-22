@@ -15,11 +15,19 @@ import ScrollToTop from './components/ScrollToTop'
 
 import routes from './routes';
 
+import setAuthorizationToken from './utils/setAuthorizationToken';
+import {setCurrentUser} from './actions/userAuthAction'
+import jwtDecode from 'jwt-decode'
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk, logger))
 );
+
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);
+  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+}
 
 ReactDOM.render(
   <Provider store={store}>

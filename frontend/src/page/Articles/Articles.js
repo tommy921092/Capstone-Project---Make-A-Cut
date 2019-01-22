@@ -16,7 +16,9 @@ export default class Articles extends Component {
     }
 
     componentDidMount() {
-        axios.get(`https://public-api.wordpress.com/rest/v1/sites/hairlesscut.wordpress.com/posts/${this.props.match.params.articleid}`)
+        axios.get(`https://public-api.wordpress.com/rest/v1/sites/hairlesscut.wordpress.com/posts/${this.props.match.params.articleid}`,{ headers: {
+            'Authorization': null
+          } })
             .then((result) => {
                 const messages = result.data
                 this.setState({

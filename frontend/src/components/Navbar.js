@@ -7,8 +7,11 @@ import {
   Visibility
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { logout } from '../actions/userAuthAction';
 
-export default class Navbar extends Component {
+class Navbar extends Component {
+
   state = { activeItem: "home" };
 
   hideFixedMenu = () => this.setState({ fixed: false });
@@ -19,6 +22,18 @@ export default class Navbar extends Component {
   render() {
     const { activeItem } = this.state;
     const { fixed } = this.state;
+
+    const menuWithoutLogin = <Menu.Item
+      as={Link}
+      to="/login"
+      name="login"
+      onClick={this.handleItemClick}
+    />
+
+    const menuWithLogin = <Menu.Item
+      name="logout"
+      onClick={this.props.logout}
+    />
 
     return (
       <Responsive>
@@ -60,13 +75,7 @@ export default class Navbar extends Component {
                   onClick={this.handleItemClick}
                 />
                 <Menu.Menu position="right">
-                  <Menu.Item
-                    as={Link}
-                    to="/login"
-                    name="login"
-                    active={activeItem === "login"}
-                    onClick={this.handleItemClick}
-                  />
+                {this.props.auth.isAuthenticated ? menuWithLogin : menuWithoutLogin}
                 </Menu.Menu>
               </Container>
             </Menu>
@@ -76,3 +85,13 @@ export default class Navbar extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(
+  mapStateToProps, { logout })(Navbar);
+

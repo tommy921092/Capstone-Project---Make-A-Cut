@@ -14,7 +14,9 @@ class Article extends Component {
     }
 
     componentDidMount() {
-        axios.get('https://public-api.wordpress.com/rest/v1/sites/hairlesscut.wordpress.com/posts?pretty=true&number=6')
+        axios.get('https://public-api.wordpress.com/rest/v1/sites/hairlesscut.wordpress.com/posts?pretty=true&number=6',{ headers: {
+            'Authorization': null
+          } })
             .then((result) => {
                 const postslist = result.data.posts
                 console.log(postslist)

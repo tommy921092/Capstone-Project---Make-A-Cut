@@ -30,6 +30,7 @@ export default (
     <Route exact path="/shop/signup" component={ShopSignUpForm} />
     <Route path="/about" component={About} />
     <Route path="/test" component={ReservationPage} />
+    <Route path="/test2" component={SearchResults} />
     <Route path="/article/:articleid" component={Articles} />
   </div>
 );
