@@ -1,11 +1,7 @@
 import React from "react";
-import { Table, Button } from "semantic-ui-react";
-import UserEditBookingModal from "./UserEditBookingModal";
+import { Table} from "semantic-ui-react";
 
 class UserUpcoming extends React.Component {
-  handleEdit = () => {};
-  handleCancel = () => {};
-
   render() {
     return (
       <Table striped color="black">
