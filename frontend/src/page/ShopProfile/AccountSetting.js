@@ -69,7 +69,7 @@ const feeOptions = [
 ];
 //options for tags
 const options = [];
-class ShopSignUpForm extends React.Component {
+class AccountSettings extends React.Component {
   state = { options, numImage: 0, openTime: "" };
 
   handleAddition = (e, { value }) => {
@@ -128,42 +128,34 @@ class ShopSignUpForm extends React.Component {
             <Header as="h3" color="black" textAlign="center">
               LOGIN INFO
             </Header>
-            <Header as="h4" color="black" textAlign="left">
-              Email:
-            </Header>
-            <Field
-              name="email"
-              type="email"
-              component={LabelInputField}
-              label={{ content: <Icon name="mail" /> }}
-              labelPosition="left"
-              placeholder="Email"
-            />
-            <Header as="h4" color="black" textAlign="left">
-              Password:
-            </Header>
-            <Field
-              name="password"
-              component={LabelInputField}
-              type="password"
-              label={{ content: <Icon name="lock" /> }}
-              labelPosition="left"
-              placeholder="Password"
-            />
+            <Form.Field>
+              <label>Email</label>
+              <input
+                type="email"
+                placeholder="Email"
+                disabled={this.state.isDisable}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Password"
+                disabled={this.state.isDisable}
+              />
+            </Form.Field>
+
             <Header as="h3" color="black" textAlign="center">
               BASIC INFO
             </Header>
-            <Header as="h4" color="black" textAlign="left">
-              Shop Name:
-            </Header>
-            <Field
-              name="name"
-              component={LabelInputField}
-              type="text"
-              label={{ content: <Icon name="user" /> }}
-              labelPosition="left"
-              placeholder="Shop Name"
-            />
+            <Form.Field>
+              <label>Shop Name</label>
+              <input
+                type="text"
+                placeholder="Shop Name"
+                disabled={this.state.isDisable}
+              />
+            </Form.Field>
             <Header as="h3" color="black" textAlign="center">
               DETAIL INFO
             </Header>
@@ -307,7 +299,4 @@ class ShopSignUpForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: "shopSignUpForm", // a unique identifier for this form
-  validate
-})(ShopSignUpForm);
+export default AccountSettings;
