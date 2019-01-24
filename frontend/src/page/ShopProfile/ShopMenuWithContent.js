@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { Grid, Menu, Segment } from "semantic-ui-react";
 
 import ShopProfile from "./ShopProfile";
+import ShopUpcoming from './ShopUpcoming'
 import ShopPrevious from './ShopPrevious'
+import ShopSettings from './ShopSettings'
+import ShopServiceSettings from './ShopServiceSettings'
 
 export default class ShopMenuWithContent extends Component {
   state = { activeItem: "Profile" };
@@ -16,13 +19,13 @@ export default class ShopMenuWithContent extends Component {
         case "Profile":
           return <ShopProfile />;
         case "Upcoming Booking":
-          return <div>up</div>;
+          return <ShopUpcoming />
         case "Previous Booking":
           return <ShopPrevious />
         case "Account Settings":
-          return <div>Account Setting</div>;
+          return <ShopSettings />
         case "Service Settings":
-          return <div>Service Setting</div>;
+          return <ShopServiceSettings />
         default:
           return <ShopProfile />;
       }

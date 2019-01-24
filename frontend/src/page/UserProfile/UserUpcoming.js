@@ -29,72 +29,7 @@ class UserUpcoming extends React.Component {
             <Table.Cell>No</Table.Cell>
             <Table.Cell>
               <UserEditBookingModal />
-              <Button basic color="black" onClick={this.handleCancel} fluid>
-                Cancel
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>
-              <UserEditBookingModal />
-              <Button basic color="black" onClick={this.handleCancel} fluid>
-                Cancel
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>
-              <UserEditBookingModal />
-              <Button basic color="black" onClick={this.handleCancel} fluid>
-                Cancel
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.comjhlilk22@yahoo.comjhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>
-              <UserEditBookingModal />
-              <Button basic color="black" onClick={this.handleCancel} fluid>
-                Cancel
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>
-              <UserEditBookingModal />
-              <Button basic color="black" onClick={this.handleCancel} fluid>
-                Cancel
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>
-              <UserEditBookingModal />
-              <Button basic color="black" onClick={this.handleCancel} fluid>
+              <Button basic color="black" onClick={this.handleCancel}>
                 Cancel
               </Button>
             </Table.Cell>
