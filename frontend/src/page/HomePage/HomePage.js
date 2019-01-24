@@ -9,7 +9,7 @@ import Footer from './Footer'
 
 import bg from './img/bg.jpeg';
 
-const locationOptions = [
+export const locationOptions = [
     { key: '1', text: 'Central and Western', value: 'Central and Western' },
     { key: '2', text: 'Wan Chai', value: 'Wan Chai' },
 ]

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Grid, Image, Item, Label, Segment } from 'semantic-ui-react'
+import { Container, Divider, Form, Grid, Image, Input, Item, Label, Segment, Select } from 'semantic-ui-react'
 import Footer from './Footer';
 import Map from './MapResult';
 import FilterButtons from './FilterButtons'
@@ -12,31 +12,19 @@ import { fetchShops } from '../../actions/index'
 const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
 
 class SearchResults extends Component {
-  // constructor(props){
-  //   super(props)
-  //   this.state = {
-  //     list: null
-  //   }
-  // }
 
   componentDidMount() {
     // calling our async action
     this.props.fetchShops()
-
-    // .then(()=>{
-    //   this.setState({
-    //     list: this.props.list
-    //   })
-    // });
   }
 
   render() {
     return (
       <Container fluid>
         <Container fluid>
-        <Container style={{ paddingTop: '1em'}}>
-          <FilterButtons fluid/>
-        </Container>
+          <Container style={{ paddingTop: '1em' }}>
+            <FilterButtons fluid />
+          </Container>
 
           <Segment fluid style={{ opacity: 0.8, padding: '2rem' }}>
 
@@ -65,9 +53,7 @@ class SearchResults extends Component {
               </Grid.Column>
 
               <Grid.Column width={10} verticalAlign='middle'>
-                {/* {this.props.list &&  */}
                 <Map list={this.props.list} />
-                {/* } */}
               </Grid.Column>
 
             </Grid>
