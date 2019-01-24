@@ -11,7 +11,6 @@ import { Provider } from 'react-redux';
 import Navbar from './components/Navbar'
 import routes from './routes';
 
-
 const store = createStore(
   rootReducer,
   composeWithDevTools(
