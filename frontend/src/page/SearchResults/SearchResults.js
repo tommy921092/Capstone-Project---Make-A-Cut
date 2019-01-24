@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Grid, Image, Item, Label, Segment } from 'semantic-ui-react'
 import Footer from './Footer';
 import Map from './MapResult';
+import FilterButtons from './FilterButtons'
 
 import './SearchResults.css';
 
@@ -21,7 +22,7 @@ class SearchResults extends Component {
   componentDidMount() {
     // calling our async action
     this.props.fetchShops()
-    
+
     // .then(()=>{
     //   this.setState({
     //     list: this.props.list
@@ -33,14 +34,18 @@ class SearchResults extends Component {
     return (
       <Container fluid>
         <Container fluid>
-          <Segment placeholder style={{ opacity: 0.8, padding: '2rem' }}>
+        <Container style={{ paddingTop: '1em'}}>
+          <FilterButtons fluid/>
+        </Container>
+
+          <Segment fluid style={{ opacity: 0.8, padding: '2rem' }}>
 
             <Grid columns={2}>
 
               <Grid.Column width={6} style={{ overflow: 'auto', maxHeight: '80vh' }}>
                 <Item.Group link divided>
 
-                   {this.props.list.map(l =>
+                  {this.props.list.map(l =>
                     <Item key={l.id}>
                       <Item.Image size='small' rounded src={l.avatar} />
                       <Item.Content>
@@ -55,13 +60,13 @@ class SearchResults extends Component {
                       </Item.Content>
                     </Item>
 
-                  )} 
+                  )}
                 </Item.Group>
               </Grid.Column>
 
               <Grid.Column width={10} verticalAlign='middle'>
                 {/* {this.props.list &&  */}
-                <Map list={this.props.list}/>
+                <Map list={this.props.list} />
                 {/* } */}
               </Grid.Column>
 
@@ -79,4 +84,4 @@ const mapStateToProps = state => {
 }
 
 export default connect(
-  mapStateToProps,{fetchShops})(SearchResults);
+  mapStateToProps, { fetchShops })(SearchResults);
