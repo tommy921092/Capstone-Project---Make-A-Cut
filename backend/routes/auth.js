@@ -22,16 +22,13 @@ router.post('/user', (req, res) => {
 
   userquery.then((rows) => {
     if(rows.length) {
-      console.log('userMatch!')
       if (bcrypt.compareSync(user.password, rows[0].password)) {
-        console.log('success login')
         const token = jwt.sign({
           id: rows[0].id,
           username: rows[0].username,
           email: rows[0].email,
           fullname: rows[0].fullname
         }, config.jwtSecret)
-        console.log("TOKEN: " + token)
         res.json({ token })
 
       } else {

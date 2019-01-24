@@ -15,6 +15,20 @@ import { connect } from 'react-redux';
 import { userSignupRequest } from '../../actions/userSignupAction';
 import { withRouter } from "react-router";
 
+import axios from 'axios'
+
+const asyncValidate = (values) => {
+  return axios.get(`/api/users?username=${values.username}&email=${values.email}`)
+  .then((result)=>{
+    if(result.data === "User exist"){
+      throw { username: 'That username is taken' }
+    }
+    if(result.data === "Email exist"){
+      throw { email: 'That email is taken' }
+    }
+  })
+}
+
 
 const validate = values => {
   const errors = {};
@@ -25,7 +39,7 @@ const validate = values => {
     errors.username = "User name cannot be longer than 10";
   } else if (validator.isInt(values.username)) {
     errors.username = "You can't only have number in your username";
-  }
+  } 
 
   if (!values.fullName) {
     errors.fullName = "Full name is Required";
@@ -185,5 +199,7 @@ UserSignUpForm = withRouter(connect(
 
 export default reduxForm({
   form: "userSignUpForm", // a unique identifier for this form
-  validate
+  validate,
+  asyncValidate,
+  asyncBlurFields: [ 'username', 'email' ]
 })(UserSignUpForm);

@@ -4,7 +4,8 @@ import {
   Segment,
   Container,
   Responsive,
-  Visibility
+  Visibility,
+  Icon
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
@@ -23,17 +24,31 @@ class Navbar extends Component {
     const { activeItem } = this.state;
     const { fixed } = this.state;
 
-    const menuWithoutLogin = <Menu.Item
-      as={Link}
-      to="/login"
-      name="login"
-      onClick={this.handleItemClick}
-    />
+    const menuWithoutLogin =
+      <Menu.Menu position="right">
+        <Menu.Item
+          as={Link}
+          to="/login"
+          name="login"
+          onClick={this.handleItemClick}
+        />
+      </Menu.Menu>
 
-    const menuWithLogin = <Menu.Item
-      name="logout"
-      onClick={this.props.logout}
-    />
+    const menuWithLogin =
+      <Menu.Menu position="right">
+        <Menu.Item
+          as={Link}
+          to="/user/profile"
+          name='user_profile'
+          onClick={this.handleItemClick}
+        >
+          <Icon name='user' />{this.props.auth.user.username}
+        </Menu.Item>
+        <Menu.Item
+          name="logout"
+          onClick={this.props.logout}
+        />
+      </Menu.Menu>
 
     return (
       <Responsive>
@@ -74,9 +89,7 @@ class Navbar extends Component {
                   active={activeItem === "articles"}
                   onClick={this.handleItemClick}
                 />
-                <Menu.Menu position="right">
                 {this.props.auth.isAuthenticated ? menuWithLogin : menuWithoutLogin}
-                </Menu.Menu>
               </Container>
             </Menu>
           </Segment>

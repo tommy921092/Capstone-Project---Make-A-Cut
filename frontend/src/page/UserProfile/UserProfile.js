@@ -1,10 +1,14 @@
 import React from "react";
-import { Item, Form, Button, Message } from "semantic-ui-react";
+import { Item, Form, Button, Message,Segment } from "semantic-ui-react";
+import { connect } from 'react-redux';
 
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isDisable: true, success: false };
+    this.state = { 
+      isDisable: true, 
+      success: false,
+      email: this.props.auth.user.email };
 
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
@@ -19,6 +23,7 @@ class UserProfile extends React.Component {
   handleSubmit = () => {
     this.setState({success: true})
   };
+
   render() {
     return (
       <Item.Group>
@@ -58,7 +63,7 @@ class UserProfile extends React.Component {
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <input placeholder="Email" disabled={this.state.isDisable} />
+                  <input placeholder="Email" value={this.state.email} disabled />
                 </Form.Field>
                 <Button color="black" type="button" onClick={this.handleClick}>
                   Edit
@@ -80,4 +85,10 @@ class UserProfile extends React.Component {
   }
 }
 
-export default UserProfile;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(UserProfile);
