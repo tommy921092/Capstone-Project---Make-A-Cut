@@ -1,5 +1,6 @@
 import React from "react";
-import { Item, Form, Button, Message } from "semantic-ui-react";
+import { Item, Form, Input, Button, Message } from "semantic-ui-react";
+import validator from "validator";
 
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },
@@ -26,22 +27,37 @@ const districtOptions = [
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isDisable: true, success: false };
+    this.state = {
+      isDisable: true,
+      success: false,
+      username: "",
+      fullName: "",
+      usernameError: false,
+      fullNameError: false
+    };
 
     // This binding is necessary to make `this` work in the callback
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-
+  //handle value changes for some of the form values which needs validations
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value });
+  };
+  //handle edit button
   handleEdit = () => {
     this.setState(state => ({
       isDisable: !state.isDisable
     }));
   };
+  //handle reset button
   handleResetPW = () => {
-    console.log('resetPW');
+    console.log("resetPW");
   };
-
+  //handle save button
   handleSubmit = () => {
+    //if saved with no error return successfully saved message
+    console.log(this.state);
     this.setState({ success: true });
   };
   render() {
@@ -62,25 +78,37 @@ class UserProfile extends React.Component {
               >
                 <Form.Field>
                   <label>Username</label>
-                  <input placeholder="Username" disabled />
+                  <Form.Input
+                    name="username"
+                    placeholder="Username"
+                    disabled={this.state.isDisable}
+                    value={this.state.username}
+                    onChange={this.handleChange}
+                    error={this.state.usernameError}
+                  />
                 </Form.Field>
 
                 <Form.Field>
                   <label>Email</label>
-                  <input placeholder="Email" disabled />
+                  <Form.Input placeholder="Email" disabled />
                 </Form.Field>
 
                 <Form.Field>
-                  <label />
-                  <input
+                  <label>Full Name</label>
+                  <Form.Input
+                    name="fullName"
                     placeholder="fullName"
                     disabled={this.state.isDisable}
+                    value={this.state.fullName}
+                    onChange={this.handleChange}
+                    error={this.state.fullNameError}
                   />
                 </Form.Field>
 
                 <Form.Field>
                   <label>Contact Number</label>
-                  <input
+                  <Form.Input
+                    name="contactNumber"
                     placeholder="Contact Number"
                     disabled={this.state.isDisable}
                   />
@@ -89,6 +117,7 @@ class UserProfile extends React.Component {
                 <Form.Field>
                   <label>District</label>
                   <Form.Select
+                    name="district"
                     placeholder="District"
                     disabled={this.state.isDisable}
                     options={districtOptions}
@@ -97,20 +126,29 @@ class UserProfile extends React.Component {
 
                 <Form.Field>
                   <label>Age</label>
-                  <input placeholder="age" disabled={this.state.isDisable} />
+                  <Form.Input
+                    name="age"
+                    placeholder="age"
+                    disabled={this.state.isDisable}
+                  />
                 </Form.Field>
 
-                <Form.Button color="black" type="button" onClick={this.handleEdit} >
+                <Button color="black" type="button" onClick={this.handleEdit}>
                   Edit
-                </Form.Button>
+                </Button>
 
-                <Form.Button color="black" type="submit">
+                <Button color="black" type="submit">
                   Save
-                </Form.Button>
+                </Button>
 
-                <Form.Button color="black" type="button" style={{margin: '1rem 0'}} onClick={this.handleResetPW}>
+                <Button
+                  color="black"
+                  type="button"
+                  style={{ margin: "1rem 0" }}
+                  onClick={this.handleResetPW}
+                >
                   Reset Password
-                </Form.Button>
+                </Button>
 
                 <Message
                   success

@@ -1,5 +1,5 @@
 import React from "react";
-import { Item, Image, Form, Rating } from "semantic-ui-react";
+import { Item, Form, Rating } from "semantic-ui-react";
 
 class UserUpcoming extends React.Component {
   render() {
