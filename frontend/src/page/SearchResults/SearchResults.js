@@ -22,11 +22,11 @@ class SearchResults extends Component {
     return (
       <Container fluid>
         <Container fluid>
-          <Container style={{ paddingTop: '1em' }}>
+          <Container style={{ paddingTop: '0' }}>
             <FilterButtons fluid />
           </Container>
 
-          <Segment fluid style={{ opacity: 0.8, padding: '2rem' }}>
+          <Segment fluid style={{ opacity: 0.8, margin: 0, padding: '2rem' }}>
 
             <Grid columns={2}>
 
