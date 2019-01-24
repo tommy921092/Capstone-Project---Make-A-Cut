@@ -1,23 +1,48 @@
 import React from "react";
 import { Item, Form, Button, Message } from "semantic-ui-react";
 
+const districtOptions = [
+  { text: "Central and Western", value: "Central and Western" },
+  { text: "Eastern", value: "Eastern" },
+  { text: "Southern", value: "Southern" },
+  { text: "Wan Chai", value: "Wan Chai" },
+  { text: "Sham Shui Po", value: "Sham Shui Po" },
+  { text: "Kowloon City", value: "Kowloon City" },
+  { text: "Kwun Tong", value: "Kwun Tong" },
+  { text: "Wong Tai Sin", value: "Wong Tai Sin" },
+  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
+  { text: "Islands", value: "Islands" },
+  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
+  { text: "Kwai Tsing", value: "Kwai Tsing" },
+  { text: "North", value: "North" },
+  { text: "Sai Kung", value: "Sai Kung" },
+  { text: "Sha Tin", value: "Sha Tin" },
+  { text: "Tai Po", value: "Tai Po" },
+  { text: "Tsuen Wan", value: "Tsuen Wan" },
+  { text: "Tuen Mun", value: "Tuen Mun" },
+  { text: "Yuen Long", value: "Yuen Long" }
+];
+
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isDisable: true, success: false };
 
     // This binding is necessary to make `this` work in the callback
-    this.handleClick = this.handleClick.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
-  handleClick = () => {
+  handleEdit = () => {
     this.setState(state => ({
       isDisable: !state.isDisable
     }));
   };
+  handleResetPW = () => {
+    console.log('resetPW');
+  };
 
   handleSubmit = () => {
-    this.setState({success: true})
+    this.setState({ success: true });
   };
   render() {
     return (
@@ -36,19 +61,23 @@ class UserProfile extends React.Component {
                 success={this.state.success}
               >
                 <Form.Field>
-                  <label>First Name</label>
-                  <input
-                    placeholder="First Name"
-                    disabled={this.state.isDisable}
-                  />
+                  <label>Username</label>
+                  <input placeholder="Username" disabled />
                 </Form.Field>
+
                 <Form.Field>
-                  <label>Last Name</label>
+                  <label>Email</label>
+                  <input placeholder="Email" disabled />
+                </Form.Field>
+
+                <Form.Field>
+                  <label />
                   <input
-                    placeholder="Last Name"
+                    placeholder="fullName"
                     disabled={this.state.isDisable}
                   />
                 </Form.Field>
+
                 <Form.Field>
                   <label>Contact Number</label>
                   <input
@@ -56,16 +85,33 @@ class UserProfile extends React.Component {
                     disabled={this.state.isDisable}
                   />
                 </Form.Field>
+
                 <Form.Field>
-                  <label>Email</label>
-                  <input placeholder="Email" disabled={this.state.isDisable} />
+                  <label>District</label>
+                  <Form.Select
+                    placeholder="District"
+                    disabled={this.state.isDisable}
+                    options={districtOptions}
+                  />
                 </Form.Field>
-                <Button color="black" type="button" onClick={this.handleClick}>
+
+                <Form.Field>
+                  <label>Age</label>
+                  <input placeholder="age" disabled={this.state.isDisable} />
+                </Form.Field>
+
+                <Form.Button color="black" type="button" onClick={this.handleEdit} >
                   Edit
-                </Button>
-                <Button color="black" type="submit">
-                  Submit
-                </Button>
+                </Form.Button>
+
+                <Form.Button color="black" type="submit">
+                  Save
+                </Form.Button>
+
+                <Form.Button color="black" type="button" style={{margin: '1rem 0'}} onClick={this.handleResetPW}>
+                  Reset Password
+                </Form.Button>
+
                 <Message
                   success
                   header="Form Completed"

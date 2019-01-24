@@ -1,72 +1,107 @@
 import React from "react";
-import { Table} from "semantic-ui-react";
+import { Item, Image, Form, Rating } from "semantic-ui-react";
 
 class UserUpcoming extends React.Component {
   render() {
     return (
-      <Table striped color="black">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Shop Name</Table.HeaderCell>
-            <Table.HeaderCell>Date</Table.HeaderCell>
-            <Table.HeaderCell>Time</Table.HeaderCell>
-            <Table.HeaderCell>Services</Table.HeaderCell>
-            <Table.HeaderCell>Price</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.comjhlilk22@yahoo.comjhlilk22@yahoo.comjhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>Cancelled</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>Success</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>Success</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>Success</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>Success</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
+      <Item.Group>
+        <Item>
+          <Item.Image
+            size="medium"
+            src="https://react.semantic-ui.com/images/wireframe/image.png"
+          />
+          <Item.Content>
+            <Item.Header>Previous Booking 1</Item.Header>
+            <Item.Description>
+              <p>Shop Name: </p>
+              <p>Shop Address: </p>
+              <p>Date: </p>
+              <p>Time slot: </p>
+              <p>Services: </p>
+              <p>Payment: </p>
+              <p>Status: </p>
+            </Item.Description>
+            <Item.Header>Comment</Item.Header>
+            <Form>
+              <Form.TextArea disabled placeholder="Your comment" />
+            </Form>
+            <Item.Header>Rating</Item.Header><br />
+            <Rating icon="heart" defaultRating={3} maxRating={5} />
+          </Item.Content>
+        </Item>
+        <Item>
+          <Item.Image
+            size="medium"
+            src="https://react.semantic-ui.com/images/wireframe/image.png"
+          />
+          <Item.Content>
+            <Item.Header>Previous Booking 2</Item.Header>
+            <Item.Description>
+              <p>Shop Name: </p>
+              <p>Shop Address: </p>
+              <p>Date: </p>
+              <p>Time slot: </p>
+              <p>Services: </p>
+              <p>Payment: </p>
+              <p>Status: </p>
+            </Item.Description>
+            <Item.Header>Comment</Item.Header>
+            <Form>
+              <Form.TextArea disabled placeholder="Your comment" />
+            </Form>
+            <Item.Header>Rating</Item.Header><br />
+            <Rating icon="heart" defaultRating={3} maxRating={5} />
+          </Item.Content>
+        </Item>
+        <Item>
+          <Item.Image
+            size="medium"
+            src="https://react.semantic-ui.com/images/wireframe/image.png"
+          />
+          <Item.Content>
+            <Item.Header>Previous Booking 3</Item.Header>
+            <Item.Description>
+              <p>Shop Name: </p>
+              <p>Shop Address: </p>
+              <p>Date: </p>
+              <p>Time slot: </p>
+              <p>Services: </p>
+              <p>Payment: </p>
+              <p>Status: </p>
+            </Item.Description>
+            <Item.Header>Comment</Item.Header>
+            <Form>
+              <Form.TextArea disabled placeholder="Your comment" />
+            </Form>
+            <Item.Header>Rating</Item.Header><br />
+            <Rating icon="heart" defaultRating={3} maxRating={5} />
+          </Item.Content>
+        </Item>
+        <Item>
+          <Item.Image
+            size="medium"
+            src="https://react.semantic-ui.com/images/wireframe/image.png"
+          />
+          <Item.Content>
+            <Item.Header>Previous Booking 4</Item.Header>
+            <Item.Description>
+              <p>Shop Name: </p>
+              <p>Shop Address: </p>
+              <p>Date: </p>
+              <p>Time slot: </p>
+              <p>Services: </p>
+              <p>Payment: </p>
+              <p>Status: </p>
+            </Item.Description>
+            <Item.Header>Comment</Item.Header>
+            <Form>
+              <Form.TextArea disabled placeholder="Your comment" />
+            </Form>
+            <Item.Header>Rating</Item.Header><br />
+            <Rating icon="heart" defaultRating={3} maxRating={5} />
+          </Item.Content>
+        </Item>
+      </Item.Group>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import validator from "validator";
 import { Button, Form, Header, Icon, Divider } from "semantic-ui-react";
 import {
@@ -276,7 +276,9 @@ class ShopSignUpForm extends React.Component {
               icon
               onClick={e => {
                 e.preventDefault();
-                this.setState({ numImage: this.state.numImage - 1 });
+                if (this.state.numImage >= 1) {
+                  this.setState({ numImage: this.state.numImage - 1 });
+                } else return;
               }}
             >
               <Icon name="minus" />
