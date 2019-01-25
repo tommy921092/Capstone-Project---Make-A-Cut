@@ -53,7 +53,7 @@ class FilterButtons extends Component {
           <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='Filter by name' />
         </Menu.Item>
         {/* New search functions */}
-        <Menu.Menu position='right'>
+        {/* <Menu.Menu position='right'>
           <Menu.Item fitted="horizontally">
             <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='New search' />
           </Menu.Item>
@@ -70,7 +70,7 @@ class FilterButtons extends Component {
             />
           </Menu.Item>
 
-        </Menu.Menu>
+        </Menu.Menu> */}
       </Menu>
 
     )
