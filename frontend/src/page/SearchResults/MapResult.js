@@ -19,20 +19,6 @@ class Map extends Component {
     window.initMap = this.initMap
   }
 
-  // getVenues = () => {
-  //   axios.get(`https://5c4548513858aa001418c3e2.mockapi.io/api/shops/`)
-  //     .then(res => {
-  //       console.log(res.data);
-  //       const list = res.data;
-  //       this.setState(
-  //         { list }
-  //         , this.renderMap()) // make sure that render occurs AFTER new state is set - setState is asynchronous
-  //     })
-  //     .catch(error => {
-  //       console.log("ERROR! " + error)
-  //     })
-  // }
-
   initMap = () => {
 
     // create a map

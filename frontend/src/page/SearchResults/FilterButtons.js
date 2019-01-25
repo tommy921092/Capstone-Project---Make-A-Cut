@@ -16,19 +16,25 @@ class FilterButtons extends Component {
     return (
 
       <Menu secondary>
+
         <Menu.Item fitted="horizontally">
-          <Dropdown
-            button basic clearable compact
-            options={[
-              { key: '1', value: 'low', text: '<$200' },
-              { key: '2', value: 'medium', text: '$200 - $400' },
-              { key: '3', value: 'high', text: '>$400' },
-            ]}
-            placeholder='Price'
-            name='price'
-            selection
-          />
+          <Dropdown button basic compact text='Price' name='prices'>
+            <Dropdown.Menu>
+              <Dropdown.Item icon='sort up' text='Most expensive' />
+              <Dropdown.Item icon='sort down' text='Least expensive' />
+            </Dropdown.Menu>
+          </Dropdown>
         </Menu.Item>
+
+        <Menu.Item fitted="horizontally">
+          <Dropdown button basic compact text='Rating' name='rating'>
+            <Dropdown.Menu>
+              <Dropdown.Item icon='sort up' text='Highest rated' />
+              <Dropdown.Item icon='sort down' text='Lowest rated' />
+            </Dropdown.Menu>
+          </Dropdown>
+        </Menu.Item>
+
         <Menu.Item fitted="horizontally">
           <Dropdown
             button basic clearable compact
@@ -42,32 +48,17 @@ class FilterButtons extends Component {
             selection
           />
         </Menu.Item>
-        <Menu.Item fitted="horizontally">
-          <Dropdown
-            button basic clearable compact
-            options={[
-              { key: '1', value: '5', text: '5 stars' },
-              { key: '2', value: '4', text: '4 stars or more' },
-              { key: '3', value: '3', text: '3 stars or more' },
-            ]}
-            placeholder='Rating'
-            name='rating'
-            selection
-          />
-        </Menu.Item>
-        <Menu.Item fitted="horizontally">
-          <Button basic color black>
-            Something
-            </Button>
-        </Menu.Item>
 
+        <Menu.Item fitted="horizontally">
+          <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='Filter by name' />
+        </Menu.Item>
         {/* New search functions */}
         <Menu.Menu position='right'>
           <Menu.Item fitted="horizontally">
             <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='New search' />
           </Menu.Item>
 
-          <p style={{display: 'flex', alignItems: 'center', margin: '0'}}>Or</p>
+          <p style={{ display: 'flex', alignItems: 'center', margin: '0' }}>Or</p>
 
           <Menu.Item fitted="horizontally">
             <Dropdown

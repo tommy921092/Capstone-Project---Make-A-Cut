@@ -20,9 +20,11 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <Navbar />
     <Router routes={routes}>
-      {routes}
+      <div>
+        <Navbar />
+        {routes}
+      </div>
     </Router>
   </Provider>,
   document.getElementById('root')

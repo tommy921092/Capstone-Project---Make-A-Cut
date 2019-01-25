@@ -44,6 +44,7 @@ class SearchResults extends Component {
                         <Item.Description>{paragraph}</Item.Description>
                         <Item.Extra>
                           <Label>{l.tag}</Label>
+                          <Label>${l.price}</Label>
                         </Item.Extra>
                       </Item.Content>
                     </Item>
