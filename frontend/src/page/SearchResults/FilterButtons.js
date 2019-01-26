@@ -37,7 +37,7 @@ class FilterButtons extends Component {
 
         <Menu.Item fitted="horizontally">
           <Dropdown
-            button basic clearable compact
+            basic clearable
             options={[
               { key: '1', value: 'Pube Trim', text: 'Pube Trim' },
               { key: '2', value: 'Anal Wax', text: 'Anal Wax' },
@@ -45,7 +45,7 @@ class FilterButtons extends Component {
             ]}
             placeholder='Services'
             name='services'
-            selection
+            multiple selection
           />
         </Menu.Item>
 

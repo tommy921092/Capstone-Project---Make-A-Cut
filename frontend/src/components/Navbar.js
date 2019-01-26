@@ -28,24 +28,21 @@ export default class Navbar extends Component {
                                 active={activeItem === 'about'}
                                 onClick={this.handleItemClick}
                             />
-                            <Menu.Item
-                                name="search"
+                            <Dropdown pointing item name='search' text='Search' className='link'
                                 active={activeItem === 'search'}
                                 onClick={this.handleItemClick}
                             >
-                                <Dropdown text='Search' >
-                                    <Dropdown.Menu>
-                                        <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='New search' />
-                                        <Dropdown.Header content='Or' style={{ textAlign: 'center' }} />
-                                        <Dropdown
-                                            item selection
-                                            options={locationOptions}
-                                            placeholder='Search district'
-                                            name='district'
-                                        />
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </Menu.Item>
+                                <Dropdown.Menu>
+                                    <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='New search' />
+                                    <Dropdown.Header content='Or' style={{ textAlign: 'center' }} />
+                                    <Dropdown
+                                        item selection clearable
+                                        options={locationOptions}
+                                        placeholder='Search district'
+                                        name='district'
+                                    />
+                                </Dropdown.Menu>
+                            </Dropdown>
                             <Menu.Item
                                 name='articles'
                                 active={activeItem === 'articles'}
