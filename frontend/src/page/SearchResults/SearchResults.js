@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Divider, Form, Grid, Image, Input, Item, Label, Segment, Select } from 'semantic-ui-react'
+import { Container, Divider, Form, Grid, Icon, Image, Input, Item, Label, Segment, Select } from 'semantic-ui-react'
 import Footer from './Footer';
 import Map from './MapResult';
 import FilterButtons from './FilterButtons'
@@ -42,9 +42,15 @@ class SearchResults extends Component {
                           <span>{l.street}</span>
                         </Item.Meta>
                         <Item.Description>{paragraph}</Item.Description>
+                        <Item.Meta>Cut and Shave ${l.price}</Item.Meta>
                         <Item.Extra>
                           <Label>{l.tag}</Label>
-                          <Label>${l.price}</Label>
+                          <Label>
+                            <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
+                          </Label>
+                          <Label >
+                            <Icon name='hourglass half' style={{ margin: 'auto' }} />
+                          </Label>
                         </Item.Extra>
                       </Item.Content>
                     </Item>

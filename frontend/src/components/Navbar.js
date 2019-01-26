@@ -28,7 +28,7 @@ export default class Navbar extends Component {
                                 active={activeItem === 'about'}
                                 onClick={this.handleItemClick}
                             />
-                            <Dropdown pointing item name='search' text='Search' className='link'
+                            <Dropdown item name='search' text='Search' className='link'
                                 active={activeItem === 'search'}
                                 onClick={this.handleItemClick}
                             >
@@ -36,10 +36,11 @@ export default class Navbar extends Component {
                                     <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='New search' />
                                     <Dropdown.Header content='Or' style={{ textAlign: 'center' }} />
                                     <Dropdown
-                                        item selection clearable
+                                        item clearable
                                         options={locationOptions}
                                         placeholder='Search district'
                                         name='district'
+                                        selection
                                     />
                                 </Dropdown.Menu>
                             </Dropdown>
