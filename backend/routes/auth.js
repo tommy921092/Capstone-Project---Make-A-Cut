@@ -22,16 +22,13 @@ router.post('/user', (req, res) => {
 
   userquery.then((rows) => {
     if(rows.length) {
-      console.log('userMatch!')
       if (bcrypt.compareSync(user.password, rows[0].password)) {
-        console.log('success login')
         const token = jwt.sign({
           id: rows[0].id,
           username: rows[0].username,
           email: rows[0].email,
           fullname: rows[0].fullname
         }, config.jwtSecret)
-        console.log("TOKEN: " + token)
         res.json({ token })
 
       } else {
@@ -73,5 +70,32 @@ router.post('/user', (req, res) => {
 //     res.status(401).json({ errors: { form: "Invalid Credentials" } })
 //   }
 // })
+
+// merchant login
+router.post('/merchant', (req, res) => {
+  console.log(req.body)
+  let merchant = req.body;
+  let merchantquery = knex.select("*").from("merchant").where("email", merchant.email);
+
+  merchantquery.then((rows) => {
+    if(rows.length) {
+      if (bcrypt.compareSync(merchant.password, rows[0].password)) {
+        const token = jwt.sign({
+          id: rows[0].id,
+          email: rows[0].email,
+          merchant: true
+        }, config.jwtSecret)
+        res.json({ token })
+
+      } else {
+        console.log('login fail')
+        res.status(401).json({ errors: { form: "Invalid Credentials" } })
+      }
+    } else {
+      res.status(401).json({ errors: { form: "Invalid Credentials" } })
+    }
+  })
+
+});
 
 module.exports = router;

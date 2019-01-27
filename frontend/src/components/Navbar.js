@@ -4,7 +4,8 @@ import {
   Segment,
   Container,
   Responsive,
-  Visibility
+  Visibility,
+  Icon
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
@@ -23,17 +24,52 @@ class Navbar extends Component {
     const { activeItem } = this.state;
     const { fixed } = this.state;
 
-    const menuWithoutLogin = <Menu.Item
-      as={Link}
-      to="/login"
-      name="login"
-      onClick={this.handleItemClick}
-    />
+    const menuWithoutLogin = () =>{
+      return      <Menu.Menu position="right">
+      <Menu.Item
+        as={Link}
+        to="/login"
+        name="login"
+        onClick={this.handleItemClick}
+      />
+    </Menu.Menu>
+    }
 
-    const menuWithLogin = <Menu.Item
-      name="logout"
-      onClick={this.props.logout}
-    />
+
+    const menuWithLogin = () => {
+      if (this.props.auth.merchant === false) {
+        return       <Menu.Menu position="right">
+        <Menu.Item
+          as={Link}
+          to="/user/profile"
+          name='user_profile'
+          onClick={this.handleItemClick}
+        >
+          <Icon name='user' />{this.props.auth.user.username}
+        </Menu.Item>
+        <Menu.Item
+          name="logout"
+          onClick={this.props.logout}
+        />
+      </Menu.Menu>
+      } else {
+        return       <Menu.Menu position="right">
+        <Menu.Item
+          as={Link}
+          to="/shop/profile"
+          name='shop_profile'
+          onClick={this.handleItemClick}
+        >
+          <Icon name='bolt' />Merchant Account
+        </Menu.Item>
+        <Menu.Item
+          name="logout"
+          onClick={this.props.logout}
+        />
+      </Menu.Menu>
+      }
+    }
+
 
     return (
       <Responsive>
@@ -74,9 +110,7 @@ class Navbar extends Component {
                   active={activeItem === "articles"}
                   onClick={this.handleItemClick}
                 />
-                <Menu.Menu position="right">
-                {this.props.auth.isAuthenticated ? menuWithLogin : menuWithoutLogin}
-                </Menu.Menu>
+                {this.props.auth.isAuthenticated ? menuWithLogin() : menuWithoutLogin()}
               </Container>
             </Menu>
           </Segment>
