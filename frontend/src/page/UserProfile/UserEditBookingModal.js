@@ -24,7 +24,7 @@ export default class UserEditBookingModal extends Component {
   render() {
     return (
       <Modal
-        trigger={<Button basic color="black" onClick={this.handleOpen} fluid>Edit</Button>}
+        trigger={<Button basic color="black" onClick={this.handleOpen} >Edit</Button>}
         open={this.state.modalOpen}
         onClose={this.handleClose}
         size="small"

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Route } from 'react-router-dom';
+import requireUserAuth from './utils/requireUserAuth';
 
 import HomePage from './page/HomePage/HomePage'
 import About from './page/About/About'
@@ -36,8 +37,9 @@ export default (
     <Route path="/about" component={About} />
     <Route path="/test" component={ReservationPage} />
     <Route path="/test2" component={SearchResults} />
+    <Route path="/test3" component={ShopdetailPage} />
     <Route path="/article/:articleid" component={Articles} />
-    <Route path="/user/profile" component={UserMenuWithContent} />
+    <Route path="/user/profile" component={requireUserAuth(UserMenuWithContent)} />
     <Route path="/shop/profile" component={ShopMenuWithContent} />
   </div>
 );
