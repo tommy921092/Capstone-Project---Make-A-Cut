@@ -71,4 +71,31 @@ router.post('/user', (req, res) => {
 //   }
 // })
 
+// merchant login
+router.post('/merchant', (req, res) => {
+  console.log(req.body)
+  let merchant = req.body;
+  let merchantquery = knex.select("*").from("merchant").where("email", merchant.email);
+
+  merchantquery.then((rows) => {
+    if(rows.length) {
+      if (bcrypt.compareSync(merchant.password, rows[0].password)) {
+        const token = jwt.sign({
+          id: rows[0].id,
+          email: rows[0].email,
+          merchant: true
+        }, config.jwtSecret)
+        res.json({ token })
+
+      } else {
+        console.log('login fail')
+        res.status(401).json({ errors: { form: "Invalid Credentials" } })
+      }
+    } else {
+      res.status(401).json({ errors: { form: "Invalid Credentials" } })
+    }
+  })
+
+});
+
 module.exports = router;

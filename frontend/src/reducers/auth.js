@@ -14,6 +14,13 @@ const auth = (state = initialState, action = {}) => {
            user:action.user,
            merchant: false
         }
+        
+        case "SET_CURRENT_MERCHANT":
+        return {
+            isAuthenticated: !isEmpty(action.user),
+            user:action.user,
+            merchant: true
+         }
 
         default: return state;
     }

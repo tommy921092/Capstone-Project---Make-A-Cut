@@ -24,18 +24,21 @@ class Navbar extends Component {
     const { activeItem } = this.state;
     const { fixed } = this.state;
 
-    const menuWithoutLogin =
-      <Menu.Menu position="right">
-        <Menu.Item
-          as={Link}
-          to="/login"
-          name="login"
-          onClick={this.handleItemClick}
-        />
-      </Menu.Menu>
+    const menuWithoutLogin = () =>{
+      return      <Menu.Menu position="right">
+      <Menu.Item
+        as={Link}
+        to="/login"
+        name="login"
+        onClick={this.handleItemClick}
+      />
+    </Menu.Menu>
+    }
 
-    const menuWithLogin =
-      <Menu.Menu position="right">
+
+    const menuWithLogin = () => {
+      if (this.props.auth.merchant === false) {
+        return       <Menu.Menu position="right">
         <Menu.Item
           as={Link}
           to="/user/profile"
@@ -49,6 +52,24 @@ class Navbar extends Component {
           onClick={this.props.logout}
         />
       </Menu.Menu>
+      } else {
+        return       <Menu.Menu position="right">
+        <Menu.Item
+          as={Link}
+          to="/shop/profile"
+          name='shop_profile'
+          onClick={this.handleItemClick}
+        >
+          <Icon name='bolt' />Merchant Account
+        </Menu.Item>
+        <Menu.Item
+          name="logout"
+          onClick={this.props.logout}
+        />
+      </Menu.Menu>
+      }
+    }
+
 
     return (
       <Responsive>
@@ -89,7 +110,7 @@ class Navbar extends Component {
                   active={activeItem === "articles"}
                   onClick={this.handleItemClick}
                 />
-                {this.props.auth.isAuthenticated ? menuWithLogin : menuWithoutLogin}
+                {this.props.auth.isAuthenticated ? menuWithLogin() : menuWithoutLogin()}
               </Container>
             </Menu>
           </Segment>

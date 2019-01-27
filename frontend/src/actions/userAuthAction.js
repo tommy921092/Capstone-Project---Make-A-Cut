@@ -9,6 +9,13 @@ export const setCurrentUser = (user) => {
     }
 }
 
+export const setCurrentMerchant = (user) => {
+    return {
+        type: "SET_CURRENT_MERCHANT",
+        user
+    }
+}
+
 export const userLogin = (data) => {
     return dispatch => {
         return axios.post('/api/auth/user',data).then(res=>{
@@ -17,6 +24,18 @@ export const userLogin = (data) => {
             localStorage.setItem('jwtToken', token);
             setAuthorizationToken(token);
             dispatch(setCurrentUser(jwtDecode(token)))
+        });
+    }
+}
+
+export const merchantLogin = (data) => {
+    return dispatch => {
+        return axios.post('/api/auth/merchant',data).then(res=>{
+            const token = res.data.token;
+
+            localStorage.setItem('jwtToken', token);
+            setAuthorizationToken(token);
+            dispatch(setCurrentMerchant(jwtDecode(token)))
         });
     }
 }

@@ -6,14 +6,17 @@ const bodyParser = require('body-parser')
 // import event from './routes/event'
 const user = require('./routes/users')
 const auth = require('./routes/auth')
+const shop = require('./routes/shop')
 
 
 let app = express();
 
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api/users', user)
 app.use('/api/auth', auth)
-// app.use('/api/events', event)
+app.use('/api/shop', shop)
 
 app.get('/', (req,res)=>{
     res.send('Your fucking captone backend is runing la')

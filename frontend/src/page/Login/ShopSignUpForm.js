@@ -8,9 +8,18 @@ import {
   SelectField,
   Dropdown,
   TextAreaField,
-  Upload
+  Upload,
+  change
 } from "react-semantic-redux-form";
 import { TimeInput } from "semantic-ui-calendar-react";
+import { connect } from 'react-redux';
+import { withRouter } from "react-router";
+import { bindActionCreators } from 'redux'
+
+import { shopSignupRequest } from "../../actions/shopSignupAction"
+
+
+
 const validate = values => {
   const errors = {};
   // contact validation
@@ -26,38 +35,55 @@ const validate = values => {
   } else if (!validator.isEmail(values.email)) {
     errors.email = `Please include @ in the email address, ${
       values.email
-    } is missing an @`;
+      } is missing an @`;
   }
   // password validation
   if (!values.password) {
     errors.password = "Password is Required";
   }
-
+  // shop name validation
   if (!values.name) {
     errors.name = "Shop name is Required";
   }
+  // district validation
+  if (!values.district) {
+    errors.district = "District is Required"
+  }
+  // description validation
+  if (!values.description) {
+    errors.description = 'Description is Required'
+  }
+  // mainPhoto validation
+  if (!values.mainPhoto) {
+    errors.mainPhoto = 'Please upload at least 1 photo'
+  } else if(values.mainPhoto[0]){
+    if (values.mainPhoto[0].type !== "image/jpeg") {
+      errors.mainPhoto = 'Only accept jpeg file'
+      alert("Only accept jpeg file")
+    }
+  }
   return errors;
 };
+
 const districtOptions = [
-  { text: "Central and Western", value: "Central and Western" },
-  { text: "Eastern", value: "Eastern" },
-  { text: "Southern", value: "Southern" },
-  { text: "Wan Chai", value: "Wan Chai" },
-  { text: "Sham Shui Po", value: "Sham Shui Po" },
-  { text: "Kowloon City", value: "Kowloon City" },
-  { text: "Kwun Tong", value: "Kwun Tong" },
-  { text: "Wong Tai Sin", value: "Wong Tai Sin" },
-  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
-  { text: "Islands", value: "Islands" },
-  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
-  { text: "Kwai Tsing", value: "Kwai Tsing" },
-  { text: "North", value: "North" },
-  { text: "Sai Kung", value: "Sai Kung" },
-  { text: "Sha Tin", value: "Sha Tin" },
-  { text: "Tai Po", value: "Tai Po" },
-  { text: "Tsuen Wan", value: "Tsuen Wan" },
-  { text: "Tuen Mun", value: "Tuen Mun" },
-  { text: "Yuen Long", value: "Yuen Long" }
+  { key: '1', text: 'Central and Western', value: 'Central and Western' },
+  { key: '2', text: 'Wan Chai', value: 'Wan Chai' },
+  { key: '3', text: 'Eastern', value: 'Eastern' },
+  { key: '4', text: 'Southern', value: 'Southern' },
+  { key: '5', text: 'Yau Tsim Mong', value: 'Yau Tsim Mong' },
+  { key: '6', text: 'Sham Shui Po', value: 'Sham Shui Po' },
+  { key: '7', text: 'Kowloon City', value: 'Kowloon City' },
+  { key: '8', text: 'Wong Tai Sin', value: 'Wong Tai Sin' },
+  { key: '9', text: 'Kwun Tong', value: 'Kwun Tong' },
+  { key: '10', text: 'Kwai Tsing', value: 'Kwai Tsing' },
+  { key: '11', text: 'Tsuen Wan', value: 'Tsuen Wan' },
+  { key: '12', text: 'Tuen Mun', value: 'Tuen Mun' },
+  { key: '13', text: 'Yuen Long', value: 'Yuen Long' },
+  { key: '14', text: 'North', value: 'North' },
+  { key: '15', text: 'Tai Po', value: 'Tai Po' },
+  { key: '16', text: 'Sha Tin', value: 'Sha Tin' },
+  { key: '17', text: 'Sai Kung', value: 'Sai Kung' },
+  { key: '18', text: 'Islands', value: 'Islands' }
 ];
 
 const feeOptions = [
@@ -69,15 +95,27 @@ const feeOptions = [
 ];
 //options for tags
 const options = [];
+
 class ShopSignUpForm extends React.Component {
-  state = { options, numImage: 0, openTime: "" };
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoading: false,
+      numImage: 0,
+      options: []
+    }
+  }
+
 
   handleAddition = (e, { value }) => {
-    if (this.state.options.length < 5 && value.length < 10) {
+    if (this.props.formInput.values.tag.length <= 5 && value.length < 10) {
       this.setState({
         options: [{ text: value, value }, ...this.state.options]
       });
-    } else return;
+    } else {
+      this.props.change('tag', this.props.formInput.values.tag.slice(0, -1));
+    }
+    return;
   };
 
   handleChange = (e, { value }) => {
@@ -93,17 +131,36 @@ class ShopSignUpForm extends React.Component {
     console.log(this.state.closeTime);
   };
 
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.setState({isLoading:true})
+    const formData = new FormData();
+    Object.keys(this.props.formInput.values).forEach(key => formData.append(key, this.props.formInput.values[key]))
+    formData.append('mainPhoto:', this.props.formInput.values.mainPhoto[0]);
+    formData.append('otherPhoto_1:', this.props.formInput.values.otherPhoto_0 ? this.props.formInput.values.otherPhoto_0[0] : null);
+    formData.append('otherPhoto_2:', this.props.formInput.values.otherPhoto_1 ? this.props.formInput.values.otherPhoto_1[0] : null);
+    formData.append('otherPhoto_3:', this.props.formInput.values.otherPhoto_2 ? this.props.formInput.values.otherPhoto_2[0] : null);
+    this.props.shopSignupRequest(formData)
+      .then(() => {
+        alert('Shop reg ok!!');
+        this.props.history.push('/shop/login');
+      }).catch((err) => {
+        alert(err)
+        this.setState({isLoading:false})
+      })
+    // console.log(this.props.formInput.values)
+  }
+
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     //values for tags
-    const { currentValues } = this.state;
     const imageChildren = [];
     for (var i = 0; i < this.state.numImage; i += 1) {
       imageChildren.push(
         <Field
           key={i}
           number={i}
-          name="mainPhoto"
+          name={`otherPhoto_${i}`}
           required
           component={Upload}
         />
@@ -121,10 +178,10 @@ class ShopSignUpForm extends React.Component {
         </Header>
         <Divider style={{ width: "40%", margin: "1rem auto" }} />
         <div
-          class="ui stacked segment"
+          className="ui stacked segment"
           style={{ maxWidth: 600, margin: "0 auto" }}
         >
-          <Form size="large" onSubmit={handleSubmit}>
+          <Form size="large" encType="multipart/form-data" onSubmit={this.onSubmit}>
             <Header as="h3" color="black" textAlign="center">
               LOGIN INFO
             </Header>
@@ -165,20 +222,20 @@ class ShopSignUpForm extends React.Component {
               placeholder="Shop Name"
             />
             <Header as="h3" color="black" textAlign="center">
-              DETAIL INFO
+              DETAIL INFOcurrentValues
             </Header>
             <Header as="h4" color="black" textAlign="left">
               District:
             </Header>
             <Field
-              name="district of your barber shop"
+              name="district"
               component={SelectField}
               options={districtOptions}
-              placeholder="District"
+              placeholder="district of your barber shop"
             />
 
             <Header as="h4" color="black" textAlign="left">
-              ADD TAGS HERE FOR YOUR SHOP
+              ADD TAGS HERE FOR YOUR SHOP <span style={{color:"grey"}}>(optional)</span>
               <br />
               (maximum five tags and each with less than 10 characters)
             </Header>
@@ -191,13 +248,13 @@ class ShopSignUpForm extends React.Component {
               fluid
               multiple
               allowAdditions
-              value={currentValues}
+              value={[]}
               onAddItem={this.handleAddition}
               onChange={this.handleChange}
             />
             <br />
             <Header as="h4" color="black" textAlign="left">
-              Contact Number:
+              Contact Number: <span style={{color:"grey"}}>(optional)</span>
             </Header>
             <Field
               name="contactNumber"
@@ -208,7 +265,7 @@ class ShopSignUpForm extends React.Component {
               placeholder="Contact Number"
             />
             <Header as="h4" color="black" textAlign="left">
-              Website:
+              Website: <span style={{color:"grey"}}>(optional)</span>
             </Header>
             <Field
               name="website"
@@ -218,7 +275,7 @@ class ShopSignUpForm extends React.Component {
               placeholder="Website URL"
             />
             <Header as="h4" color="black" textAlign="left">
-              Opening time:
+              Opening time: <span style={{color:"grey"}}>(optional)</span>
             </Header>
             <TimeInput
               name="openTime"
@@ -226,9 +283,10 @@ class ShopSignUpForm extends React.Component {
               value={this.state.openTime}
               iconPosition="left"
               onChange={this.handleOpenTimeChange}
+              disableMinute
             />
             <Header as="h4" color="black" textAlign="left">
-              Closing time:
+              Closing time: <span style={{color:"grey"}}>(optional)</span>
             </Header>
             <TimeInput
               name="closeTime"
@@ -236,29 +294,30 @@ class ShopSignUpForm extends React.Component {
               value={this.state.closeTime}
               iconPosition="left"
               onChange={this.handleCloseTimeChange}
+              disableMinute
             />
             <Header as="h4" color="black" textAlign="left">
               Average Fee:
             </Header>
             <Field
-              name="average fee of your services"
+              name="averageFee"
               component={SelectField}
               options={feeOptions}
-              placeholder="averageFee"
+              placeholder="average fee of your services"
             />
             <Form.Group />
             <Header as="h4" color="black" textAlign="left">
               Self-description:
             </Header>
             <Field
-              name="Description"
+              name="description"
               component={TextAreaField}
               placeholder="Tell us about your shop"
             />
             <Header as="h4" color="black" textAlign="left">
               Main photo:
             </Header>
-            <Field name="mainPhoto" required component={Upload} />
+            <Field name="mainPhoto" required component={Upload} type="file" />
             <Header as="h4" color="black" textAlign="left">
               Other photo:
             </Header>
@@ -267,7 +326,9 @@ class ShopSignUpForm extends React.Component {
               icon
               onClick={e => {
                 e.preventDefault();
-                this.setState({ numImage: this.state.numImage + 1 });
+                if (this.state.numImage < 2) {
+                  this.setState({ numImage: this.state.numImage + 1 });
+                }
               }}
             >
               <Icon name="add" />
@@ -290,6 +351,8 @@ class ShopSignUpForm extends React.Component {
               className="submit-btn"
               type="submit"
               fluid
+              disabled={!this.props.valid || this.state.isLoading}
+              loading={this.state.isLoading}
             >
               Sign up
             </Form.Field>
@@ -308,6 +371,20 @@ class ShopSignUpForm extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    formInput: state.form.shopSignUpForm
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ change, shopSignupRequest }, dispatch);
+}
+
+ShopSignUpForm = withRouter(connect(
+  mapStateToProps, mapDispatchToProps
+)(ShopSignUpForm));
 
 export default reduxForm({
   form: "shopSignUpForm", // a unique identifier for this form

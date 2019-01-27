@@ -1,6 +1,7 @@
 import React from "react";
 import { Item, Form, Input, Button, Message } from "semantic-ui-react";
 import validator from "validator";
+import {connect} from 'react-redux'
 
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },

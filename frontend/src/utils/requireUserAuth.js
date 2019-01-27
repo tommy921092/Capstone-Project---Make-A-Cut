@@ -5,8 +5,8 @@ import { withRouter } from "react-router";
 export default function(ComposedComponent) {
     class Authenticate extends Component {
       componentWillMount() {
-        if (!this.props.isAuthenticated) {
-            alert('You need to login in!')
+        if (!this.props.isAuthenticated || this.props.merchant) {
+          alert('You need to login in!')
           this.props.history.push('/');
         }
       }
