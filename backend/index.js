@@ -14,9 +14,9 @@ app.use(bodyParser.json());
 app.use('/api/users', user)
 app.use('/api/auth', auth)
 // app.use('/api/events', event)
-
+// require("./routes/billing")(app); // for stripe api
 app.get('/', (req,res)=>{
-    res.send('Your fucking captone backend is runing la')
+    res.send('Your fucking capstone backend is running la')
 })
 
-app.listen(6060, ()=>{console.log('Captone Backend API server Running on localhost:6060')})
+app.listen(6060, ()=>{console.log('Capstone Backend API server Running on localhost:6060')})
