@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
         table.integer("_merchantid").unsigned();
         table.foreign('_merchantid').references('merchant.id');
         table.boolean('valid').defaultTo(true);
+        table.string("shopname");
         table.string("address");
         table.specificType("tag",'text[]');
         table.string("pricerange");

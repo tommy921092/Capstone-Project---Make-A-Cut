@@ -73,7 +73,6 @@ router.post('/user', (req, res) => {
 
 // merchant login
 router.post('/merchant', (req, res) => {
-  console.log(req.body)
   let merchant = req.body;
   let merchantquery = knex.select("*").from("merchant").where("email", merchant.email);
 

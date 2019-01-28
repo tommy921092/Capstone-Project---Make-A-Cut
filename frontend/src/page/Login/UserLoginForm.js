@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import PropTypes from "prop-types";
 import validator from "validator";
 import {
   Button,
@@ -16,6 +15,8 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router";
 import { userLogin } from '../../actions/userAuthAction'
 
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+
 const validate = values => {
   const errors = {};
   if (!values.email) {
@@ -23,7 +24,7 @@ const validate = values => {
   } else if (!validator.isEmail(values.email)) {
     errors.email = `Please include @ in the email address, ${
       values.email
-    } is missing an @`;
+      } is missing an @`;
   }
 
   if (!values.password) {
@@ -43,11 +44,11 @@ class UserLoginForm extends Component {
 
   onClick(e) {
     e.preventDefault();
-    this.setState({isLading:true,wrongPassword:false})
+    this.setState({ isLading: true, wrongPassword: false })
     this.props.userLogin(this.props.formInput.values)
       .then(
         (res) => this.props.history.push('/'),
-        (err) => this.setState({ isLoading:false,wrongPassword: true })
+        (err) => this.setState({ isLoading: false, wrongPassword: true })
       );
   }
 
@@ -56,6 +57,9 @@ class UserLoginForm extends Component {
       <Message.Header>You may Enter a wrong Password or Username</Message.Header>
       <p>Try Again, Bitch!</p>
     </Message>
+    const responseFacebook = (response) => {
+      console.log(response);
+    }
 
     return (
       <div className="login-form" style={{ padding: "5%" }}>
@@ -69,9 +73,17 @@ class UserLoginForm extends Component {
       </Header>
         <Divider style={{ width: "40%", margin: "1rem auto" }} />
         <div className="ui stacked segment" style={{ maxWidth: 450, margin: "0 auto" }}>
-          <Button fluid color="facebook" style={{ marginBottom: "1em" }}>
-            <Icon name="facebook" /> Login with Facebook
-        </Button>
+          <FacebookLogin
+            appId="1088597931155576"
+            autoLoad
+            callback={responseFacebook}
+            render={renderProps => (
+              <Button fluid color="facebook" style={{ marginBottom: "1em" }} onClick={renderProps.onClick}>
+                <Icon name="facebook" /> Login with Facebook
+          </Button>
+            )}
+          />
+
           <Button fluid color="google plus">
             <Icon name="google" /> Login with Google
         </Button>

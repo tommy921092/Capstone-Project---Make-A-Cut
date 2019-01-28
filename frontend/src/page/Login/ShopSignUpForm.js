@@ -254,7 +254,7 @@ class ShopSignUpForm extends React.Component {
             />
             <br />
             <Header as="h4" color="black" textAlign="left">
-              Contact Number: <span style={{color:"grey"}}>(optional)</span>
+              Contact Number: 
             </Header>
             <Field
               name="contactNumber"
