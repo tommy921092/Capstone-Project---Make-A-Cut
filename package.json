@@ -1,16 +1,37 @@
 {
   "dependencies": {
     "axios": "^0.18.0",
+    "bcrypt": "^3.0.3",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.4.0",
+    "jwt-decode": "^2.2.0",
+    "knex": "^0.16.3",
+    "lodash": "^4.17.11",
+    "moment": "^2.23.0",
+    "multer": "^1.4.1",
+    "pg": "^7.8.0",
+    "pure-react-carousel": "^1.17.0",
+    "query-string": "^6.2.0",
+    "ramda": "^0.26.1",
     "react": "^16.7.0",
     "react-autosuggest": "^9.4.3",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.7.0",
+    "react-facebook-login": "^4.1.1",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-suggest": "^0.0.1",
+    "react-semantic-redux-form": "^1.2.6",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
+    "redux-form": "^8.1.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "semantic-ui-react": "^0.84.0"
+    "semantic-ui-calendar-react": "^0.13.0",
+    "semantic-ui-react": "^0.84.0",
+    "validator": "^10.11.0"
   }
 }

@@ -66,7 +66,6 @@ class SearchResults extends Component {
             </Grid>
           </Segment>
         </Container>
-        <Footer />
       </Container>
     )
   }
