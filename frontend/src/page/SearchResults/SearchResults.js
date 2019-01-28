@@ -23,7 +23,7 @@ class SearchResults extends Component {
       <Container fluid>
         <Container fluid>
           <Container style={{ paddingTop: '0' }}>
-            <FilterButtons fluid />
+            <FilterButtons fluid list={this.props.list} />
           </Container>
 
           <Segment fluid style={{ opacity: 0.8, margin: 0, padding: '2rem' }}>
@@ -42,7 +42,7 @@ class SearchResults extends Component {
                           <span>{l.street}</span>
                         </Item.Meta>
                         <Item.Description>{paragraph}</Item.Description>
-                        <Item.Meta>Cut and Shave ${l.price}</Item.Meta>
+                        <Item.Meta>Haircut ${l.price}</Item.Meta>
                         <Item.Extra>
                           <Label>{l.tag}</Label>
                           <Label>
@@ -77,4 +77,5 @@ const mapStateToProps = state => {
 }
 
 export default connect(
-  mapStateToProps, { fetchShops })(SearchResults);
+  mapStateToProps, { fetchShops }
+  )(SearchResults);

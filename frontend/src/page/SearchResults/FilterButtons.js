@@ -12,6 +12,7 @@ class FilterButtons extends Component {
   }
 
   render() {
+    console.log(this.props.list)
 
     return (
 
