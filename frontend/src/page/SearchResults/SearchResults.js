@@ -11,7 +11,7 @@ import './SearchResults.css';
 import { connect } from 'react-redux';
 import { fetchShops } from '../../actions/index'
 
-const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+// const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
 
 class SearchResults extends Component {
   constructor(props) {
@@ -68,7 +68,7 @@ class SearchResults extends Component {
                           <Item.Description>{l.description}</Item.Description>
                           <Item.Meta>Haircut - ${l.pricerange}</Item.Meta>
                           <Item.Extra>
-                            <Tag hasTags={l}/>
+                            <Tag hasTag={l}/>
                             {/* <Label>{l.tag}</Label> */}
                             <Label>
                               <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
@@ -98,9 +98,10 @@ class SearchResults extends Component {
 
 // Logic for tag display
 function Tag(props) {
-  const hasTag = props.tag;
+  const hasTag = props.hasTag;
   if (hasTag){
-    return <Label>{props.tag}</Label>
+    // passed the prop = {l}
+    return <Label>{hasTag.tag}</Label>
   }
   return (null);
 }
