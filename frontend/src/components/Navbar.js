@@ -45,7 +45,7 @@ class Navbar extends Component {
           name='user_profile'
           onClick={this.handleItemClick}
         >
-          <Icon name='user' />{this.props.auth.user.username}
+          <Icon name='user' />{this.props.auth.user.fullname}
         </Menu.Item>
         <Menu.Item
           name="logout"

@@ -13,9 +13,10 @@ import { LabelInputField, CheckboxField } from "react-semantic-redux-form";
 import { connect } from 'react-redux';
 
 import { withRouter } from "react-router";
-import { userLogin } from '../../actions/userAuthAction'
+import { userLogin, loginFacebook, loginGoogle } from '../../actions/userAuthAction'
 
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import GoogleLogin from 'react-google-login';
 
 const validate = values => {
   const errors = {};
@@ -52,14 +53,26 @@ class UserLoginForm extends Component {
       );
   }
 
+  responseFacebook = (response) => {
+    this.props.loginFacebook(response).then(
+      (res) => this.props.history.push('/'),
+      (err) => this.setState({ isLoading: false, wrongPassword: true })
+    );
+  }
+
+  responseGoogle = (response) => {
+    this.props.loginGoogle(response).then(
+      (res) => this.props.history.push('/'),
+      (err) => this.setState({ isLoading: false, wrongPassword: true })
+    );
+  }
+
   render() {
+
     const warning = <Message negative>
       <Message.Header>You may Enter a wrong Password or Username</Message.Header>
       <p>Try Again, Bitch!</p>
     </Message>
-    const responseFacebook = (response) => {
-      console.log(response);
-    }
 
     return (
       <div className="login-form" style={{ padding: "5%" }}>
@@ -74,19 +87,27 @@ class UserLoginForm extends Component {
         <Divider style={{ width: "40%", margin: "1rem auto" }} />
         <div className="ui stacked segment" style={{ maxWidth: 450, margin: "0 auto" }}>
           <FacebookLogin
-            appId="1088597931155576"
-            autoLoad
-            callback={responseFacebook}
+            appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
+            autoLoad={false}
+            fields="name,email,picture"
+            callback={this.responseFacebook}
             render={renderProps => (
               <Button fluid color="facebook" style={{ marginBottom: "1em" }} onClick={renderProps.onClick}>
                 <Icon name="facebook" /> Login with Facebook
           </Button>
             )}
           />
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_APP_ID || ''}
+            render={renderProps => (
+              <Button fluid color="google plus" onClick={renderProps.onClick}>
+                <Icon name="google" /> Login with Google
+  </Button>
+            )}
+            buttonText="Login"
+            onSuccess={this.responseGoogle}
+          />
 
-          <Button fluid color="google plus">
-            <Icon name="google" /> Login with Google
-        </Button>
           <Divider horizontal>Or</Divider>
           {this.state.wrongPassword && warning}
           <Form size="large">
@@ -142,7 +163,7 @@ const mapStateToProps = (state) => {
 }
 
 UserLoginForm = withRouter(connect(
-  mapStateToProps, { userLogin }
+  mapStateToProps, { userLogin, loginFacebook, loginGoogle }
 )(UserLoginForm))
 
 

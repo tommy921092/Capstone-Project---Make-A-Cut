@@ -12,7 +12,6 @@ const knex = require('knex')({
 
 let router = express.Router();
 
-
 router.get('/',(req,res)=>{
     if (req.query.username || req.query.email){
         knex("users").where({ username: req.query.username }).orWhere({email:req.query.email})

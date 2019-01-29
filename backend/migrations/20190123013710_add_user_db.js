@@ -10,6 +10,8 @@ exports.up = function(knex, Promise) {
         table.string("tel");
         table.integer("age");
         table.string("profilepic");
+        table.string("facebookid");
+        table.string("googleid");
         table.boolean('valid').defaultTo(true);
         table.timestamps(false,true);
       });

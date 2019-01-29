@@ -18,7 +18,7 @@ export const setCurrentMerchant = (user) => {
 
 export const userLogin = (data) => {
     return dispatch => {
-        return axios.post('/api/auth/user',data).then(res=>{
+        return axios.post('/api/auth/user', data).then(res => {
             const token = res.data.token;
 
             localStorage.setItem('jwtToken', token);
@@ -28,9 +28,56 @@ export const userLogin = (data) => {
     }
 }
 
+export const loginFacebook = (data) => {
+    return dispatch => {
+        return axios.post('/api/auth/user/facebook', {
+            access_token: data.accessToken,
+            email: data.email
+        }).then((res) => {
+            if (res.status === 200) {
+                const token = res.data.token;
+
+                localStorage.setItem('jwtToken', token);
+                setAuthorizationToken(token);
+                dispatch(setCurrentUser(jwtDecode(token)))
+            } else if (res.status === 202) {
+                alert("Init Reg facebook, please login again")
+            } else if (res.status === 201) {
+                alert("you have already signup by local login, use email to login instead")
+            }
+        }).catch((err) => {
+            alert(err)
+        })
+    }
+}
+
+export const loginGoogle = (data) => {
+    return dispatch => {
+        return axios.post('/api/auth/user/google', {
+            access_token: data.accessToken,
+            email: data.profileObj.email,
+            fullname: data.profileObj.name
+        }).then((res) => {
+            if (res.status === 200) {
+                const token = res.data.token;
+
+                localStorage.setItem('jwtToken', token);
+                setAuthorizationToken(token);
+                dispatch(setCurrentUser(jwtDecode(token)))
+            } else if (res.status === 202) {
+                alert("Init Reg google, please login again")
+            } else if (res.status === 201) {
+                alert("you have already signup by local login, use email to login instead")
+            }
+        }).catch((err) => {
+            alert(err)
+        })
+    }
+}
+
 export const merchantLogin = (data) => {
     return dispatch => {
-        return axios.post('/api/auth/merchant',data).then(res=>{
+        return axios.post('/api/auth/merchant', data).then(res => {
             const token = res.data.token;
 
             localStorage.setItem('jwtToken', token);
@@ -39,6 +86,7 @@ export const merchantLogin = (data) => {
         });
     }
 }
+
 
 export const logout = () => {
     return dispatch => {
