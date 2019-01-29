@@ -24,6 +24,22 @@ class Navbar extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
+  handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      if (this.state.searchNameField === "") {
+        alert('Please enter a barber shop name')
+      } else {
+        this.props.history.push(`/test2/search?name=${this.state.searchNameField}`)
+      }
+    }
+  }
+
+  handleOnChange = (event) => {
+    this.setState({
+      searchNameField: event.target.value
+    })
+  }
+
   render() {
     const { activeItem } = this.state;
     const { fixed } = this.state;
@@ -105,18 +121,12 @@ class Navbar extends Component {
                   onClick={this.handleItemClick}
                 />
 
-                {/* <Menu.Item
-                  name="search"
-                  active={activeItem === "search"}
-                  onClick={this.handleItemClick}
-                /> */}
-
                 <Dropdown item name='search' text='Search' className='link'
                   active={activeItem === 'search'}
                   onClick={this.handleItemClick}
                 >
                   <Dropdown.Menu>
-                    <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='New search' />
+                    <Input onKeyPress={this.handleKeyPress} onChange={this.handleOnChange} icon='search' placeholder='Search By Name' />
                     <Dropdown.Header content='Or' style={{ textAlign: 'center' }} />
                     <Dropdown
                       item clearable

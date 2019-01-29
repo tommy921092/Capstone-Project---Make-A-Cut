@@ -66,9 +66,9 @@ class SearchResults extends Component {
                             <span>{l.address}</span>
                           </Item.Meta>
                           <Item.Description>{l.description}</Item.Description>
-                          <Item.Meta>Haircut - ${l.pricerange}</Item.Meta>
+                          <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
                           <Item.Extra>
-                            <Tag hasTag={l}/>
+                            <Tag hasTag={l.tag}/>
                             {/* <Label>{l.tag}</Label> */}
                             <Label>
                               <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
@@ -101,7 +101,7 @@ function Tag(props) {
   const hasTag = props.hasTag;
   if (hasTag){
     // passed the prop = {l}
-    return <Label>{hasTag.tag}</Label>
+    return <Label>{hasTag}</Label>
   }
   return (null);
 }
