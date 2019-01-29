@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { Container } from 'semantic-ui-react'
 
-import { connect } from 'react-redux';
-import { fetchShops } from '../../actions/index'
-
 const appID = process.env.REACT_APP_API_KEY;
 
 class Map extends Component {
 
   componentDidUpdate() {
-    console.log(appID)
-    console.log(this.props)
+    // console.log(appID)
+    // console.log(this.props)
     this.renderMap()
   }
 
@@ -73,10 +70,3 @@ function loadScript(url) {
 }
 
 export default Map
-
-// const mapStateToProps = state => {
-//   return { list: state.searchResult }
-// }
-
-// export default connect(
-//   mapStateToProps,{fetchShops})(Map);

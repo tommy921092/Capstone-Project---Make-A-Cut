@@ -12,8 +12,6 @@ class FilterButtons extends Component {
   }
 
   render() {
-    console.log(this.props.list)
-
     return (
 
       <Menu secondary>
@@ -53,25 +51,7 @@ class FilterButtons extends Component {
         <Menu.Item fitted="horizontally">
           <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='Filter by name' />
         </Menu.Item>
-        {/* New search functions */}
-        {/* <Menu.Menu position='right'>
-          <Menu.Item fitted="horizontally">
-            <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='New search' />
-          </Menu.Item>
 
-          <p style={{ display: 'flex', alignItems: 'center', margin: '0' }}>Or</p>
-
-          <Menu.Item fitted="horizontally">
-            <Dropdown
-              button basic clearable compact
-              options={locationOptions}
-              placeholder='Search district'
-              name='district'
-              selection
-            />
-          </Menu.Item>
-
-        </Menu.Menu> */}
       </Menu>
 
     )
