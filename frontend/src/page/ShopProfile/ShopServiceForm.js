@@ -6,13 +6,11 @@ import validate from "./validate";
 import { connect } from "react-redux";
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
-  <div>
-    <div>
+    <div style={{display:"inline-block", padding:20}}>
       <label>{label}</label>
-      <Field {...input} type={type} component={InputField} />
+      <Field parse={value => isNaN(value) === false ? Number(value) : value} {...input} type={type} component={InputField} style={{width:"auto"}}/>
       {touched && error && <span>{error}</span>}
     </div>
-  </div>
 );
 
 const renderServices = ({ fields, meta: { error, submitFailed } }) => (
@@ -30,7 +28,7 @@ const renderServices = ({ fields, meta: { error, submitFailed } }) => (
           type="button"
           title="Remove Service"
           onClick={() => fields.remove(index)}
-          style={{ float: "right" }}
+          style={{ float: "right"}}
         >
           <Icon name="minus" />
         </Button>
@@ -47,13 +45,14 @@ const renderServices = ({ fields, meta: { error, submitFailed } }) => (
           component={renderField}
           label="price"
         />
+        <span style={{display:"none"}}>
         <Field
           name={`${service}.id`}
           type="number"
           component={renderField}
           label="id"
-          style={{display: 'hidden'}}
         />
+        </span>
       </li>
     ))}
   </ul>
@@ -63,13 +62,13 @@ let ShopServiceForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <FieldArray name="services" component={renderServices} />
+      <FieldArray name="services" component={renderServices}/>
       <div>
         <Button type="submit" disabled={submitting}>
           Submit
         </Button>
         <Button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
+          Reset
         </Button>
       </div>
     </form>
@@ -78,7 +77,8 @@ let ShopServiceForm = props => {
 
 ShopServiceForm = reduxForm({
   form: "fieldArrays", // a unique identifier for this form
-  validate
+  validate,
+  enableReinitialize: true
 })(ShopServiceForm);
 
 ShopServiceForm = connect(state => ({

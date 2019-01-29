@@ -1,13 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-// import user from './routes/users';
-// import auth from './routes/auth'
-// import event from './routes/event'
 const user = require("./routes/users");
 const auth = require("./routes/auth");
 const shop = require("./routes/shop");
 const userProfile = require('./routes/userProfile');
+const shopService = require('./routes/shopService');
 
 let app = express();
 
@@ -18,6 +16,7 @@ app.use("/api/users", user);
 app.use("/api/auth", auth);
 // app.use('/api/events', event)
 app.use("/api/user/profile", userProfile);
+app.use("/api/shop/service", shopService);
 // require("./routes/billing")(app); // for stripe api
 app.use("/api/shop", shop);
 

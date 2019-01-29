@@ -5,8 +5,8 @@ import { withRouter } from "react-router";
 export default function(ComposedComponent) {
     class Authenticate extends Component {
       componentWillMount() {
-        if (!this.props.isAuthenticated || this.props.merchant) {
-          alert('You need to login in, as a user!!')
+        if (!this.props.isAuthenticated || !this.props.merchant) {
+          alert('You need to login in as a Merchant!')
           this.props.history.push('/');
         }
       }
@@ -26,7 +26,8 @@ export default function(ComposedComponent) {
 
     const mapStateToProps = (state) => {
       return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        merchant: state.auth.merchant
       };
     };
   
