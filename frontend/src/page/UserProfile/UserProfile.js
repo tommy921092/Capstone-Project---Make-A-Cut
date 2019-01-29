@@ -1,7 +1,9 @@
 import React from "react";
 import { Item, Form, Input, Button, Message } from "semantic-ui-react";
-import validator from "validator";
-import {connect} from 'react-redux'
+// import validator from "validator";
+import { connect } from "react-redux";
+import axios from "axios";
+import jwtDecode from 'jwt-decode';
 
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },
@@ -33,6 +35,10 @@ class UserProfile extends React.Component {
       success: false,
       username: "",
       fullName: "",
+      email: '',
+      contactNumber: '',
+      age: null,
+      district: '',
       usernameError: false,
       fullNameError: false
     };
@@ -40,6 +46,21 @@ class UserProfile extends React.Component {
     // This binding is necessary to make `this` work in the callback
     this.handleEdit = this.handleEdit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    let token = localStorage.getItem('jwtToken');
+    let id = jwtDecode(token).id;
+    axios.get(`/api/user/profile/${id}`, result => {
+      //????
+
+      this.setState({
+        userName: result.data.username,
+        fullName: result.data.fullname,
+        email: result.data.email,
+        contactNumber: result.data.tel
+      });
+    });
   }
   //handle value changes for some of the form values which needs validations
   handleChange = (e, { name, value }) => {
@@ -92,7 +113,12 @@ class UserProfile extends React.Component {
 
                 <Form.Field>
                   <label>Email</label>
-                  <Form.Input placeholder="Email" disabled />
+                  <Form.Input
+                    name="email"
+                    placeholder="Email"
+                    disabled
+                    value={this.state.email}
+                  />
                 </Form.Field>
 
                 <Form.Field>
@@ -113,6 +139,8 @@ class UserProfile extends React.Component {
                     name="contactNumber"
                     placeholder="Contact Number"
                     disabled={this.state.isDisable}
+                    value={this.state.contactNumber}
+                    onChange={this.state.ContactNumber}
                   />
                 </Form.Field>
 
@@ -123,6 +151,7 @@ class UserProfile extends React.Component {
                     placeholder="District"
                     disabled={this.state.isDisable}
                     options={districtOptions}
+                    onChange={this.state.district}
                   />
                 </Form.Field>
 
@@ -132,6 +161,8 @@ class UserProfile extends React.Component {
                     name="age"
                     placeholder="age"
                     disabled={this.state.isDisable}
+                    value={this.state.age}
+                    onChange={this.state.age}
                   />
                 </Form.Field>
 
@@ -166,7 +197,7 @@ class UserProfile extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth
   };
