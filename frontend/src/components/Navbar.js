@@ -8,11 +8,10 @@ import {
   Icon
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
-import { logout } from '../actions/userAuthAction';
+import { connect } from "react-redux";
+import { logout } from "../actions/userAuthAction";
 
 class Navbar extends Component {
-
   state = { activeItem: "home" };
 
   hideFixedMenu = () => this.setState({ fixed: false });
@@ -24,52 +23,52 @@ class Navbar extends Component {
     const { activeItem } = this.state;
     const { fixed } = this.state;
 
-    const menuWithoutLogin = () =>{
-      return      <Menu.Menu position="right">
-      <Menu.Item
-        as={Link}
-        to="/login"
-        name="login"
-        onClick={this.handleItemClick}
-      />
-    </Menu.Menu>
-    }
-
+    const menuWithoutLogin = () => {
+      return (
+        <Menu.Menu position="right">
+          <Menu.Item
+            as={Link}
+            to="/login"
+            name="login"
+            onClick={this.handleItemClick}
+          />
+        </Menu.Menu>
+      );
+    };
 
     const menuWithLogin = () => {
       if (this.props.auth.merchant === false) {
-        return       <Menu.Menu position="right">
-        <Menu.Item
-          as={Link}
-          to="/user/profile"
-          name='user_profile'
-          onClick={this.handleItemClick}
-        >
-          <Icon name='user' />{this.props.auth.user.username}
-        </Menu.Item>
-        <Menu.Item
-          name="logout"
-          onClick={this.props.logout}
-        />
-      </Menu.Menu>
+        return (
+          <Menu.Menu position="right">
+            <Menu.Item
+              as={Link}
+              to="/user/profile"
+              name="user_profile"
+              onClick={this.handleItemClick}
+            >
+              <Icon name="user" />
+              {this.props.auth.user.username}
+            </Menu.Item>
+            <Menu.Item name="logout" onClick={this.props.logout} />
+          </Menu.Menu>
+        );
       } else {
-        return       <Menu.Menu position="right">
-        <Menu.Item
-          as={Link}
-          to="/shop/profile"
-          name='shop_profile'
-          onClick={this.handleItemClick}
-        >
-          <Icon name='bolt' />Merchant Account
-        </Menu.Item>
-        <Menu.Item
-          name="logout"
-          onClick={this.props.logout}
-        />
-      </Menu.Menu>
+        return (
+          <Menu.Menu position="right">
+            <Menu.Item
+              as={Link}
+              to="/shop/profile"
+              name="shop_profile"
+              onClick={this.handleItemClick}
+            >
+              <Icon name="bolt" />
+              Merchant Account
+            </Menu.Item>
+            <Menu.Item name="logout" onClick={this.props.logout} />
+          </Menu.Menu>
+        );
       }
-    }
-
+    };
 
     return (
       <Responsive>
@@ -110,7 +109,9 @@ class Navbar extends Component {
                   active={activeItem === "articles"}
                   onClick={this.handleItemClick}
                 />
-                {this.props.auth.isAuthenticated ? menuWithLogin() : menuWithoutLogin()}
+                {this.props.auth.isAuthenticated
+                  ? menuWithLogin()
+                  : menuWithoutLogin()}
               </Container>
             </Menu>
           </Segment>
@@ -120,12 +121,13 @@ class Navbar extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth
-  }
-}
+  };
+};
 
 export default connect(
-  mapStateToProps, { logout })(Navbar);
-
+  mapStateToProps,
+  { logout }
+)(Navbar);

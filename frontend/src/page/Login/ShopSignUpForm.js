@@ -222,7 +222,7 @@ class ShopSignUpForm extends React.Component {
               placeholder="Shop Name"
             />
             <Header as="h3" color="black" textAlign="center">
-              DETAIL INFOcurrentValues
+              DETAIL INFO
             </Header>
             <Header as="h4" color="black" textAlign="left">
               District:
@@ -232,6 +232,8 @@ class ShopSignUpForm extends React.Component {
               component={SelectField}
               options={districtOptions}
               placeholder="district of your barber shop"
+              values={true}
+              value="hi"
             />
 
             <Header as="h4" color="black" textAlign="left">

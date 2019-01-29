@@ -5,7 +5,7 @@ import ShopProfile from "./ShopProfile";
 import ShopUpcoming from './ShopUpcoming'
 import ShopPrevious from './ShopPrevious'
 import ShopSettings from './ShopSettings'
-import ShopServiceSettings from './ShopServiceSettings'
+import ShopServicePage from './ShopServicePage'
 
 export default class ShopMenuWithContent extends Component {
   state = { activeItem: "Profile" };
@@ -25,7 +25,7 @@ export default class ShopMenuWithContent extends Component {
         case "Account Settings":
           return <ShopSettings />
         case "Service Settings":
-          return <ShopServiceSettings />
+          return <ShopServicePage />
         default:
           return <ShopProfile />;
       }

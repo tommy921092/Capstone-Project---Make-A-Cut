@@ -1,35 +1,35 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import validator from "validator";
+// import validator from "validator";
 import { Button, Form, Header, Icon, Message, Image } from "semantic-ui-react";
 import { TimeInput } from "semantic-ui-calendar-react";
-const validate = values => {
-  const errors = {};
-  // contact validation
-  if (!values.contactNumber) {
-    errors.contactNumber = "Contact number is Required";
-  } else if (!validator.isMobilePhone(values.contactNumber)) {
-    errors.contactNumber =
-      "Your contact number should be in correct format(only contains number)";
-  }
-  // email validation
-  if (!values.email) {
-    errors.email = "Email is Required";
-  } else if (!validator.isEmail(values.email)) {
-    errors.email = `Please include @ in the email address, ${
-      values.email
-    } is missing an @`;
-  }
-  // password validation
-  if (!values.password) {
-    errors.password = "Password is Required";
-  }
+// const validate = values => {
+//   const errors = {};
+//   // contact validation
+//   if (!values.contactNumber) {
+//     errors.contactNumber = "Contact number is Required";
+//   } else if (!validator.isMobilePhone(values.contactNumber)) {
+//     errors.contactNumber =
+//       "Your contact number should be in correct format(only contains number)";
+//   }
+//   // email validation
+//   if (!values.email) {
+//     errors.email = "Email is Required";
+//   } else if (!validator.isEmail(values.email)) {
+//     errors.email = `Please include @ in the email address, ${
+//       values.email
+//     } is missing an @`;
+//   }
+//   // password validation
+//   if (!values.password) {
+//     errors.password = "Password is Required";
+//   }
 
-  if (!values.name) {
-    errors.name = "Shop name is Required";
-  }
-  return errors;
-};
+//   if (!values.name) {
+//     errors.name = "Shop name is Required";
+//   }
+//   return errors;
+// };
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },
   { text: "Eastern", value: "Eastern" },

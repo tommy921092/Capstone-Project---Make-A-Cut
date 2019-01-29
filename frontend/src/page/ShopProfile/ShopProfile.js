@@ -1,5 +1,5 @@
 import React from "react";
-import { Item, Image } from "semantic-ui-react";
+import { Item, Image, Label } from "semantic-ui-react";
 
 class ShopProfile extends React.Component {
   constructor(props) {
@@ -9,6 +9,7 @@ class ShopProfile extends React.Component {
     return (
       <Item>
         <Item.Image
+          rounded
           size="medium"
           src="https://react.semantic-ui.com/images/wireframe/image.png"
         />
@@ -18,6 +19,11 @@ class ShopProfile extends React.Component {
           <Item.Description>
             <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
           </Item.Description>
+          <Item.Extra>
+            <Label>tag1</Label>
+            <Label>tag2</Label>
+            <Label>tag3</Label>
+          </Item.Extra>
         </Item.Content>
       </Item>
     );
@@ -25,3 +31,19 @@ class ShopProfile extends React.Component {
 }
 
 export default ShopProfile;
+
+/*
+      <Item key={l.id}>
+      <Item.Image size='small' rounded src={l.avatar} />
+      <Item.Content>
+        <Item.Header as='a'>{l.name}</Item.Header>
+        <Item.Meta>
+          <span>{l.street}</span>
+        </Item.Meta>
+        <Item.Description>{paragraph}</Item.Description>
+        <Item.Extra>
+          <Label>{l.tag}</Label>
+        </Item.Extra>
+      </Item.Content>
+    </Item>
+*/
