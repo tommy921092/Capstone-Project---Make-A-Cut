@@ -3,33 +3,9 @@ import React from "react";
 // import validator from "validator";
 import { Button, Form, Header, Icon, Message, Image } from "semantic-ui-react";
 import { TimeInput } from "semantic-ui-calendar-react";
-// const validate = values => {
-//   const errors = {};
-//   // contact validation
-//   if (!values.contactNumber) {
-//     errors.contactNumber = "Contact number is Required";
-//   } else if (!validator.isMobilePhone(values.contactNumber)) {
-//     errors.contactNumber =
-//       "Your contact number should be in correct format(only contains number)";
-//   }
-//   // email validation
-//   if (!values.email) {
-//     errors.email = "Email is Required";
-//   } else if (!validator.isEmail(values.email)) {
-//     errors.email = `Please include @ in the email address, ${
-//       values.email
-//     } is missing an @`;
-//   }
-//   // password validation
-//   if (!values.password) {
-//     errors.password = "Password is Required";
-//   }
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
-//   if (!values.name) {
-//     errors.name = "Shop name is Required";
-//   }
-//   return errors;
-// };
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },
   { text: "Eastern", value: "Eastern" },
@@ -66,14 +42,18 @@ class ShopSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      options,
+      options:[],
       numImage: 0,
-      mainPhoto: null,
-      otherPhoto: null,
-      tag: "",
       nameError: false,
       success: false,
-      isDisable: true
+      isDisable: true,
+      description: "",
+      address: "",
+      district: [],
+      shopname: "",
+      mainPhoto: "",
+      openTime: "",
+      closeTime: ""
     };
     // This binding is necessary to make `this` work in the callback
     this.handleEdit = this.handleEdit.bind(this);
@@ -112,10 +92,42 @@ class ShopSettings extends React.Component {
   handleResetPW = () => {
     console.log("resetPW");
   };
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     console.log(this.state);
+    // let data ={
+    //   shopname: this.state.shopname,
+    //   address: this.state.district,
+    //   tag: this.state.options,
+
+    // }
+    // axios.post(`/api/shopProfile`,data)
     this.setState({ success: true });
   };
+
+  componentDidMount() {
+    let token = localStorage.getItem("jwtToken");
+    let id = jwtDecode(token).id;
+    axios.get(`/api/shopProfile/${id}`).then(result => {
+      console.log(result.data[0]);
+      this.setState({
+        shopname: result.data[0].shopname,
+        address: result.data[0].address_2,
+        district: result.data[0].address,
+        tag: result.data[0].tag,
+        contactNumber: result.data[0].tel,
+        mainPhoto: result.data[0].photo[0],
+        otherPhoto: result.data[0].photo.filter(
+          ele => ele != result.data[0].photo[0]
+        ),
+        averageFee: result.data[0].pricerange,
+        website: result.data[0].website,
+        description: result.data[0].description,
+        openTime: result.data[0].openhour,
+        closeTime: result.data[0].closehour
+      });
+    });
+  }
   render() {
     //values for tags
     const imageChildren = [];
@@ -158,6 +170,7 @@ class ShopSettings extends React.Component {
                 labelPosition="left"
                 placeholder="Email"
                 disabled
+                value={this.state.email}
               />
             </Form.Field>
             <Header as="h3" color="black" textAlign="center">
@@ -172,6 +185,7 @@ class ShopSettings extends React.Component {
                 onChange={this.handleChange}
                 error={this.state.nameError}
                 disabled={this.state.isDisable}
+                value={this.state.shopname}
               />
             </Form.Field>
             <Header as="h3" color="black" textAlign="center">
@@ -184,6 +198,7 @@ class ShopSettings extends React.Component {
                 placeholder="District"
                 disabled={this.state.isDisable}
                 options={districtOptions}
+                defaultValue={this.state.district}
               />
             </Form.Field>
             <Form.Field>
@@ -200,10 +215,10 @@ class ShopSettings extends React.Component {
                 fluid
                 multiple
                 allowAdditions
-                value={this.state.tag}
                 onAddItem={this.handleAddition}
                 onChange={this.handleChange}
                 disabled={this.state.isDisable}
+                defaultValue={['1','2']}
               />
             </Form.Field>
 
@@ -216,12 +231,19 @@ class ShopSettings extends React.Component {
                 labelPosition="left"
                 placeholder="Contact Number"
                 disabled={this.state.isDisable}
+                value={this.state.contactNumber}
               />
             </Form.Field>
 
             <Form.Field>
               <label>Website</label>
-              <Form.Input name="website" placeholder="Website" disabled={this.state.isDisable} />
+              <Form.Input
+                name="website"
+                placeholder="Website"
+                disabled={this.state.isDisable}
+                value={this.state.website}
+                onChange={this.handleChange}
+              />
             </Form.Field>
 
             <Form.Field>
@@ -254,6 +276,7 @@ class ShopSettings extends React.Component {
                 disabled={this.state.isDisable}
                 options={feeOptions}
                 disabled={this.state.isDisable}
+                value={this.state.averageFee}
               />
             </Form.Field>
             <Form.Group />
@@ -271,8 +294,14 @@ class ShopSettings extends React.Component {
                 <i class="ui upload icon" />
                 Main Photo
               </label>
-              <Image size="medium" alt="no image" src={this.state.mainPhoto} />
-              <Form.Input name="mainPhoto" type="file" onChange={this.handleMainPhotoChange} disabled={this.state.isDisable}/>
+              <Image size="medium" alt="no image" src={(!this.state.mainPhoto.indexOf('blob') ? this.state.mainPhoto : `/img/upload/${this.state.mainPhoto}`)} />
+              <Form.Input
+                name="mainPhoto"
+                type="file"
+                
+                onChange={this.handleMainPhotoChange}
+                disabled={this.state.isDisable}
+              />
             </Form.Field>
 
             <Header as="h4" color="black" textAlign="left">

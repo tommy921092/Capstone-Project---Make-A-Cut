@@ -9,10 +9,7 @@ class ShopServicePage extends React.Component {
   };
   render() {
     return (
-      <div
-        className="ui stacked segment"
-        style={{ maxWidth: 600, margin: "0 auto" }}
-      >
+      <div>
         <Header as="h3" color="black" textAlign="center">
           SERVICES
         </Header>

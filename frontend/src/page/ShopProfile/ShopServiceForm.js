@@ -1,12 +1,12 @@
 import React from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
-import { Button, Icon } from "semantic-ui-react";
+import { Button, Icon, Form } from "semantic-ui-react";
 import { InputField } from "react-semantic-redux-form";
 import validate from "./validate";
 import { connect } from "react-redux";
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
-  <div>
+  <div style={{display:'inline-block'}}>
     <div>
       <label>{label}</label>
       <Field {...input} type={type} component={InputField} />

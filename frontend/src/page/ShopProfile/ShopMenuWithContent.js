@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Grid, Menu, Segment } from "semantic-ui-react";
 
-import ShopProfile from "./ShopProfile";
-import ShopUpcoming from './ShopUpcoming'
-import ShopPrevious from './ShopPrevious'
-import ShopSettings from './ShopSettings'
-import ShopServicePage from './ShopServicePage'
+import ShopUpcoming from "./ShopUpcoming";
+import ShopPrevious from "./ShopPrevious";
+import ShopSettings from "./ShopSettings";
+import ShopServicePage from "./ShopServicePage";
 
 export default class ShopMenuWithContent extends Component {
   state = { activeItem: "Profile" };
@@ -16,18 +15,16 @@ export default class ShopMenuWithContent extends Component {
     const { activeItem } = this.state;
     const getContent = () => {
       switch (activeItem) {
-        case "Profile":
-          return <ShopProfile />;
         case "Upcoming Booking":
-          return <ShopUpcoming />
+          return <ShopUpcoming />;
         case "Previous Booking":
-          return <ShopPrevious />
+          return <ShopPrevious />;
         case "Account Settings":
-          return <ShopSettings />
+          return <ShopSettings />;
         case "Service Settings":
-          return <ShopServicePage />
+          return <ShopServicePage />;
         default:
-          return <ShopProfile />;
+          return <ShopSettings />;
       }
     };
     return (
@@ -35,8 +32,8 @@ export default class ShopMenuWithContent extends Component {
         <Grid.Column width={4}>
           <Menu fluid vertical tabular>
             <Menu.Item
-              name="Profile"
-              active={activeItem === "Profile"}
+              name="Account Settings"
+              active={activeItem === "Account Settings"}
               onClick={this.handleItemClick}
             />
             <Menu.Item
@@ -49,11 +46,7 @@ export default class ShopMenuWithContent extends Component {
               active={activeItem === "Previous Booking"}
               onClick={this.handleItemClick}
             />
-            <Menu.Item
-              name="Account Settings"
-              active={activeItem === "Account Settings"}
-              onClick={this.handleItemClick}
-            />
+
             <Menu.Item
               name="Service Settings"
               active={activeItem === "Service Settings"}

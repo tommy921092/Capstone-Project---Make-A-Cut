@@ -11,6 +11,7 @@ const knex = require("knex")({
 });
 
 let router = express.Router();
+//async validation in user sign up page
 router.get("/", (req, res) => {
   if (req.query.username || req.query.email) {
     knex("users")
@@ -32,6 +33,7 @@ router.get("/", (req, res) => {
   }
 });
 
+//handle register form post request to insert data to DB
 router.post("/", (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, 10);
   console.log(req.body);

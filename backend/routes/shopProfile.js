@@ -12,9 +12,9 @@ const knex = require("knex")({
 let router = express.Router();
 
 router.get("/:id", (req, res) => {
-  let userid = req.params.id;
-  knex("users")
-    .where({ id: userid })
+  let shopid = req.params.id;
+  knex("shop")
+    .where({ id: shopid })
     .then(rows => {
       res.send(rows);
     })

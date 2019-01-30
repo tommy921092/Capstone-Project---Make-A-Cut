@@ -8,6 +8,7 @@ const user = require("./routes/users");
 const auth = require("./routes/auth");
 const shop = require("./routes/shop");
 const userProfile = require('./routes/userProfile');
+const shopProfile = require('./routes/shopProfile');
 
 let app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/users", user);
 app.use("/api/auth", auth);
 // app.use('/api/events', event)
 app.use("/api/user/profile", userProfile);
+app.use("/api/shopProfile", shopProfile);
 // require("./routes/billing")(app); // for stripe api
 app.use("/api/shop", shop);
 

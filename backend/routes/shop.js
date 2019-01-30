@@ -53,6 +53,7 @@ router.post("/", upload.any(), (req, res, next) => {
   };
   let dataForShop = {
     address: req.body.district || null,
+    address_2: req.body.address || null,
     shopname: req.body.name || null,
     tag: req.body.tag ? req.body.tag.split(",") : null || null,
     pricerange: req.body.averageFee || null,

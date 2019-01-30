@@ -1,5 +1,5 @@
 import React from "react";
-import { Item, Form, Input, Button, Message } from "semantic-ui-react";
+import { Item, Form, Input, Button, Message, Divider } from "semantic-ui-react";
 // import validator from "validator";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -51,14 +51,13 @@ class UserProfile extends React.Component {
   componentDidMount() {
     let token = localStorage.getItem('jwtToken');
     let id = jwtDecode(token).id;
-    axios.get(`/api/user/profile/${id}`, result => {
-      //????
-
+    axios.get(`/api/user/profile/${id}`).then(result => {
+      console.log(result.data[0])
       this.setState({
-        userName: result.data.username,
-        fullName: result.data.fullname,
-        email: result.data.email,
-        contactNumber: result.data.tel
+        username: result.data[0].username,
+        fullName: result.data[0].fullname,
+        email: result.data[0].email,
+        contactNumber: result.data[0].tel
       });
     });
   }
@@ -140,7 +139,7 @@ class UserProfile extends React.Component {
                     placeholder="Contact Number"
                     disabled={this.state.isDisable}
                     value={this.state.contactNumber}
-                    onChange={this.state.ContactNumber}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 
@@ -151,18 +150,20 @@ class UserProfile extends React.Component {
                     placeholder="District"
                     disabled={this.state.isDisable}
                     options={districtOptions}
-                    onChange={this.state.district}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 
                 <Form.Field>
                   <label>Age</label>
                   <Form.Input
+                    parse={value=>Number(value)}
                     name="age"
                     placeholder="age"
+                    type="number"
                     disabled={this.state.isDisable}
                     value={this.state.age}
-                    onChange={this.state.age}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 

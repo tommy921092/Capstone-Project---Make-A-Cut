@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.boolean("valid").defaultTo(true);
     table.string("shopname");
     table.string("address");
+    table.string("address_2");
     table.specificType("tag", "text[]");
     table.string("pricerange");
     table.string("tel");
