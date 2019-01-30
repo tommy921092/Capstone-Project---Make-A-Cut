@@ -9,15 +9,22 @@ import {
   Visibility,
   Icon
 } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { logout } from '../actions/userAuthAction';
+import queryString from 'query-string';
+import axios from 'axios';
 
 import { locationOptions } from '../page/HomePage/HomePage';
+import './Navbar.css';
 
 class Navbar extends Component {
 
-  state = { activeItem: "home" };
+  state = {
+    activeItem: "home",
+    searchNameField: "",
+    isOpen: false
+  };
 
   hideFixedMenu = () => this.setState({ fixed: false });
   showFixedMenu = () => this.setState({ fixed: true });
@@ -124,6 +131,7 @@ class Navbar extends Component {
                 <Dropdown item name='search' text='Search' className='link'
                   active={activeItem === 'search'}
                   onClick={this.handleItemClick}
+                  simple scrolling
                 >
                   <Dropdown.Menu>
                     <Input onKeyPress={this.handleKeyPress} onChange={this.handleOnChange} icon='search' placeholder='Search By Name' />
@@ -133,7 +141,7 @@ class Navbar extends Component {
                       options={locationOptions}
                       placeholder='Search district'
                       name='district'
-                      selection
+                      selection scrolling
                     />
                   </Dropdown.Menu>
                 </Dropdown>
@@ -160,6 +168,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(
-  mapStateToProps, { logout })(Navbar);
+export default withRouter(connect(
+  mapStateToProps, { logout })(Navbar));
 
