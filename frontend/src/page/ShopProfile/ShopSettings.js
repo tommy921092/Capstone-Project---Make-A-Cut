@@ -51,14 +51,18 @@ class ShopSettings extends React.Component {
       address: "",
       district: "",
       shopname: "",
+      tag: [],
       email: "",
       mainPhoto: "",
+      otherPhoto: [],
       openTime: "",
-      closeTime: ""
+      closeTime: "",
+      contactNumber: ""
     };
     // This binding is necessary to make `this` work in the callback
     this.handleEdit = this.handleEdit.bind(this);
     this.handleMainPhotoChange = this.handleMainPhotoChange.bind(this);
+    this.handleOtherPhotoChange = this.handleOtherPhotoChange.bind(this);
   }
 
   handleAddition = (e, { value }) => {
@@ -74,6 +78,14 @@ class ShopSettings extends React.Component {
   handleMainPhotoChange(event) {
     this.setState({
       mainPhoto: URL.createObjectURL(event.target.files[0])
+    });
+  }
+  handleOtherPhotoChange(event) {
+    this.setState({
+      otherPhoto: [
+        ...this.state.otherPhoto,
+        /[^/]*$/.exec(`${URL.createObjectURL(event.target.files[0])}.jpg`)[0]
+      ]
     });
   }
 
@@ -95,15 +107,24 @@ class ShopSettings extends React.Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
-    // let data ={
-    //   shopname: this.state.shopname,
-    //   address: this.state.district,
-    //   tag: this.state.options,
-
-    // }
-    // axios.post(`/api/shopProfile`,data)
     this.setState({ success: true });
+    let token = localStorage.getItem("jwtToken");
+    let id = jwtDecode(token).id;
+    console.log(id);
+    let data = {
+      shopname: this.state.shopname,
+      address: this.state.district,
+      address_2: this.state.address,
+      tel: this.state.contactNumber,
+      website: this.state.website,
+      pricerange: this.state.averageFee,
+      tag: this.state.options.map(e => e.value),
+      openhour: this.state.openTime,
+      closehour: this.state.closehour,
+      description: this.state.description
+    };
+    console.log(data);
+    // axios.put(`/api/shopProfile/${id}`, data);
   };
 
   componentDidMount() {
@@ -116,7 +137,9 @@ class ShopSettings extends React.Component {
         shopname: result.data[0].shopname,
         address: result.data[0].address_2,
         district: result.data[0].address,
-        tag: result.data[0].tag,
+        options: result.data[0].tag.map(e => {
+          return { text: e, value: e };
+        }),
         contactNumber: result.data[0].tel,
         mainPhoto: result.data[0].photo[0],
         otherPhoto: result.data[0].photo.filter(
@@ -126,22 +149,32 @@ class ShopSettings extends React.Component {
         website: result.data[0].website,
         description: result.data[0].description,
         openTime: result.data[0].openhour,
-        closeTime: result.data[0].closehour
+        closeTime: result.data[0].closehour,
+        numImage: result.data[0].photo.length
       });
     });
   }
   render() {
     //values for tags
     const imageChildren = [];
-    for (var i = 0; i < this.state.numImage; i += 1) {
+    for (var i = 0; i < this.state.numImage - 1; i++) {
       imageChildren.push(
         <Form.Field>
           <Image
             size="medium"
             alt="no image"
-            src="https://react.semantic-ui.com/images/wireframe/image.png"
+            src={
+              !this.state.otherPhoto.indexOf("blob")
+                ? this.state.otherPhoto[i]
+                : `/img/upload/${this.state.otherPhoto[i]}`
+            }
           />
-          <Form.Input key={i} name="otherImage" type="file" />
+          <Form.Input
+            key={i}
+            name="otherImage"
+            type="file"
+            onChange={this.handleOtherPhotoChange}
+          />
         </Form.Field>
       );
     }
@@ -204,6 +237,17 @@ class ShopSettings extends React.Component {
               />
             </Form.Field>
             <Form.Field>
+              <label>Shop Name</label>
+              <Form.Input
+                name="address"
+                labelPosition="left"
+                placeholder="address"
+                onChange={this.handleChange}
+                disabled={this.state.isDisable}
+                value={this.state.address}
+              />
+            </Form.Field>
+            <Form.Field>
               <label>
                 ADD TAGS HERE FOR YOUR SHOP(max 5 tags and each with less than
                 10 characters)
@@ -218,9 +262,8 @@ class ShopSettings extends React.Component {
                 multiple
                 allowAdditions
                 onAddItem={this.handleAddition}
-                onChange={this.handleChange}
                 disabled={this.state.isDisable}
-                defaultValue={["1", "2"]}
+                onChange={this.handleChange}
               />
             </Form.Field>
 
@@ -263,8 +306,8 @@ class ShopSettings extends React.Component {
             <Form.Field>
               <label>Closing time</label>
               <TimeInput
-                name="openTime"
-                placeholder="openTime"
+                name="closeTime"
+                placeholder="closeTime"
                 value={this.state.closeTime}
                 iconPosition="left"
                 onChange={this.handleCloseTimeChange}
