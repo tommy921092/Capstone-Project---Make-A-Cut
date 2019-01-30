@@ -109,9 +109,10 @@ class ShopSettings extends React.Component {
   componentDidMount() {
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
-    axios.get(`/api/shopProfile/shop/${id}`).then(result => {
+    axios.get(`/api/shopProfile/${id}`).then(result => {
       console.log(result.data[0]);
       this.setState({
+        email: result.data[0].email,
         shopname: result.data[0].shopname,
         address: result.data[0].address_2,
         district: result.data[0].address,
@@ -126,13 +127,6 @@ class ShopSettings extends React.Component {
         description: result.data[0].description,
         openTime: result.data[0].openhour,
         closeTime: result.data[0].closehour
-      });
-    });
-
-    axios.get(`/api/shopProfile/merchant/${id}`).then(result => {
-      console.log(result.data[0]);
-      this.setState({
-        email: result.data[0].email
       });
     });
   }

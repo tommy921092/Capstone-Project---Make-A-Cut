@@ -11,22 +11,26 @@ const knex = require("knex")({
 
 let router = express.Router();
 
-router.get("/shop/:id", (req, res) => {
-  let shopid = req.params.id;
-  knex("shop")
-    .where({ id: shopid })
-    .then(rows => {
-      res.send(rows);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
-router.get("/merchant/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   let merchantid = req.params.id;
   knex("merchant")
-    .where({ id: merchantid })
+    .select(
+      "merchant.email",
+      "shop.shopname",
+      "shop.address",
+      "shop.address_2",
+      "shop.tag",
+      "shop.pricerange",
+      "shop.tel",
+      "shop.website",
+      "shop.photo",
+      "shop.openhour",
+      "shop.closehour",
+      "shop.restday",
+      "shop.description"
+    )
+    .innerJoin("shop", "merchant.id", "shop._merchantid")
+    .where("merchant.id", 1)
     .then(rows => {
       res.send(rows);
     })
