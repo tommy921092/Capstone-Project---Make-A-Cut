@@ -5,10 +5,13 @@ const appID = process.env.REACT_APP_API_KEY;
 
 class Map extends Component {
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, _prevState) {
+    // console.log(prevProps.list);
+    // console.log(this.props.list);
     // console.log(appID)
-    // console.log(this.props)
-    this.renderMap()
+    if(prevProps.list !== this.props.list){
+      this.renderMap()
+    }
   }
 
   renderMap = () => {
@@ -19,9 +22,9 @@ class Map extends Component {
   initMap = () => {
 
     // create a map
-    var point = { lat: 2, lng: -86 };
+    var point = { lat: 22.2990446, lng: 114.1639289 };
     // Add window.google... to fix is not defined error
-    var map = new window.google.maps.Map(document.getElementById('map'), { zoom: 3, center: point });
+    var map = new window.google.maps.Map(document.getElementById('map'), { zoom: 14, center: point });
 
     // create an info window
     var infoWindow = new window.google.maps.InfoWindow()

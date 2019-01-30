@@ -20,9 +20,9 @@ router.get('', (req, res) => {
       .then((rows) => {
         console.log(rows);
         if (rows.length > 0) {
-          res.json(rows)
+          res.json(rows);
         } else {
-          res.send('OK')
+          res.json([]);
         }
       })
   } else {
