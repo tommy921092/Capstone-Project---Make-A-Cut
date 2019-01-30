@@ -10,7 +10,9 @@ const knex = require("knex")({
 const keys = require("../.env");
 const stripe = require("stripe")(keys.stripeSecretKey);
 
+
 module.exports = app => {
+  //post request with token send to api for verification
   app.post("/api/stripe", async (req, res) => {
     //function for actually charge the user
     const charge = await stripe.charges.create({
@@ -22,6 +24,6 @@ module.exports = app => {
     //   req.user.credits += 5;
     //   const user = await req.user.save();
     // do something for knex DB
-    res.send(user);
+    // res.send(user);
   });
 };

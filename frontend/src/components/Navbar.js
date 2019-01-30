@@ -5,11 +5,14 @@ import {
   Container,
   Responsive,
   Visibility,
-  Icon
+  Icon,
+  Image
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../actions/userAuthAction";
+import { SingleSelectionPicker } from "semantic-ui-calendar-react/dist/pickers/BasePicker";
+import logo from '../sign.png'
 
 class Navbar extends Component {
   state = { activeItem: "home" };
@@ -85,6 +88,9 @@ class Navbar extends Component {
               secondary={!fixed}
             >
               <Container>
+                {/* <Menu.Item header>
+                  <Image src={logo} size="small" />
+                </Menu.Item> */}
                 <Menu.Item
                   as={Link}
                   to="/"
