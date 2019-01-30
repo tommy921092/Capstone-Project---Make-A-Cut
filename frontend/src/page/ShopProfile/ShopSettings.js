@@ -119,7 +119,7 @@ class ShopSettings extends React.Component {
       pricerange: this.state.averageFee,
       tag: this.state.options.map(e => e.value),
       openhour: this.state.openTime,
-      closehour: this.state.closehour,
+      closehour: this.state.closeTime,
       description: this.state.description
     };
     axios.put(`/api/shopProfile/${id}`, data);
