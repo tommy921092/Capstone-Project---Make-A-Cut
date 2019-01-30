@@ -37,7 +37,7 @@ class UserProfile extends React.Component {
       fullName: "",
       email: "",
       contactNumber: "",
-      age: '',
+      age: "",
       district: "",
       usernameError: false,
       fullNameError: false
@@ -78,12 +78,21 @@ class UserProfile extends React.Component {
     console.log("resetPW");
   };
   //handle save button
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     //if saved with no error return successfully saved message
-    console.log('the state: ',this.state);
+    console.log("the state: ", this.state);
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
     this.setState({ success: true });
+    let data = {
+      username: this.state.username,
+      fullname: this.state.fullName,
+      age: this.state.age,
+      tel: this.state.contactNumber,
+      district: this.state.district
+    };
+    axios.put(`/api/userProfile/${id}`, data);
   };
 
   render() {

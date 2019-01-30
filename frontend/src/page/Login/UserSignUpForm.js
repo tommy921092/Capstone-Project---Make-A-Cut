@@ -3,7 +3,7 @@ import { Field, reduxForm } from "redux-form";
 // import PropTypes from "prop-types";
 import validator from "validator";
 import { Button, Form, Header, Icon, Divider } from "semantic-ui-react";
-import { LabelInputField, SelectField } from "react-semantic-redux-form";
+import { LabelInputField, SelectField, Upload } from "react-semantic-redux-form";
 import { connect } from "react-redux";
 
 import { userSignupRequest } from "../../actions/userSignupAction";
@@ -119,8 +119,10 @@ class UserSignUpForm extends Component {
       password: this.props.formInput.values.password,
       tel: this.props.formInput.values.contactNumber,
       age: this.props.formInput.values.age,
-      district: this.props.formInput.values.district
+      district: this.props.formInput.values.district,
+      profilepic: this.props.formInput.values.profilepic[0]
     };
+    console.log('user sign up data', data);
     this.props
       //action creator to handle user sign up request with form data input
       .userSignupRequest(data)
@@ -239,6 +241,10 @@ class UserSignUpForm extends Component {
               labelPosition="left"
               placeholder="district"
             />
+            <Header as="h4" color="black" textAlign="left">
+              Profile pic:
+            </Header>
+            <Field name="profilepic" required component={Upload} type="file" />
             <Form.Group />
             <Form.Field
               control={Button}
