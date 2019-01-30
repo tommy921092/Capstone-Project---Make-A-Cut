@@ -9,9 +9,30 @@ import UserComment from './UserComment'
 
 import 'pure-react-carousel/dist/react-carousel.es.css'
 
+import axios from 'axios'
+
 
 
 export default class ShopdetailPage extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            shopData:[]
+        }
+    }
+
+    componentDidMount(){
+       axios.get(`/api/shop/${this.props.match.params.shopid}`)
+       .then((result)=>{
+           let shopData = result.data[0]
+           this.setState({
+               shopData
+           })
+       })
+       .catch((err)=>{
+           console.log(err)
+       })
+    }
 
     render() {
         return (

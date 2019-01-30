@@ -54,14 +54,15 @@ class SearchResults extends Component {
 
     axios.get(`/api/search?name=${name.name}`)
       .then((result) => {
-        // console.log(result);
         const searchListing = result.data;
         this.setState({
           searchListing
         });
-        console.log(this.state.searchListing);
       }).catch((error) => {
         console.log(error);
+        this.setState(
+          {searchListing: []}
+        )
       })
     }
   }
@@ -81,7 +82,7 @@ class SearchResults extends Component {
               <Grid.Column width={6} style={{ overflow: 'auto', maxHeight: '80vh' }}>
                 <Item.Group link divided>
 
-                  {this.state.searchListing.map(l =>
+                  {this.state.searchListing.length > 0 ? this.state.searchListing.map(l =>
                     <Item key={l.id}>
                       <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
                       <Item.Content>
@@ -103,7 +104,7 @@ class SearchResults extends Component {
                         </Item.Extra>
                       </Item.Content>
                     </Item>
-                  )}
+                  ) : "No Result"}
 
                 </Item.Group>
               </Grid.Column>

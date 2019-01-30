@@ -166,8 +166,10 @@ UserLoginForm = withRouter(connect(
   mapStateToProps, { userLogin, loginFacebook, loginGoogle }
 )(UserLoginForm))
 
-
-export default reduxForm({
+UserLoginForm = reduxForm({
   form: "userLoginForm", // a unique identifier for this form
   validate
-})(UserLoginForm);
+})(UserLoginForm)
+
+
+export default UserLoginForm;

@@ -18,7 +18,7 @@ const router = express.Router();
 const R = require("ramda");
 
 // Helper function //
-var takeFileName = function(x) {
+var takeFileName = function (x) {
   if (R.contains(".")(x.originalname)) {
     var extentsionName = R.last(R.split(".")(x.originalname));
   } else {
@@ -30,7 +30,7 @@ var takeFileName = function(x) {
   fs.renameSync(
     "./public/img/upload/" + x.filename,
     "./public/img/upload/" + newFileName,
-    function(err) {
+    function (err) {
       if (err) {
         throw err;
       }
@@ -40,10 +40,6 @@ var takeFileName = function(x) {
   return newFileName;
 };
 // -------------- //
-
-router.get("/", (req, res) => {
-  res.send("OK to shop API");
-});
 
 router.post("/", upload.any(), (req, res, next) => {
   let photoArrayResult = R.map(takeFileName)(req.files); // This is the image array
@@ -84,5 +80,14 @@ router.post("/", upload.any(), (req, res, next) => {
       });
   });
 });
+
+router.get("/:shopid", (req, res) => {
+  if(req.params.shopid){
+    knex('shop').where('id', req.params.shopid)
+    .then((rows)=>{
+      res.send(rows)
+    })
+  }
+})
 
 module.exports = router;

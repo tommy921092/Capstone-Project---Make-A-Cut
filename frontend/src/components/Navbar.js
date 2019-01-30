@@ -129,7 +129,6 @@ class Navbar extends Component {
                 />
 
                 <Dropdown item name='search' text='Search' className='link'
-                  active={activeItem === 'search'}
                   onClick={this.handleItemClick}
                   simple scrolling
                 >
