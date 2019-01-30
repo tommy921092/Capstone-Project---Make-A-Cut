@@ -3,7 +3,7 @@ import { Item, Form, Input, Button, Message, Divider } from "semantic-ui-react";
 // import validator from "validator";
 import { connect } from "react-redux";
 import axios from "axios";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },
@@ -35,10 +35,10 @@ class UserProfile extends React.Component {
       success: false,
       username: "",
       fullName: "",
-      email: '',
-      contactNumber: '',
-      age: null,
-      district: '',
+      email: "",
+      contactNumber: "",
+      age: '',
+      district: "",
       usernameError: false,
       fullNameError: false
     };
@@ -49,15 +49,17 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    let token = localStorage.getItem('jwtToken');
+    let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
-    axios.get(`/api/user/profile/${id}`).then(result => {
-      console.log(result.data[0])
+    axios.get(`/api/userProfile/${id}`).then(result => {
+      console.log(result.data[0]);
       this.setState({
         username: result.data[0].username,
         fullName: result.data[0].fullname,
         email: result.data[0].email,
-        contactNumber: result.data[0].tel
+        contactNumber: result.data[0].tel,
+        age: result.data[0].age,
+        district: result.data[0].district
       });
     });
   }
@@ -78,7 +80,9 @@ class UserProfile extends React.Component {
   //handle save button
   handleSubmit = () => {
     //if saved with no error return successfully saved message
-    console.log(this.state);
+    console.log('the state: ',this.state);
+    let token = localStorage.getItem("jwtToken");
+    let id = jwtDecode(token).id;
     this.setState({ success: true });
   };
 
@@ -147,7 +151,7 @@ class UserProfile extends React.Component {
                   <label>District</label>
                   <Form.Select
                     name="district"
-                    placeholder="District"
+                    placeholder={this.state.district}
                     disabled={this.state.isDisable}
                     options={districtOptions}
                     onChange={this.handleChange}
@@ -157,7 +161,7 @@ class UserProfile extends React.Component {
                 <Form.Field>
                   <label>Age</label>
                   <Form.Input
-                    parse={value=>Number(value)}
+                    parse={value => Number(value)}
                     name="age"
                     placeholder="age"
                     type="number"

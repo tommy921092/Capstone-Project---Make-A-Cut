@@ -42,15 +42,16 @@ class ShopSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      options:[],
+      options: [],
       numImage: 0,
       nameError: false,
       success: false,
       isDisable: true,
       description: "",
       address: "",
-      district: [],
+      district: "",
       shopname: "",
+      email: "",
       mainPhoto: "",
       openTime: "",
       closeTime: ""
@@ -108,7 +109,7 @@ class ShopSettings extends React.Component {
   componentDidMount() {
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
-    axios.get(`/api/shopProfile/${id}`).then(result => {
+    axios.get(`/api/shopProfile/shop/${id}`).then(result => {
       console.log(result.data[0]);
       this.setState({
         shopname: result.data[0].shopname,
@@ -125,6 +126,13 @@ class ShopSettings extends React.Component {
         description: result.data[0].description,
         openTime: result.data[0].openhour,
         closeTime: result.data[0].closehour
+      });
+    });
+
+    axios.get(`/api/shopProfile/merchant/${id}`).then(result => {
+      console.log(result.data[0]);
+      this.setState({
+        email: result.data[0].email
       });
     });
   }
@@ -195,10 +203,10 @@ class ShopSettings extends React.Component {
               <label>District</label>
               <Form.Select
                 name="district"
-                placeholder="District"
+                placeholder={this.state.district}
                 disabled={this.state.isDisable}
                 options={districtOptions}
-                defaultValue={this.state.district}
+                onChange={this.handleChange}
               />
             </Form.Field>
             <Form.Field>
@@ -218,7 +226,7 @@ class ShopSettings extends React.Component {
                 onAddItem={this.handleAddition}
                 onChange={this.handleChange}
                 disabled={this.state.isDisable}
-                defaultValue={['1','2']}
+                defaultValue={["1", "2"]}
               />
             </Form.Field>
 
@@ -232,6 +240,7 @@ class ShopSettings extends React.Component {
                 placeholder="Contact Number"
                 disabled={this.state.isDisable}
                 value={this.state.contactNumber}
+                onChange={this.handleChange}
               />
             </Form.Field>
 
@@ -277,6 +286,7 @@ class ShopSettings extends React.Component {
                 options={feeOptions}
                 disabled={this.state.isDisable}
                 value={this.state.averageFee}
+                onChange={this.handleChange}
               />
             </Form.Field>
             <Form.Group />
@@ -286,6 +296,8 @@ class ShopSettings extends React.Component {
                 name="description"
                 placeholder="Tell us about your shop"
                 disabled={this.state.isDisable}
+                onChange={this.handleChange}
+                value={this.state.description}
               />
             </Form.Field>
 
@@ -294,11 +306,18 @@ class ShopSettings extends React.Component {
                 <i class="ui upload icon" />
                 Main Photo
               </label>
-              <Image size="medium" alt="no image" src={(!this.state.mainPhoto.indexOf('blob') ? this.state.mainPhoto : `/img/upload/${this.state.mainPhoto}`)} />
+              <Image
+                size="medium"
+                alt="no image"
+                src={
+                  !this.state.mainPhoto.indexOf("blob")
+                    ? this.state.mainPhoto
+                    : `/img/upload/${this.state.mainPhoto}`
+                }
+              />
               <Form.Input
                 name="mainPhoto"
                 type="file"
-                
                 onChange={this.handleMainPhotoChange}
                 disabled={this.state.isDisable}
               />

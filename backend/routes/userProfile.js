@@ -23,4 +23,12 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.put("/:id", (req, res) => {
+  console.log(req.body);
+  // let userid: req.params.id;
+  // knex("users")
+  //   .update({username: username)
+  //   .where({ id: userid })
+});
+
 module.exports = router;

@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use("/api/users", user);
 app.use("/api/auth", auth);
 // app.use('/api/events', event)
-app.use("/api/user/profile", userProfile);
+app.use("/api/userProfile", userProfile);
 app.use("/api/shopProfile", shopProfile);
 // require("./routes/billing")(app); // for stripe api
 app.use("/api/shop", shop);

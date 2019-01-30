@@ -11,10 +11,22 @@ const knex = require("knex")({
 
 let router = express.Router();
 
-router.get("/:id", (req, res) => {
+router.get("/shop/:id", (req, res) => {
   let shopid = req.params.id;
   knex("shop")
     .where({ id: shopid })
+    .then(rows => {
+      res.send(rows);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get("/merchant/:id", (req, res) => {
+  let merchantid = req.params.id;
+  knex("merchant")
+    .where({ id: merchantid })
     .then(rows => {
       res.send(rows);
     })
