@@ -1,70 +1,115 @@
 import React, { Component } from 'react';
-import { Segment, Container, Grid, Image, Item, Label } from 'semantic-ui-react'
-import axios from 'axios';
-
+import { Container, Divider, Form, Grid, Icon, Image, Input, Item, Label, Segment, Select } from 'semantic-ui-react'
 import Footer from './Footer';
-
-// import ItemCard from './ItemCard';
-// import DisplayList from './DisplayList';
 import Map from './MapResult';
+import FilterButtons from './FilterButtons';
+import queryString from 'query-string';
+import axios from 'axios';
 
 import './SearchResults.css';
 
-const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+import { connect } from 'react-redux';
+import { fetchShops, fetchListings } from '../../actions/index'
 
-export default class SearchResults extends Component {
+// const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+
+class SearchResults extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      list: []
+      searchListing: []
     }
   }
 
   componentDidMount() {
-    axios.get(`https://5c4548513858aa001418c3e2.mockapi.io/api/shops/`)
-      .then(res => {
-        console.log(res.data);
-        const list = res.data;
-        this.setState(
-          { list }
-        )
+    console.log(this.props.location.search);
+    const name = queryString.parse(this.props.location.search)
+    console.log(name.name)
+
+    axios.get(`/api/search?name=${name.name}`)
+      .then((result) => {
+        // console.log(result);
+        const searchListing = result.data;
+        this.setState({
+          searchListing
+        });
+        console.log(this.state.searchListing);
+      }).catch((error) => {
+        console.log(error);
       })
-      .catch(error => {
-        console.log("ERROR! " + error)
+
+
+    // calling our async action
+    // this.props.fetchListings();
+    this.props.fetchShops()
+    console.log(this.props.state)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.location.search !== this.props.location.search){
+
+    console.log(this.props.location.search);
+    const name = queryString.parse(this.props.location.search)
+    console.log(name.name)
+
+    axios.get(`/api/search?name=${name.name}`)
+      .then((result) => {
+        // console.log(result);
+        const searchListing = result.data;
+        this.setState({
+          searchListing
+        });
+        console.log(this.state.searchListing);
+      }).catch((error) => {
+        console.log(error);
       })
+    }
   }
 
   render() {
     return (
       <Container fluid>
         <Container fluid>
-          <Segment placeholder style={{ opacity: 0.8, padding: '2rem' }}>
+          <Container style={{ paddingTop: '0' }}>
+            <FilterButtons fluid list={this.props.list} />
+          </Container>
+
+          <Segment fluid style={{ opacity: 0.8, margin: 0, padding: '2rem' }}>
+
             <Grid columns={2}>
 
               <Grid.Column width={6} style={{ overflow: 'auto', maxHeight: '80vh' }}>
                 <Item.Group link divided>
 
-                  {this.state.list.map(l =>
+                  {this.state.searchListing.map(l =>
                     <Item key={l.id}>
-                      <Item.Image size='small' rounded src={l.avatar} />
+                      <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
                       <Item.Content>
-                        <Item.Header as='a'>{l.name}</Item.Header>
+                        <Item.Header as='a'>{l.shopname}</Item.Header>
                         <Item.Meta>
-                          <span>{l.street}</span>
+                          <span>{l.address}</span>
                         </Item.Meta>
-                        <Item.Description>{paragraph}</Item.Description>
+                        <Item.Description>{l.description}</Item.Description>
+                        <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
                         <Item.Extra>
-                          <Label>{l.tag}</Label>
+                          <Tag hasTag={l.tag} />
+                          {/* <Label>{l.tag}</Label> */}
+                          <Label>
+                            <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
+                          </Label>
+                          <Label >
+                            <Icon name='hourglass half' style={{ margin: 'auto' }} />
+                          </Label>
                         </Item.Extra>
                       </Item.Content>
                     </Item>
-
                   )}
+
                 </Item.Group>
               </Grid.Column>
 
-              <Grid.Column width={10} verticalAlign='middle' >
-                <Map ></Map>
+              <Grid.Column width={10} verticalAlign='middle'>
+                <Map list={this.props.list} />
               </Grid.Column>
 
             </Grid>
@@ -74,3 +119,27 @@ export default class SearchResults extends Component {
     )
   }
 }
+
+// Logic for tag display
+function Tag(props) {
+  const hasTag = props.hasTag;
+  if (hasTag) {
+    // passed the prop = {l}
+    return <Label>{hasTag}</Label>
+  }
+  return (null);
+}
+
+const mapStateToProps = state => {
+  return {
+    list: state.searchResult,
+    // listing: state.searchListing 
+  }
+}
+
+export default connect(
+  mapStateToProps, {
+    fetchShops,
+    // fetchListings 
+  }
+)(SearchResults);

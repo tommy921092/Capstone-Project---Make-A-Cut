@@ -10,7 +10,7 @@ import About from './page/About/About'
 // Test only
 import Articles from './page/Articles/Articles';
 import SearchResults from './page/SearchResults/SearchResults'
-//
+import AutoSuggest from './page/SearchResults/AutoSuggest'
 
 //keep/remove redux??
 import LoginPage from "./page/Login/LoginPage";
@@ -21,13 +21,12 @@ import ShopSignUpForm from "./page/Login/ShopSignUpForm";
 import ShopdetailPage from './page/ShopdetailPage/ShopdetailPage';
 import ReservationPage from './page/ReservationPage/ReservationPage'
 
-
-
 import Page from './page/Login/Page';
 
 import UserMenuWithContent from './page/UserProfile/UserMenuWithContent';
 import ShopMenuWithContent from './page/ShopProfile/ShopMenuWithContent';
 export default (
+
   <div className="container">
     <Route exact path="/" component={HomePage} />
     <Route exact path="/login" component={LoginPage} />

@@ -1,0 +1,4 @@
+.ui.simple.dropdown:hover>.menu>.item:hover>.menu, 
+.ui.simple.dropdown>.menu>.item:active>.menu{
+    overflow: auto!important;
+}
