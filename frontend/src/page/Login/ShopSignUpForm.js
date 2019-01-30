@@ -49,6 +49,9 @@ const validate = values => {
   if (!values.district) {
     errors.district = "District is Required"
   }
+  if (!values.address) {
+    errors.address = "Address is Required"
+  }
   // description validation
   if (!values.description) {
     errors.description = 'Description is Required'
@@ -179,7 +182,7 @@ class ShopSignUpForm extends React.Component {
         <Divider style={{ width: "40%", margin: "1rem auto" }} />
         <div
           className="ui stacked segment"
-          style={{ maxWidth: 600, margin: "0 auto" }}
+          style={{ maxWidth: 450, margin: "0 auto" }}
         >
           <Form size="large" encType="multipart/form-data" onSubmit={this.onSubmit}>
             <Header as="h3" color="black" textAlign="center">
@@ -232,8 +235,15 @@ class ShopSignUpForm extends React.Component {
               component={SelectField}
               options={districtOptions}
               placeholder="district of your barber shop"
-              values={true}
-              value="hi"
+            />
+            <Header as="h4" color="black" textAlign="left">
+              Address:
+            </Header>
+            <Field
+              name="address"
+              type="text"
+              component={LabelInputField}
+              placeholder="address of your barber shop"
             />
 
             <Header as="h4" color="black" textAlign="left">

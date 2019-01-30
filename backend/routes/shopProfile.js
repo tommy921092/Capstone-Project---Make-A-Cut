@@ -12,27 +12,27 @@ const knex = require("knex")({
 let router = express.Router();
 
 router.get("/:id", (req, res) => {
-  let userid = req.params.id;
-  knex("users")
-    .where({ id: userid })
+  let merchantid = req.params.id;
+  knex("merchant")
+    .select(
+      "merchant.email",
+      "shop.shopname",
+      "shop.address",
+      "shop.address_2",
+      "shop.tag",
+      "shop.pricerange",
+      "shop.tel",
+      "shop.website",
+      "shop.photo",
+      "shop.openhour",
+      "shop.closehour",
+      "shop.restday",
+      "shop.description"
+    )
+    .innerJoin("shop", "merchant.id", "shop._merchantid")
+    .where("merchant.id", 1)
     .then(rows => {
       res.send(rows);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
-router.put("/:id", (req, res) => {
-  let userid = req.params.id;
-  console.log(req.params.id)
-  console.log(req.body);
-  knex("users")
-    .update(req.body)
-    .where({ id: userid })
-    .then(() => {
-      console.log("updated user profile");
-      res.json({ success: true });
     })
     .catch(err => {
       console.log(err);

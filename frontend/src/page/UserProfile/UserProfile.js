@@ -1,9 +1,9 @@
 import React from "react";
-import { Item, Form, Input, Button, Message } from "semantic-ui-react";
+import { Item, Form, Input, Button, Message, Divider } from "semantic-ui-react";
 // import validator from "validator";
 import { connect } from "react-redux";
 import axios from "axios";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },
@@ -35,10 +35,10 @@ class UserProfile extends React.Component {
       success: false,
       username: "",
       fullName: "",
-      email: '',
-      contactNumber: '',
-      age: null,
-      district: '',
+      email: "",
+      contactNumber: "",
+      age: "",
+      district: "",
       usernameError: false,
       fullNameError: false
     };
@@ -49,16 +49,17 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    let token = localStorage.getItem('jwtToken');
+    let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
-    axios.get(`/api/user/profile/${id}`, result => {
-      //????
-
+    axios.get(`/api/userProfile/${id}`).then(result => {
+      console.log(result.data[0]);
       this.setState({
-        userName: result.data.username,
-        fullName: result.data.fullname,
-        email: result.data.email,
-        contactNumber: result.data.tel
+        username: result.data[0].username,
+        fullName: result.data[0].fullname,
+        email: result.data[0].email,
+        contactNumber: result.data[0].tel,
+        age: result.data[0].age,
+        district: result.data[0].district
       });
     });
   }
@@ -77,10 +78,21 @@ class UserProfile extends React.Component {
     console.log("resetPW");
   };
   //handle save button
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     //if saved with no error return successfully saved message
-    console.log(this.state);
+    console.log("the state: ", this.state);
+    let token = localStorage.getItem("jwtToken");
+    let id = jwtDecode(token).id;
     this.setState({ success: true });
+    let data = {
+      username: this.state.username,
+      fullname: this.state.fullName,
+      age: this.state.age,
+      tel: this.state.contactNumber,
+      district: this.state.district
+    };
+    axios.put(`/api/userProfile/${id}`, data);
   };
 
   render() {
@@ -140,7 +152,7 @@ class UserProfile extends React.Component {
                     placeholder="Contact Number"
                     disabled={this.state.isDisable}
                     value={this.state.contactNumber}
-                    onChange={this.state.ContactNumber}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 
@@ -148,21 +160,23 @@ class UserProfile extends React.Component {
                   <label>District</label>
                   <Form.Select
                     name="district"
-                    placeholder="District"
+                    placeholder={this.state.district}
                     disabled={this.state.isDisable}
                     options={districtOptions}
-                    onChange={this.state.district}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 
                 <Form.Field>
                   <label>Age</label>
                   <Form.Input
+                    parse={value => Number(value)}
                     name="age"
                     placeholder="age"
+                    type="number"
                     disabled={this.state.isDisable}
                     value={this.state.age}
-                    onChange={this.state.age}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 

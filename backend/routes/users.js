@@ -11,6 +11,7 @@ const knex = require("knex")({
 });
 
 let router = express.Router();
+//async validation in user sign up page
 router.get("/", (req, res) => {
   if (req.query.username || req.query.email) {
     knex("users")
