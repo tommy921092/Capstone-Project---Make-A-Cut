@@ -110,7 +110,6 @@ class ShopSettings extends React.Component {
     this.setState({ success: true });
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
-    console.log(id);
     let data = {
       shopname: this.state.shopname,
       address: this.state.district,
@@ -123,8 +122,7 @@ class ShopSettings extends React.Component {
       closehour: this.state.closehour,
       description: this.state.description
     };
-    console.log(data);
-    // axios.put(`/api/shopProfile/${id}`, data);
+    axios.put(`/api/shopProfile/${id}`, data);
   };
 
   componentDidMount() {
@@ -214,7 +212,7 @@ class ShopSettings extends React.Component {
             <Form.Field>
               <label>Shop Name</label>
               <Form.Input
-                name="name"
+                name="shopname"
                 labelPosition="left"
                 placeholder="Shop Name"
                 onChange={this.handleChange}
