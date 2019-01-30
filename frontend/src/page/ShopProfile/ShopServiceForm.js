@@ -27,7 +27,10 @@ const renderServices = ({ fields, meta: { error, submitFailed } }) => (
           icon
           type="button"
           title="Remove Service"
-          onClick={() => fields.remove(index)}
+          onClick={(e) => {
+            fields.remove(index)
+          }
+          }
           style={{ float: "right"}}
         >
           <Icon name="minus" />
