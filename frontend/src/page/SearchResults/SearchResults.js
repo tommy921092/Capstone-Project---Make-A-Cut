@@ -25,10 +25,11 @@ function ListItem(props) {
       <Item.Description>{l.description}</Item.Description>
       <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
       <Item.Extra>
-        {l.tag.length > 0 ? l.tag.map(t => 
+
+        {l.tag !== null ? l.tag.map(t => 
           <Tag t={t} />
         ) : null }
-        {/* <Tag hasTag={l.tag} /> */}
+
         <Label>
           <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
         </Label>
@@ -42,10 +43,7 @@ function ListItem(props) {
 // Logic for tag display
 function Tag(props) {
   const hasTag = props.t;
-  // if (hasTag) {
     return <Label>{hasTag}</Label>
-  // }
-  // return (null);
 }
 
 // Class component
