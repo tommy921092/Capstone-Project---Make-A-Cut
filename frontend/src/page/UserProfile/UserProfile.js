@@ -51,7 +51,7 @@ class UserProfile extends React.Component {
   componentDidMount() {
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
-    axios.get(`/api/userProfile/${id}`).then(result => {
+    axios.get(`/api/userProfile/profile/${id}`).then(result => {
       console.log(result.data[0]);
       this.setState({
         username: result.data[0].username,
@@ -92,7 +92,7 @@ class UserProfile extends React.Component {
       tel: this.state.contactNumber,
       district: this.state.district
     };
-    axios.put(`/api/userProfile/${id}`, data);
+    axios.put(`/api/userProfile/profile/${id}`, data);
   };
 
   render() {

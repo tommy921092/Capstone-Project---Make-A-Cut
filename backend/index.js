@@ -22,7 +22,6 @@ app.use("/api/userProfile", userProfile);
 app.use("/api/shopProfile", shopProfile);
 // require("./routes/billing")(app); // for stripe api
 app.use("/api/shop", shop);
-
 app.get("/", (req, res) => {
   res.send("Your fucking capstone backend is running la");
 });

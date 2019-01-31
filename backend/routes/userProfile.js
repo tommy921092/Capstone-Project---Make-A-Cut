@@ -11,7 +11,7 @@ const knex = require("knex")({
 
 let router = express.Router();
 
-router.get("/:id", (req, res) => {
+router.get("/profile/:id", (req, res) => {
   let userid = req.params.id;
   knex("users")
     .where({ id: userid })
@@ -23,9 +23,9 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/profile/:id", (req, res) => {
   let userid = req.params.id;
-  console.log(req.params.id)
+  console.log(req.params.id);
   console.log(req.body);
   knex("users")
     .update(req.body)
@@ -37,6 +37,94 @@ router.put("/:id", (req, res) => {
     .catch(err => {
       console.log(err);
     });
+});
+
+// get upcoming booking records
+router.get("/current/:id", (req, res) => {
+  let userid = req.params.id;
+  res.send(userid);
+  knex("booking")
+    .select(
+      "booking.id",
+      "booking._shopid",
+      "booking.bookingdate",
+      "booking.status",
+      "menu.name",
+      "menu.price",
+      "shop.shopname",
+      "shop.address",
+      "shop.website"
+    )
+    .fullOuterJoin("menu", "booking._menuid", "menu.id")
+    .fullOuterJoin("shop", "booking._shopid", "shop.id")
+    .where({
+      "booking._userid": userid
+    })
+    // .andWhere({
+    //   // logic for checking whether the time is future
+    // })
+    .then(rows => {
+      console.log("getting the upcoming records");
+      res.send(rows);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+//get previous booking record
+router.get("/previous/:id", (req, res) => {
+  let userid = req.params.id;
+  res.send(userid);
+  knex("booking")
+    .select(
+      "booking.id",
+      "booking._shopid",
+      "booking.bookingdate",
+      "booking.status",
+      "menu.name",
+      "menu.price",
+      "shop.id as shopid",
+      "shop.shopname",
+      "shop.address",
+      "shop.tel",
+      "shop.website",
+      "comment.id as commentid",
+      "comment.rating",
+      "comment.content"
+    )
+    .fullOuterJoin("menu", "booking._menuid", "menu.id")
+    .fullOuterJoin("shop", "booking._shopid", "shop.id")
+    .fullOuterJoin("comment", "comment._shopid", "shop.id")
+    .where({
+      "booking._userid": userid
+    })
+    // .andWhere({
+    //   // logic for checking whether the time is future
+    // })
+    .then(rows => {
+      console.log("getting the previous records");
+      res.send(rows);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.post("/booking", (req, res) => {
+  res.send("OK")
+  knex("booking")
+    .insert(req.body)
+    .then(() => res.send("BOOKED"))
+    .catch(err => console.log(err));
+});
+
+router.post("/genmenu", (req, res) => {
+  res.send("OK")
+  knex("menu")
+    .insert(req.body)
+    .then(() => res.send("menu gen"))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;

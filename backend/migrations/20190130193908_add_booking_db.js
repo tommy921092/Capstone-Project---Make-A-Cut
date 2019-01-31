@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
     table.foreign("_userid").references("users.id");
     table.string("bookingdate");
     table.string("paymentid");
-    table.boolean("valid").defaultTo(true);
+    table.string('status');
     table.timestamps(false, true);
   });
 };
