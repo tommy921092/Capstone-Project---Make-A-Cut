@@ -14,35 +14,37 @@ import { fetchShops } from '../../actions/index'
 function ListItem(props) {
   const l = props.l;
 
-  return <Item key={l.id}>
-    <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
-    <Item.Content>
-      <Item.Header as='a'>{l.shopname}</Item.Header>
-      <Item.Meta>
-        <span>{l.address}</span>
-      </Item.Meta>
-      <Item.Description>{l.description}</Item.Description>
-      <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
-      <Item.Extra>
+  return (
+    <Item key={l.id}>
+      <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
+      <Item.Content>
+        <Item.Header as='a'>{l.shopname}</Item.Header>
+        <Item.Meta>
+          <span>{l.address}</span>
+        </Item.Meta>
+        <Item.Description>{l.description}</Item.Description>
+        <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
+        <Item.Extra>
 
-        {l.tag !== null ? l.tag.map(t => 
-          <Tag t={t} />
-        ) : null }
+          {l.tag !== null ? l.tag.map(t =>
+            <Tag t={t} />
+          ) : null}
 
-        <Label>
-          <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
-        </Label>
-        <Label >
-          <Icon name='hourglass half' style={{ margin: 'auto' }} />
-        </Label>
-      </Item.Extra>
-    </Item.Content>
-  </Item>
+          <Label>
+            <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
+          </Label>
+          <Label >
+            <Icon name='hourglass half' style={{ margin: 'auto' }} />
+          </Label>
+        </Item.Extra>
+      </Item.Content>
+    </Item>
+  )
 }
 // Logic for tag display
 function Tag(props) {
   const hasTag = props.t;
-    return <Label>{hasTag}</Label>
+  return <Label>{hasTag}</Label>
 }
 
 //////////////////////////////////////// Class component ////////////////////////////////////////
@@ -84,7 +86,7 @@ export default class SearchResults extends Component {
   }
 
   componentDidUpdate(prevProps, _prevState) {
-    console.log(typeof(this.state.searchListing));
+    console.log(typeof (this.state.searchListing));
     // this is likely a dirty fix, to prevent fetchListings from repeatedly firing off
     if (prevProps.location.search !== this.props.location.search) {
       this.fetchListings();
