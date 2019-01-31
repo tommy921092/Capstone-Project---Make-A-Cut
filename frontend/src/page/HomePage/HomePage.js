@@ -9,11 +9,11 @@ import Article from './Article'
 import bg from './img/bg.jpeg';
 
 export const locationOptions = [
-    { key: '1', text: 'Central and Western', value: 'Central+and+Western' },
-    { key: '2', text: 'Wan Chai', value: 'Wan+Chai' },
+    { key: '1', text: 'Central and Western', value: 'Central and Western' },
+    { key: '2', text: 'Wan Chai', value: 'Wan Chai' },
     { key: '3', text: 'Eastern', value: 'Eastern' },
     { key: '4', text: 'Southern', value: 'Southern' },
-    { key: '5', text: 'Yau Tsim Mong', value: 'Yau+Tsim+Mong' },
+    { key: '5', text: 'Yau Tsim Mong', value: 'Yau Tsim Mong' },
     { key: '6', text: 'Sham Shui Po', value: 'Sham Shui Po' },
     { key: '7', text: 'Kowloon City', value: 'Kowloon City' },
     { key: '8', text: 'Wong Tai Sin', value: 'Wong Tai Sin' },

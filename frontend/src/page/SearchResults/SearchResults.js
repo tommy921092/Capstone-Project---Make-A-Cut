@@ -1,51 +1,15 @@
 import React, { Component } from 'react';
 import { Container, Grid, Header, Icon, Item, Label, Segment } from 'semantic-ui-react'
+import axios from 'axios';
+
 import Map from './MapResult';
 import FilterButtons from './FilterButtons';
-import queryString from 'query-string';
-import axios from 'axios';
+import ListItem from './SearchResultsCard';
 
 import './SearchResults.css';
 
 import { connect } from 'react-redux';
 import { fetchShops } from '../../actions/index'
-
-// display list item logic
-function ListItem(props) {
-  const l = props.l;
-
-  return (
-    <Item key={l.id}>
-      <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
-      <Item.Content>
-        <Item.Header as='a'>{l.shopname}</Item.Header>
-        <Item.Meta>
-          <span>{l.address}</span>
-        </Item.Meta>
-        <Item.Description>{l.description}</Item.Description>
-        <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
-        <Item.Extra>
-
-          {l.tag !== null ? l.tag.map(t =>
-            <Tag t={t} />
-          ) : null}
-
-          <Label>
-            <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
-          </Label>
-          <Label >
-            <Icon name='hourglass half' style={{ margin: 'auto' }} />
-          </Label>
-        </Item.Extra>
-      </Item.Content>
-    </Item>
-  )
-}
-// Logic for tag display
-function Tag(props) {
-  const hasTag = props.t;
-  return <Label>{hasTag}</Label>
-}
 
 //////////////////////////////////////// Class component ////////////////////////////////////////
 
@@ -109,7 +73,7 @@ export default class SearchResults extends Component {
                 <Item.Group link divided>
 
                   {this.state.searchListing.length > 0 ? this.state.searchListing.map(l =>
-                    <ListItem l={l} />
+                    <ListItem key={l.id} l={l} />
                   ) : <Header size="small">No results? I'll give you a bowl cut for free</Header>}
 
                 </Item.Group>
