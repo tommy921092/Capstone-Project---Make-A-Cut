@@ -51,7 +51,8 @@ router.post("/", upload.any(), (req, res, next) => {
     address: req.body.district || null,
     address_2: req.body.address || null,
     shopname: req.body.name || null,
-    tag: req.body.tag ? req.body.tag.split(",") : null || null,
+    tag: req.body.tag ? req.body.tag.split(",") : [] || []
+    ,
     pricerange: req.body.averageFee || null,
     tel: req.body.contactNumber || null,
     website: req.body.website || null,
@@ -61,6 +62,8 @@ router.post("/", upload.any(), (req, res, next) => {
     restday: null,
     photo: photoArrayResult
   };
+  console.log(req.body)
+
 
   knex.transaction(trx => {
     return trx("merchant")
@@ -85,6 +88,15 @@ router.post("/", upload.any(), (req, res, next) => {
 router.get("/:shopid", (req, res) => {
   if(req.params.shopid){
     knex('shop').where('id', req.params.shopid)
+    .then((rows)=>{
+      res.send(rows)
+    })
+  }
+})
+
+router.get("/menu/:shopid", (req, res) => {
+  if(req.params.shopid){
+    knex('menu').where('_shopid', req.params.shopid)
     .then((rows)=>{
       res.send(rows)
     })

@@ -12,8 +12,6 @@ import {
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { logout } from '../actions/userAuthAction';
-import queryString from 'query-string';
-import axios from 'axios';
 
 import { locationOptions } from '../page/HomePage/HomePage';
 import './Navbar.css';

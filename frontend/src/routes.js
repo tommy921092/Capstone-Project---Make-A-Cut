@@ -38,13 +38,13 @@ export default (
       <Route exact path="/user/signup" component={Page} />
       <Route exact path="/shop/login" component={ShopLoginForm} />
       <Route exact path="/shop/signup" component={ShopSignUpForm} />
+      <Route path="/shop/profile" component={requireMerchantAuth(ShopMenuWithContent)} />
       <Route path="/about" component={About} />
-      <Route path="/test" component={ReservationPage} />
+      <Route path="/booking/:menuid" component={requireUserAuth(ReservationPage)} />
       <Route path="/test2" component={SearchResults} />
       <Route path="/shop/:shopid" component={ShopdetailPage} />
       <Route path="/article/:articleid" component={Articles} />
       <Route path="/user/profile" component={requireUserAuth(UserMenuWithContent)} />
-      <Route path="/shop/profile" component={requireMerchantAuth(ShopMenuWithContent)} />
       <Route component={NoMatch} />
     </Switch>
   </div>

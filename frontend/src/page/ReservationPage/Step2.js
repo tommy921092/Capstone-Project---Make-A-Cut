@@ -2,20 +2,75 @@ import React, { Component } from 'react'
 import { Grid, Segment, Message, Icon, Button } from 'semantic-ui-react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
+import jwtDecode from "jwt-decode";
+import axios from 'axios';
+
+import StripeCheckout from "react-stripe-checkout";
+
 export default class Step2 extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isLoading: false
+            isLoading: false,
+            shopname: '',
+            menuname: '',
+            menuprice: '',
+            username: '',
+            useremail: ''
         }
     }
 
-    processPayment() {
+    handleToken(token) {
+        let stripeToken = token.id
+        let amount = this.state.menuprice * 100
+        let menuid = this.props.menuid
+        let data = {
+            stripeToken,
+            amount,
+            menuid,
+            shopid: this.state.shopid,
+            date: this.props.date,
+            time: this.props.time
+        }
+
         this.setState({
             isLoading: true
         })
-        setTimeout(() => { this.props.goStep3() }, 3000);
+
+        axios.post('/api/billing', data)
+        .then((result)=>{
+            let uid = result.data
+            this.props.goStep3(uid)
+        })
     }
+
+    componentDidMount() {
+        axios.get(`/api/menu/${this.props.menuid}`)
+            .then((result) => {
+                if (result.data !== "No data") {
+                    let decodedToken = {}
+                    if(localStorage.jwtToken){
+                        decodedToken = jwtDecode(localStorage.jwtToken);
+                    }
+                    this.setState({
+                        isLoading: false,
+                        shopname: result.data.shopname,
+                        menuname: result.data.name,
+                        menuprice: result.data.price,
+                        username: decodedToken.fullname,
+                        useremail: decodedToken.email,
+                        shopid: result.data._shopid
+                    })
+                }
+            })
+    }
+
+    // processPayment() {
+    //     this.setState({
+    //         isLoading: true
+    //     })
+    //     setTimeout(() => { this.props.goStep3() }, 3000);
+    // }
 
 
     render() {
@@ -38,17 +93,19 @@ export default class Step2 extends Component {
                         <Segment loading={this.state.isLoading} textAlign='left' color='purple'>
                             <b>Please confirm all the detail below:</b>
                             <div style={{ paddingTop: 20, paddingBottom: 20 }}>
-                                Barber Shop name: {this.props.shopid}
+                                Barber Shop name: {this.state.shopname}
                                 <br />
-                                Menu name: {this.props.menuid}
+                                Menu name: {this.state.menuname}
                                 <br />
-                                Price: (Query from datebase though menuid)
-                    <br />
-                                User Full Name: (get from jwt)
-                    <br />
-                                Selected Date: {this.props.date}
+                                Price: HKD$ {this.state.menuprice}
                                 <br />
-                                Selected Timeslot: {this.props.time}
+                                User Full Name: {this.state.username}
+                                <br />
+                                <p>User email: {this.state.useremail}</p>
+                                <br />
+                                <b>Selected Date:</b> {this.props.date}
+                                <br />
+                                <b>Selected Timeslot:</b> {this.props.time}
                             </div>
                         </Segment>
                     </ReactCSSTransitionGroup>
@@ -57,11 +114,24 @@ export default class Step2 extends Component {
                     <Button.Group style={{}} >
                         <Button onClick={this.props.backStep1.bind(this)} disabled={this.state.isLoading}>Edit</Button>
                         <Button.Or />
-                        <Button positive
-                            loading={this.state.isLoading}
+                        <StripeCheckout
+                            name="Confirm your Booking"
+                            description={`${this.state.menuname} FOR ${this.state.shopname}`}
+                            amount={this.state.menuprice * 100}
+                            currency="HKD"
+                            locale="zh"
+                            email={`${this.state.useremail}`}
+                            token={token => this.handleToken(token)}
+                            stripeKey={process.env.REACT_APP_STRIPE_KEY}
                             disabled={this.state.isLoading}
-                            onClick={this.processPayment.bind(this)}>Pay</Button>
+                        >
+                        <Button positive
+                                loading={this.state.isLoading}
+                                disabled={this.state.isLoading}>Pay</Button>
+                        </StripeCheckout>
+
                     </Button.Group>
+
                 </Grid.Row>
             </Grid.Row>
 

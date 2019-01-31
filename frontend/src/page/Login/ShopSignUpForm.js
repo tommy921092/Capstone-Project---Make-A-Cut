@@ -139,6 +139,8 @@ class ShopSignUpForm extends React.Component {
     this.setState({isLoading:true})
     const formData = new FormData();
     Object.keys(this.props.formInput.values).forEach(key => formData.append(key, this.props.formInput.values[key]))
+    formData.append('openTime', this.state.openTime ? this.state.openTime : null);
+    formData.append('closeTime', this.state.closeTime ? this.state.closeTime : null);
     formData.append('mainPhoto:', this.props.formInput.values.mainPhoto[0]);
     formData.append('otherPhoto_1:', this.props.formInput.values.otherPhoto_0 ? this.props.formInput.values.otherPhoto_0[0] : null);
     formData.append('otherPhoto_2:', this.props.formInput.values.otherPhoto_1 ? this.props.formInput.values.otherPhoto_1[0] : null);
