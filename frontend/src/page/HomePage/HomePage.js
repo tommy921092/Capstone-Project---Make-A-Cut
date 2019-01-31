@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { Segment, Container, Header, Form, Select, Input } from 'semantic-ui-react'
+import queryString from 'query-string'
 
 import Recommend from './Recommend'
 import Article from './Article'
@@ -33,7 +34,8 @@ export default class HomePage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            searchNameField: ""
+            searchNameField: "",
+            // searchDistrictField: "",
         }
     }
 
@@ -51,6 +53,15 @@ export default class HomePage extends Component {
         this.setState({
             searchNameField: event.target.value
         })
+    }
+
+    handleAnotherChange = (event, data) => {
+        console.log(data.value)
+        if(data.value !== null) {
+            this.props.history.push(`/test2/search?district=${data.value}`)
+        } else {
+            console.log('Nothing selected')
+        }
     }
 
     render() {
@@ -84,7 +95,7 @@ export default class HomePage extends Component {
                                     placeholder='Location'
                                     search
                                     searchInput={{ id: 'form-select-control-location' }}
-                                    onChange={(e, data) => { console.log(data.value) }}
+                                    onChange={this.handleAnotherChange}
                                 />
                                 <p style={{ fontSize: '2rem' }}><b>OR</b></p>
                                 <Input onKeyPress={this.handleKeyPress} onChange={this.handleOnChange} icon='search' placeholder='Search By Name' />

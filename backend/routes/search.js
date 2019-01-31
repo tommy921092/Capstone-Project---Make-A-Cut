@@ -19,11 +19,21 @@ router.get('', (req, res) => {
     knex("shop").whereRaw('shopname ~* ?', req.query.name)
       .then((rows) => {
         if (rows.length > 0) {
-          res.json(rows)
+          res.json(rows);
         } else {
-          res.json([])
+          res.json([]);
         }
       })
+  } else if (req.query.district) {
+    knex("shop").where('address', req.query.district)
+    .then((rows) => {
+      console.log('rows : ' + rows);
+      if (rows.length > 0) {
+        res.json(rows);
+      } else {
+        res.json([]);
+      }
+    })
   } else {
     res.send('Invalid query')
   }

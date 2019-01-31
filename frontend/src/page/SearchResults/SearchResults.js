@@ -1,69 +1,59 @@
 import React, { Component } from 'react';
-import { Container, Divider, Form, Grid, Icon, Image, Input, Item, Label, Segment, Select } from 'semantic-ui-react'
-import Footer from './Footer';
+import { Container, Grid, Header, Icon, Item, Label, Segment } from 'semantic-ui-react'
+import axios from 'axios';
+
 import Map from './MapResult';
 import FilterButtons from './FilterButtons';
-import queryString from 'query-string';
-import axios from 'axios';
+import ListItem from './SearchResultsCard';
 
 import './SearchResults.css';
 
 import { connect } from 'react-redux';
-import { fetchShops, fetchListings } from '../../actions/index'
+import { fetchShops } from '../../actions/index'
 
-// const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+//////////////////////////////////////// Class component ////////////////////////////////////////
 
-class SearchResults extends Component {
+export default class SearchResults extends Component {
   constructor(props) {
     super(props)
     this.state = {
       searchListing: []
     }
   }
-
-  componentDidMount() {
+  // fetch query search results
+  fetchListings() {
+    const name = this.props.location.search;
     console.log(this.props.location.search);
-    const name = queryString.parse(this.props.location.search)
-    console.log(name.name)
+    // console.log(name.name)
 
-    axios.get(`/api/search?name=${name.name}`)
+    axios.get(`/api/search${name}`)
       .then((result) => {
-        // console.log(result);
+        console.log(result.data);
         const searchListing = result.data;
         this.setState({
           searchListing
         });
-        console.log(this.state.searchListing);
-      }).catch((error) => {
-        console.log(error);
+      }).catch(() => {
+        // console.log(error);
+        this.setState({
+          searchListing: []
+        })
       })
-
-
-    // calling our async action
-    // this.props.fetchListings();
-    this.props.fetchShops()
-    console.log(this.props.state)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if(prevProps.location.search !== this.props.location.search){
+  componentDidMount() {
+    // calling our async action
+    this.fetchListings();
+    console.log(this.state.searchListing);
+    // this.props.fetchShops();
+    // console.log(this.props.state)
+  }
 
-    console.log(this.props.location.search);
-    const name = queryString.parse(this.props.location.search)
-    console.log(name.name)
-
-    axios.get(`/api/search?name=${name.name}`)
-      .then((result) => {
-        const searchListing = result.data;
-        this.setState({
-          searchListing
-        });
-      }).catch((error) => {
-        console.log(error);
-        this.setState(
-          {searchListing: []}
-        )
-      })
+  componentDidUpdate(prevProps, _prevState) {
+    console.log(typeof (this.state.searchListing));
+    // this is likely a dirty fix, to prevent fetchListings from repeatedly firing off
+    if (prevProps.location.search !== this.props.location.search) {
+      this.fetchListings();
     }
   }
 
@@ -83,34 +73,14 @@ class SearchResults extends Component {
                 <Item.Group link divided>
 
                   {this.state.searchListing.length > 0 ? this.state.searchListing.map(l =>
-                    <Item key={l.id}>
-                      <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
-                      <Item.Content>
-                        <Item.Header as='a'>{l.shopname}</Item.Header>
-                        <Item.Meta>
-                          <span>{l.address}</span>
-                        </Item.Meta>
-                        <Item.Description>{l.description}</Item.Description>
-                        <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
-                        <Item.Extra>
-                          <Tag hasTag={l.tag} />
-                          {/* <Label>{l.tag}</Label> */}
-                          <Label>
-                            <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
-                          </Label>
-                          <Label >
-                            <Icon name='hourglass half' style={{ margin: 'auto' }} />
-                          </Label>
-                        </Item.Extra>
-                      </Item.Content>
-                    </Item>
-                  ) : "No Result"}
+                    <ListItem key={l.id} l={l} />
+                  ) : <Header size="small">No results? I'll give you a bowl cut for free</Header>}
 
                 </Item.Group>
               </Grid.Column>
 
               <Grid.Column width={10} verticalAlign='middle'>
-                <Map list={this.props.list} />
+                <Map list={this.state.searchListing} />
               </Grid.Column>
 
             </Grid>
@@ -121,26 +91,17 @@ class SearchResults extends Component {
   }
 }
 
-// Logic for tag display
-function Tag(props) {
-  const hasTag = props.hasTag;
-  if (hasTag) {
-    // passed the prop = {l}
-    return <Label>{hasTag}</Label>
-  }
-  return (null);
-}
 
-const mapStateToProps = state => {
-  return {
-    list: state.searchResult,
-    // listing: state.searchListing 
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     list: state.searchResult,
+//     // listing: state.searchListing 
+//   }
+// }
 
-export default connect(
-  mapStateToProps, {
-    fetchShops,
-    // fetchListings 
-  }
-)(SearchResults);
+// export default connect(
+//   mapStateToProps, {
+//     fetchShops,
+//     // fetchListings 
+//   }
+// )(SearchResults);

@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import { Container } from 'semantic-ui-react'
+import Geocode from 'react-geocode'
 
 const appID = process.env.REACT_APP_API_KEY;
 
+Geocode.setApiKey(appID);
+Geocode.enableDebug();
+
 class Map extends Component {
 
-  componentDidUpdate() {
-    // console.log(appID)
-    // console.log(this.props)
-    this.renderMap()
+  componentDidUpdate(prevProps, _prevState) {
+    if (prevProps.list !== this.props.list) {
+      this.renderMap()
+    }
   }
 
   renderMap = () => {
@@ -19,9 +23,9 @@ class Map extends Component {
   initMap = () => {
 
     // create a map
-    var point = { lat: 2, lng: -86 };
+    var point = { lat: 22.2990446, lng: 114.1639289 };
     // Add window.google... to fix is not defined error
-    var map = new window.google.maps.Map(document.getElementById('map'), { zoom: 3, center: point });
+    var map = new window.google.maps.Map(document.getElementById('map'), { zoom: 13, center: point });
 
     // create an info window
     var infoWindow = new window.google.maps.InfoWindow()
@@ -29,25 +33,34 @@ class Map extends Component {
     // display dynamic markers
     this.props.list.map(l => {
 
-      var contentString = `${l.name}`
+      var contentString = `<h3 style="margin-bottom: 0.2em">${l.shopname}</h3> 
+                            <p style="font-weight: 500; margin-bottom: 0.2em">${l.address}</p>
+                            <p style="margin-bottom: 0.2em">${l.description}</p>`
 
-      // create a marker
-      var points = { lat: parseFloat(l.lat), lng: parseFloat(l.lng) };
-      var marker = new window.google.maps.Marker({
-        position: points,
-        map: map,
-        title: l.name
-      });
+      // convert address to lnglat
+      Geocode.fromAddress(l.address).then(
+        response => {
+          // return coordinates of address
+          const { lat, lng } = response.results[0].geometry.location;
+          console.log(lat, lng);
+          var points = { lat, lng }
+          // create markers
+          var marker = new window.google.maps.Marker({
+            position: points,
+            map: map,
+            title: l.name
+          });
 
-      // click on a marker
-      marker.addListener('click', function () {
+          marker.addListener('click', function () {
 
-        // change the content
-        infoWindow.setContent(contentString)
-
-        // open an infowindow
-        infoWindow.open(map, marker)
-      })
+            infoWindow.setContent(contentString)
+            // open an infowindow
+            infoWindow.open(map, marker)
+          }, error => {
+            console.error(error);
+          }
+          )
+        })
     })
   }
 
