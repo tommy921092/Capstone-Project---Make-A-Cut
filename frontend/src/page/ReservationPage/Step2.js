@@ -4,7 +4,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import jwtDecode from "jwt-decode";
 import axios from 'axios';
-
 import StripeCheckout from "react-stripe-checkout";
 
 export default class Step2 extends Component {

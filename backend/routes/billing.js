@@ -18,7 +18,7 @@ router.post('/', authenticate ,  async (req, res) => {
   if(req.body.stripeToken){
     const token = req.body.stripeToken
     const amount = req.body.amount
-    const meunID = req.body.menuid
+    const menuID = req.body.menuid
     const userID = req.currentID
     const shopID = req.body.shopid
     const date = req.body.date
@@ -33,7 +33,7 @@ router.post('/', authenticate ,  async (req, res) => {
 
       knex('booking').insert({
         _shopid: shopID,
-        _menuid: meunID,
+        _menuid: menuID,
         _userid: userID,
         uid: uid,
         bookingdate: `${date}_${time}`,

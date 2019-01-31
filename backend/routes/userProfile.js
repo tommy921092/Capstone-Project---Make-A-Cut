@@ -42,9 +42,9 @@ router.put("/profile/:id", (req, res) => {
 // get upcoming booking records
 router.get("/current/:id", (req, res) => {
   let userid = req.params.id;
-  res.send(userid);
   knex("booking")
     .select(
+      "booking.uid",
       "booking.id",
       "booking._shopid",
       "booking.bookingdate",
@@ -53,6 +53,8 @@ router.get("/current/:id", (req, res) => {
       "menu.price",
       "shop.shopname",
       "shop.address",
+      "shop.photo",
+      "shop.tel",
       "shop.website"
     )
     .fullOuterJoin("menu", "booking._menuid", "menu.id")
@@ -112,18 +114,9 @@ router.get("/previous/:id", (req, res) => {
 });
 
 router.post("/booking", (req, res) => {
-  res.send("OK")
   knex("booking")
     .insert(req.body)
     .then(() => res.send("BOOKED"))
-    .catch(err => console.log(err));
-});
-
-router.post("/genmenu", (req, res) => {
-  res.send("OK")
-  knex("menu")
-    .insert(req.body)
-    .then(() => res.send("menu gen"))
     .catch(err => console.log(err));
 });
 

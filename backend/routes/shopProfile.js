@@ -56,4 +56,21 @@ router.put("/:id", (req, res) => {
     });
 });
 
+router.get("/current/:id", (req, res) => {
+  let shopid = req.params.id;
+  knex("booking")
+    .select(
+      "booking.bookingdate",
+      "users.tel",
+      "users.fullname",
+      "menu.name",
+      "menu.price"
+    )
+    .fullOuterJoin("users", "booking._userid", "users.id")
+    .fullOuterJoin("menu", "booking._menuid", "menu.id")
+    .where({"booking._shopid": shopid})
+    .then(rows => res.send(rows))
+    .catch(err => console.log(err));
+});
+
 module.exports = router;
