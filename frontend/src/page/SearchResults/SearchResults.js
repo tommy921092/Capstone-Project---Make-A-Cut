@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Divider, Form, Grid, Header, Icon, Image, Input, Item, Label, Segment, Select } from 'semantic-ui-react'
-import Footer from './Footer';
+import { Container, Grid, Header, Icon, Item, Label, Segment } from 'semantic-ui-react'
 import Map from './MapResult';
 import FilterButtons from './FilterButtons';
 import queryString from 'query-string';
@@ -46,7 +45,8 @@ function Tag(props) {
     return <Label>{hasTag}</Label>
 }
 
-// Class component
+//////////////////////////////////////// Class component ////////////////////////////////////////
+
 class SearchResults extends Component {
   constructor(props) {
     super(props)
@@ -79,7 +79,7 @@ class SearchResults extends Component {
     // calling our async action
     this.fetchListings();
     console.log(this.state.searchListing);
-    this.props.fetchShops();
+    // this.props.fetchShops();
     // console.log(this.props.state)
   }
 
@@ -109,12 +109,12 @@ class SearchResults extends Component {
                   {this.state.searchListing.length > 0 ? this.state.searchListing.map(l =>
                     <ListItem l={l} />
                   ) : <Header size="small">No results? I'll give you a bowl cut for free</Header>}
-                </Item.Group>
 
+                </Item.Group>
               </Grid.Column>
 
               <Grid.Column width={10} verticalAlign='middle'>
-                <Map list={this.props.list} />
+                <Map list={this.state.searchListing} />
               </Grid.Column>
 
             </Grid>

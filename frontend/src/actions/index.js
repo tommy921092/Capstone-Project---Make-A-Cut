@@ -8,10 +8,10 @@ export const fetchShops = () => async dispatch => {
   dispatch({type: "FETCH_SHOPS", payload: response.data})
 }
 
-const fetchListings = () => async dispatch => {
-  const name = queryString.parse(this.props.location.search) // ?name=${name}
+const fetchListings = (response) => async dispatch => {
+  // const name = queryString.parse(this.props.location.search) // ?name=${name}
 
-  const response = await axios.get(`/api/search?name=${name.name}`)
+  // const response = await axios.get(`/api/search?name=${name.name}`)
 
   dispatch({type: "FETCH_LISTINGS", payload: response.data })
 }
