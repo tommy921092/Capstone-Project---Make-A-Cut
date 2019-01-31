@@ -14,7 +14,7 @@ export default function ListItem(props) {
     <Item key={l.id} >
       <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
       <Item.Content>
-        <Item.Header as='a'>{l.shopname}</Item.Header>
+        <Item.Header as='a' href={`/shop/${l.id}`}>{l.shopname}</Item.Header>
         <Item.Meta>
           <span>{l.address}</span>
         </Item.Meta>

@@ -72,7 +72,8 @@ class Step1 extends Component {
                     });
                 } else {
                     this.setState({ 
-                        isTimeLoading: false});
+                        isTimeLoading: false,
+                        unAvailable: []});
                 }
             })
 
