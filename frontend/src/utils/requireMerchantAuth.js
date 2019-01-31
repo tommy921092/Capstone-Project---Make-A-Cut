@@ -10,10 +10,10 @@ export default function(ComposedComponent) {
           authorizated: false
         }
       }
-      
+
       componentWillMount() {
-        if (!this.props.isAuthenticated || this.props.merchant) {
-          alert('You need to login in, as a user!!')
+        if (!this.props.isAuthenticated || !this.props.merchant) {
+          alert('You need to login in as a Merchant!')
           this.props.history.push('/');
         } else {
           this.setState({authorizated: true})
@@ -27,7 +27,7 @@ export default function(ComposedComponent) {
           this.setState({authorizated: true})
         }
       }
-
+  
       render() {
         return (
           this.state.authorizated && <ComposedComponent { ...this.props } />
@@ -37,7 +37,8 @@ export default function(ComposedComponent) {
 
     const mapStateToProps = (state) => {
       return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        merchant: state.auth.merchant
       };
     };
   

@@ -13,7 +13,8 @@ class ReservationPage extends Component {
     this.state = {
       Step: 1,
       SelectedDate: '',
-      SelectedTime: ''
+      SelectedTime: '',
+      uid:''
     }
   }
 
@@ -36,36 +37,35 @@ class ReservationPage extends Component {
     })
   }
 
-  goStep3() {
+  goStep3(uid) {
     window.scrollTo(0, 0)
     this.setState({
       Step: 3,
       SelectedDate: '',
-      SelectedTime: ''
+      SelectedTime: '',
+      uid
     })
   }
 
 
   render() {
-    // console.log(queryString.parse(this.props.location.search).shopid)
+    // console.log(this.props.match.params.menuid)
     const currentStep = this.state.Step;
     let element;
     if (currentStep === 1) {
       element = <Step1
-        shopid={queryString.parse(this.props.location.search).shopid}
-        menuid={queryString.parse(this.props.location.search).menuid}
+        menuid={this.props.match.params.menuid}
         goStep2={this.goStep2.bind(this)} />
     } else if (currentStep === 2) {
       element = 
       <Step2
-        shopid={queryString.parse(this.props.location.search).shopid}
-        menuid={queryString.parse(this.props.location.search).menuid}
+        menuid={this.props.match.params.menuid}
         date={this.state.SelectedDate}
         time={this.state.SelectedTime}
         backStep1={this.backStep1.bind(this)}
         goStep3={this.goStep3.bind(this)} />
     } else if (currentStep === 3) {
-      element = <Header>Payment Finish!!</Header>
+      element = <Header>Payment Finish!!Your booking id is {this.state.uid}</Header>
     } else {
       element = <Header>Error</Header>
     }

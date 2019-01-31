@@ -1,3 +1,5 @@
 node_modules
-.DS_Store
 *.env
+frontend/src/page/SearchResults/AutoSuggest.js
+frontend/src/reducers/sortPrice.js
+backend/public/img/upload

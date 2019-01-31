@@ -17,7 +17,6 @@ const districtOptions = [
   { text: "Wong Tai Sin", value: "Wong Tai Sin" },
   { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
   { text: "Islands", value: "Islands" },
-  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
   { text: "Kwai Tsing", value: "Kwai Tsing" },
   { text: "North", value: "North" },
   { text: "Sai Kung", value: "Sai Kung" },
@@ -184,7 +183,7 @@ class ShopSettings extends React.Component {
                 below must have a height of 100%.
               */}
         <div
-          class="ui stacked segment"
+          className="ui stacked segment"
           style={{ maxWidth: 600, margin: "0 auto" }}
         >
           <Form
