@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Header } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import Geocode from 'react-geocode'
 
 const appID = process.env.REACT_APP_API_KEY;

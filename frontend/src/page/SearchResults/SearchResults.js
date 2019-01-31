@@ -47,7 +47,7 @@ function Tag(props) {
 
 //////////////////////////////////////// Class component ////////////////////////////////////////
 
-class SearchResults extends Component {
+export default class SearchResults extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -56,13 +56,13 @@ class SearchResults extends Component {
   }
   // fetch query search results
   fetchListings() {
+    const name = this.props.location.search;
     console.log(this.props.location.search);
-    const name = queryString.parse(this.props.location.search)
-    console.log(name.name)
+    // console.log(name.name)
 
-    axios.get(`/api/search?name=${name.name}`)
+    axios.get(`/api/search${name}`)
       .then((result) => {
-        // console.log(result);
+        console.log(result.data);
         const searchListing = result.data;
         this.setState({
           searchListing
@@ -84,7 +84,7 @@ class SearchResults extends Component {
   }
 
   componentDidUpdate(prevProps, _prevState) {
-    console.log(this.state.searchListing.length);
+    console.log(typeof(this.state.searchListing));
     // this is likely a dirty fix, to prevent fetchListings from repeatedly firing off
     if (prevProps.location.search !== this.props.location.search) {
       this.fetchListings();
@@ -126,16 +126,16 @@ class SearchResults extends Component {
 }
 
 
-const mapStateToProps = state => {
-  return {
-    list: state.searchResult,
-    // listing: state.searchListing 
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     list: state.searchResult,
+//     // listing: state.searchListing 
+//   }
+// }
 
-export default connect(
-  mapStateToProps, {
-    fetchShops,
-    // fetchListings 
-  }
-)(SearchResults);
+// export default connect(
+//   mapStateToProps, {
+//     fetchShops,
+//     // fetchListings 
+//   }
+// )(SearchResults);

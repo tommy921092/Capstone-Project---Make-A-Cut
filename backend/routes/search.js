@@ -13,7 +13,7 @@ let router = express.Router();
 
 router.get('', (req, res) => {
   console.log(req.originalUrl)
-  console.log('query :' + req.query.name)
+  console.log('query : ' + (req.query.district ? req.query.district : req.query.name))
 
   if (req.query.name) {
     knex("shop").whereRaw('shopname ~* ?', req.query.name)
@@ -25,6 +25,16 @@ router.get('', (req, res) => {
           res.json([]);
         }
       })
+  } else if (req.query.district) {
+    knex("shop").where('address', req.query.district)
+    .then((rows) => {
+      console.log('rows : ' + rows);
+      if (rows.length > 0) {
+        res.json(rows);
+      } else {
+        res.json([]);
+      }
+    })
   } else {
     res.send('Invalid query')
   }
