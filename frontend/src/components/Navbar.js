@@ -47,6 +47,15 @@ class Navbar extends Component {
     })
   }
 
+  handleAnotherChange = (event, data) => {
+    console.log(data.value)
+    if(data.value !== null) {
+        this.props.history.push(`/test2/search?district=${data.value}`)
+    } else {
+        console.log('Nothing selected')
+    }
+}
+
   render() {
     const { activeItem } = this.state;
     const { fixed } = this.state;
@@ -138,6 +147,7 @@ class Navbar extends Component {
                     <Dropdown.Header content='Or' style={{ textAlign: 'center' }} />
                     <Dropdown
                       item clearable
+                      onChange={this.handleAnotherChange}
                       options={locationOptions}
                       placeholder='Search district'
                       name='district'
