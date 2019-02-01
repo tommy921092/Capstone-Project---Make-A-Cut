@@ -13,6 +13,7 @@ export default function(ComposedComponent) {
       
       componentWillMount() {
         if (!this.props.isAuthenticated || this.props.merchant) {
+          console.log(this.props.merchant)
           alert('You need to login in, as a user!!')
           this.props.history.push('/');
         } else {
@@ -37,7 +38,8 @@ export default function(ComposedComponent) {
 
     const mapStateToProps = (state) => {
       return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        merchant:state.auth.merchant
       };
     };
   
