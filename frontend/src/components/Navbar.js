@@ -7,7 +7,8 @@ import {
   Container,
   Responsive,
   Visibility,
-  Icon
+  Icon,
+  Image
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
@@ -120,6 +121,9 @@ class Navbar extends Component {
               secondary={!fixed}
             >
               <Container>
+                {/* <Menu.Item header>
+                  <Image src={logo} size="small" />
+                </Menu.Item> */}
                 <Menu.Item
                   as={Link}
                   to="/"

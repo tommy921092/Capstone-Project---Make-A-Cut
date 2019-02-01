@@ -119,8 +119,7 @@ class UserSignUpForm extends Component {
       password: this.props.formInput.values.password,
       tel: this.props.formInput.values.contactNumber,
       age: this.props.formInput.values.age,
-      district: this.props.formInput.values.district,
-      profilepic: this.props.formInput.values.profilepic[0]
+      district: this.props.formInput.values.district
     };
     console.log('user sign up data', data);
     this.props
