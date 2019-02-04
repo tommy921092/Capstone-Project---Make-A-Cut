@@ -1,35 +1,11 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import validator from "validator";
+// import validator from "validator";
 import { Button, Form, Header, Icon, Message, Image } from "semantic-ui-react";
 import { TimeInput } from "semantic-ui-calendar-react";
-const validate = values => {
-  const errors = {};
-  // contact validation
-  if (!values.contactNumber) {
-    errors.contactNumber = "Contact number is Required";
-  } else if (!validator.isMobilePhone(values.contactNumber)) {
-    errors.contactNumber =
-      "Your contact number should be in correct format(only contains number)";
-  }
-  // email validation
-  if (!values.email) {
-    errors.email = "Email is Required";
-  } else if (!validator.isEmail(values.email)) {
-    errors.email = `Please include @ in the email address, ${
-      values.email
-    } is missing an @`;
-  }
-  // password validation
-  if (!values.password) {
-    errors.password = "Password is Required";
-  }
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
-  if (!values.name) {
-    errors.name = "Shop name is Required";
-  }
-  return errors;
-};
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },
   { text: "Eastern", value: "Eastern" },
@@ -41,7 +17,6 @@ const districtOptions = [
   { text: "Wong Tai Sin", value: "Wong Tai Sin" },
   { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
   { text: "Islands", value: "Islands" },
-  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
   { text: "Kwai Tsing", value: "Kwai Tsing" },
   { text: "North", value: "North" },
   { text: "Sai Kung", value: "Sai Kung" },
@@ -66,18 +41,27 @@ class ShopSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      options,
+      options: [],
       numImage: 0,
-      mainPhoto: null,
-      otherPhoto: null,
-      tag: "",
       nameError: false,
       success: false,
-      isDisable: true
+      isDisable: true,
+      description: "",
+      address: "",
+      district: "",
+      shopname: "",
+      tag: [],
+      email: "",
+      mainPhoto: "",
+      otherPhoto: [],
+      openTime: "",
+      closeTime: "",
+      contactNumber: ""
     };
     // This binding is necessary to make `this` work in the callback
     this.handleEdit = this.handleEdit.bind(this);
     this.handleMainPhotoChange = this.handleMainPhotoChange.bind(this);
+    this.handleOtherPhotoChange = this.handleOtherPhotoChange.bind(this);
   }
 
   handleAddition = (e, { value }) => {
@@ -93,6 +77,14 @@ class ShopSettings extends React.Component {
   handleMainPhotoChange(event) {
     this.setState({
       mainPhoto: URL.createObjectURL(event.target.files[0])
+    });
+  }
+  handleOtherPhotoChange(event) {
+    this.setState({
+      otherPhoto: [
+        ...this.state.otherPhoto,
+        /[^/]*$/.exec(`${URL.createObjectURL(event.target.files[0])}.jpg`)[0]
+      ]
     });
   }
 
@@ -112,22 +104,74 @@ class ShopSettings extends React.Component {
   handleResetPW = () => {
     console.log("resetPW");
   };
-  handleSubmit = () => {
-    console.log(this.state);
+  handleSubmit = e => {
+    e.preventDefault();
     this.setState({ success: true });
+    let token = localStorage.getItem("jwtToken");
+    let id = jwtDecode(token).id;
+    let data = {
+      shopname: this.state.shopname,
+      address: this.state.district,
+      address_2: this.state.address,
+      tel: this.state.contactNumber,
+      website: this.state.website,
+      pricerange: this.state.averageFee,
+      tag: this.state.options.map(e => e.value),
+      openhour: this.state.openTime,
+      closehour: this.state.closeTime,
+      description: this.state.description
+    };
+    axios.put(`/api/shopProfile/${id}`, data);
   };
+
+  componentDidMount() {
+    let token = localStorage.getItem("jwtToken");
+    let id = jwtDecode(token).id;
+    axios.get(`/api/shopProfile/${id}`).then(result => {
+      console.log(result.data[0]);
+      this.setState({
+        email: result.data[0].email,
+        shopname: result.data[0].shopname,
+        address: result.data[0].address_2,
+        district: result.data[0].address,
+        options: result.data[0].tag.map(e => {
+          return { text: e, value: e };
+        }),
+        contactNumber: result.data[0].tel,
+        mainPhoto: result.data[0].photo[0],
+        otherPhoto: result.data[0].photo.filter(
+          ele => ele != result.data[0].photo[0]
+        ),
+        averageFee: result.data[0].pricerange,
+        website: result.data[0].website,
+        description: result.data[0].description,
+        openTime: result.data[0].openhour,
+        closeTime: result.data[0].closehour,
+        numImage: result.data[0].photo.length
+      });
+    });
+  }
   render() {
     //values for tags
     const imageChildren = [];
-    for (var i = 0; i < this.state.numImage; i += 1) {
+    for (var i = 0; i < this.state.numImage - 1; i++) {
       imageChildren.push(
         <Form.Field>
           <Image
             size="medium"
             alt="no image"
-            src="https://react.semantic-ui.com/images/wireframe/image.png"
+            src={
+              !this.state.otherPhoto.indexOf("blob")
+                ? this.state.otherPhoto[i]
+                : `/img/upload/${this.state.otherPhoto[i]}`
+            }
           />
-          <Form.Input key={i} name="otherImage" type="file" />
+          <Form.Input
+            key={i}
+            name="otherImage"
+            type="file"
+            onChange={this.handleOtherPhotoChange}
+          />
         </Form.Field>
       );
     }
@@ -139,7 +183,7 @@ class ShopSettings extends React.Component {
                 below must have a height of 100%.
               */}
         <div
-          class="ui stacked segment"
+          className="ui stacked segment"
           style={{ maxWidth: 600, margin: "0 auto" }}
         >
           <Form
@@ -158,6 +202,7 @@ class ShopSettings extends React.Component {
                 labelPosition="left"
                 placeholder="Email"
                 disabled
+                value={this.state.email}
               />
             </Form.Field>
             <Header as="h3" color="black" textAlign="center">
@@ -166,12 +211,13 @@ class ShopSettings extends React.Component {
             <Form.Field>
               <label>Shop Name</label>
               <Form.Input
-                name="name"
+                name="shopname"
                 labelPosition="left"
                 placeholder="Shop Name"
                 onChange={this.handleChange}
                 error={this.state.nameError}
                 disabled={this.state.isDisable}
+                value={this.state.shopname}
               />
             </Form.Field>
             <Header as="h3" color="black" textAlign="center">
@@ -181,9 +227,21 @@ class ShopSettings extends React.Component {
               <label>District</label>
               <Form.Select
                 name="district"
-                placeholder="District"
+                placeholder={this.state.district}
                 disabled={this.state.isDisable}
                 options={districtOptions}
+                onChange={this.handleChange}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Shop Name</label>
+              <Form.Input
+                name="address"
+                labelPosition="left"
+                placeholder="address"
+                onChange={this.handleChange}
+                disabled={this.state.isDisable}
+                value={this.state.address}
               />
             </Form.Field>
             <Form.Field>
@@ -200,10 +258,9 @@ class ShopSettings extends React.Component {
                 fluid
                 multiple
                 allowAdditions
-                value={this.state.tag}
                 onAddItem={this.handleAddition}
-                onChange={this.handleChange}
                 disabled={this.state.isDisable}
+                onChange={this.handleChange}
               />
             </Form.Field>
 
@@ -216,12 +273,20 @@ class ShopSettings extends React.Component {
                 labelPosition="left"
                 placeholder="Contact Number"
                 disabled={this.state.isDisable}
+                value={this.state.contactNumber}
+                onChange={this.handleChange}
               />
             </Form.Field>
 
             <Form.Field>
               <label>Website</label>
-              <Form.Input name="website" placeholder="Website" disabled={this.state.isDisable} />
+              <Form.Input
+                name="website"
+                placeholder="Website"
+                disabled={this.state.isDisable}
+                value={this.state.website}
+                onChange={this.handleChange}
+              />
             </Form.Field>
 
             <Form.Field>
@@ -238,8 +303,8 @@ class ShopSettings extends React.Component {
             <Form.Field>
               <label>Closing time</label>
               <TimeInput
-                name="openTime"
-                placeholder="openTime"
+                name="closeTime"
+                placeholder="closeTime"
                 value={this.state.closeTime}
                 iconPosition="left"
                 onChange={this.handleCloseTimeChange}
@@ -254,6 +319,8 @@ class ShopSettings extends React.Component {
                 disabled={this.state.isDisable}
                 options={feeOptions}
                 disabled={this.state.isDisable}
+                value={this.state.averageFee}
+                onChange={this.handleChange}
               />
             </Form.Field>
             <Form.Group />
@@ -263,6 +330,8 @@ class ShopSettings extends React.Component {
                 name="description"
                 placeholder="Tell us about your shop"
                 disabled={this.state.isDisable}
+                onChange={this.handleChange}
+                value={this.state.description}
               />
             </Form.Field>
 
@@ -271,8 +340,21 @@ class ShopSettings extends React.Component {
                 <i class="ui upload icon" />
                 Main Photo
               </label>
-              <Image size="medium" alt="no image" src={this.state.mainPhoto} />
-              <Form.Input name="mainPhoto" type="file" onChange={this.handleMainPhotoChange} disabled={this.state.isDisable}/>
+              <Image
+                size="medium"
+                alt="no image"
+                src={
+                  !this.state.mainPhoto.indexOf("blob")
+                    ? this.state.mainPhoto
+                    : `/img/upload/${this.state.mainPhoto}`
+                }
+              />
+              <Form.Input
+                name="mainPhoto"
+                type="file"
+                onChange={this.handleMainPhotoChange}
+                disabled={this.state.isDisable}
+              />
             </Form.Field>
 
             <Header as="h4" color="black" textAlign="left">

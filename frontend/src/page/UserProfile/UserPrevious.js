@@ -17,7 +17,7 @@ class UserUpcoming extends React.Component {
               <p>Shop Address: </p>
               <p>Date: </p>
               <p>Time slot: </p>
-              <p>Services: </p>
+              <p>Service: </p>
               <p>Payment: </p>
               <p>Status: </p>
             </Item.Description>
@@ -50,7 +50,7 @@ class UserUpcoming extends React.Component {
               <Form.TextArea disabled placeholder="Your comment" />
             </Form>
             <Item.Header>Rating</Item.Header><br />
-            <Rating icon="heart" defaultRating={3} maxRating={5} />
+            <Rating icon="heart" defaultRating={3} maxRating={5} onClick={this.handleClick} />
           </Item.Content>
         </Item>
         <Item>

@@ -1,43 +1,35 @@
 import React from "react";
-import { Table, Button } from "semantic-ui-react";
-import UserEditBookingModal from "./UserEditBookingModal";
+import BookingItem from "./BookingItem";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 class UserUpcoming extends React.Component {
-  handleEdit = () => {};
-  handleCancel = () => {};
+  constructor(props) {
+    super(props);
+    this.state = { records: [] };
+  }
+  componentDidMount() {
+    let token = localStorage.getItem("jwtToken");
+    //get userid
+    let id = jwtDecode(token).id;
+    axios.get(`/api/userProfile/current/${id}`).then(result => {
+      console.log(result.data); // should be array of records
+      this.setState({ records: result.data });
+    });
+  }
 
   render() {
-    return (
-      <Table striped color="black">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Shop Name</Table.HeaderCell>
-            <Table.HeaderCell>Date</Table.HeaderCell>
-            <Table.HeaderCell>Time</Table.HeaderCell>
-            <Table.HeaderCell>Services</Table.HeaderCell>
-            <Table.HeaderCell>Price</Table.HeaderCell>
-            <Table.HeaderCell>Action</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-            <Table.Cell>
-              <UserEditBookingModal />
-              <Button basic color="black" onClick={this.handleCancel}>
-                Cancel
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
-    );
-  }
+      return this.state.records.map((record, index) => {
+        return (
+          <BookingItem
+            index={index + 1}
+            key={record.id}
+            record={record}
+            status={record.status}
+          />
+        );
+      });
+    }
 }
 
 export default UserUpcoming;

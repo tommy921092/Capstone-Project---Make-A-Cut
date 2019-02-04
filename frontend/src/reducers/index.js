@@ -5,6 +5,7 @@ import flashMessages from "./flashMessages";
 import searchResult from "./searchResult";
 import searchListings from "./searchListings";
 import service from './service';
+import shopServiceSettings from './shopServiceSettings';
 
 export default combineReducers({
   auth,
@@ -13,4 +14,5 @@ export default combineReducers({
   searchListings,
   form: formReducer,
   service,
+  shopServiceSettings
 });

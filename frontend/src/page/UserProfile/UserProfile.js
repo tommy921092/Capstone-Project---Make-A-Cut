@@ -1,7 +1,9 @@
 import React from "react";
-import { Item, Form, Input, Button, Message } from "semantic-ui-react";
-import validator from "validator";
-import {connect} from 'react-redux'
+import { Item, Form, Input, Button, Message, Divider } from "semantic-ui-react";
+// import validator from "validator";
+import { connect } from "react-redux";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 const districtOptions = [
   { text: "Central and Western", value: "Central and Western" },
@@ -33,6 +35,10 @@ class UserProfile extends React.Component {
       success: false,
       username: "",
       fullName: "",
+      email: "",
+      contactNumber: "",
+      age: "",
+      district: "",
       usernameError: false,
       fullNameError: false
     };
@@ -40,6 +46,22 @@ class UserProfile extends React.Component {
     // This binding is necessary to make `this` work in the callback
     this.handleEdit = this.handleEdit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    let token = localStorage.getItem("jwtToken");
+    let id = jwtDecode(token).id;
+    axios.get(`/api/userProfile/profile/${id}`).then(result => {
+      console.log(result.data[0]);
+      this.setState({
+        username: result.data[0].username,
+        fullName: result.data[0].fullname,
+        email: result.data[0].email,
+        contactNumber: result.data[0].tel,
+        age: result.data[0].age,
+        district: result.data[0].district
+      });
+    });
   }
   //handle value changes for some of the form values which needs validations
   handleChange = (e, { name, value }) => {
@@ -56,10 +78,21 @@ class UserProfile extends React.Component {
     console.log("resetPW");
   };
   //handle save button
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     //if saved with no error return successfully saved message
-    console.log(this.state);
+    console.log("the state: ", this.state);
+    let token = localStorage.getItem("jwtToken");
+    let id = jwtDecode(token).id;
     this.setState({ success: true });
+    let data = {
+      username: this.state.username,
+      fullname: this.state.fullName,
+      age: this.state.age,
+      tel: this.state.contactNumber,
+      district: this.state.district
+    };
+    axios.put(`/api/userProfile/profile/${id}`, data);
   };
 
   render() {
@@ -92,7 +125,12 @@ class UserProfile extends React.Component {
 
                 <Form.Field>
                   <label>Email</label>
-                  <Form.Input placeholder="Email" disabled />
+                  <Form.Input
+                    name="email"
+                    placeholder="Email"
+                    disabled
+                    value={this.state.email}
+                  />
                 </Form.Field>
 
                 <Form.Field>
@@ -113,6 +151,8 @@ class UserProfile extends React.Component {
                     name="contactNumber"
                     placeholder="Contact Number"
                     disabled={this.state.isDisable}
+                    value={this.state.contactNumber}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 
@@ -120,18 +160,23 @@ class UserProfile extends React.Component {
                   <label>District</label>
                   <Form.Select
                     name="district"
-                    placeholder="District"
+                    placeholder={this.state.district}
                     disabled={this.state.isDisable}
                     options={districtOptions}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 
                 <Form.Field>
                   <label>Age</label>
                   <Form.Input
+                    parse={value => Number(value)}
                     name="age"
                     placeholder="age"
+                    type="number"
                     disabled={this.state.isDisable}
+                    value={this.state.age}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
 
@@ -166,7 +211,7 @@ class UserProfile extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth
   };

@@ -33,12 +33,12 @@ class Map extends Component {
     // display dynamic markers
     this.props.list.map(l => {
 
-      var contentString = `<h3 style="margin-bottom: 0.2em">${l.shopname}</h3> 
+      var contentString = `<h3 style="margin-bottom: 0.2em"><a href="/shop/${l.id}">${l.shopname}</a></h3> 
                             <p style="font-weight: 500; margin-bottom: 0.2em">${l.address}</p>
-                            <p style="margin-bottom: 0.2em">${l.description}</p>`
+                            <p style="margin-bottom: 0.2em">${l.address_2}</p>`
 
       // convert address to lnglat
-      Geocode.fromAddress(l.address).then(
+      Geocode.fromAddress(l.address_2).then(
         response => {
           // return coordinates of address
           const { lat, lng } = response.results[0].geometry.location;

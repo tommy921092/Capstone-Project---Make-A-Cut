@@ -49,6 +49,9 @@ const validate = values => {
   if (!values.district) {
     errors.district = "District is Required"
   }
+  if (!values.address) {
+    errors.address = "Address is Required"
+  }
   // description validation
   if (!values.description) {
     errors.description = 'Description is Required'
@@ -136,6 +139,8 @@ class ShopSignUpForm extends React.Component {
     this.setState({isLoading:true})
     const formData = new FormData();
     Object.keys(this.props.formInput.values).forEach(key => formData.append(key, this.props.formInput.values[key]))
+    formData.append('openTime', this.state.openTime ? this.state.openTime : null);
+    formData.append('closeTime', this.state.closeTime ? this.state.closeTime : null);
     formData.append('mainPhoto:', this.props.formInput.values.mainPhoto[0]);
     formData.append('otherPhoto_1:', this.props.formInput.values.otherPhoto_0 ? this.props.formInput.values.otherPhoto_0[0] : null);
     formData.append('otherPhoto_2:', this.props.formInput.values.otherPhoto_1 ? this.props.formInput.values.otherPhoto_1[0] : null);
@@ -179,7 +184,7 @@ class ShopSignUpForm extends React.Component {
         <Divider style={{ width: "40%", margin: "1rem auto" }} />
         <div
           className="ui stacked segment"
-          style={{ maxWidth: 600, margin: "0 auto" }}
+          style={{ maxWidth: 450, margin: "0 auto" }}
         >
           <Form size="large" encType="multipart/form-data" onSubmit={this.onSubmit}>
             <Header as="h3" color="black" textAlign="center">
@@ -222,7 +227,7 @@ class ShopSignUpForm extends React.Component {
               placeholder="Shop Name"
             />
             <Header as="h3" color="black" textAlign="center">
-              DETAIL INFOcurrentValues
+              DETAIL INFO
             </Header>
             <Header as="h4" color="black" textAlign="left">
               District:
@@ -232,6 +237,15 @@ class ShopSignUpForm extends React.Component {
               component={SelectField}
               options={districtOptions}
               placeholder="district of your barber shop"
+            />
+            <Header as="h4" color="black" textAlign="left">
+              Address:
+            </Header>
+            <Field
+              name="address"
+              type="text"
+              component={LabelInputField}
+              placeholder="address of your barber shop"
             />
 
             <Header as="h4" color="black" textAlign="left">
