@@ -11,7 +11,7 @@ export default function ListItem(props) {
   const l = props.l;
 
   return (
-    <Item key={l.id} >
+    <Item>
       <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
       <Item.Content>
         <Item.Header as='a'>{l.shopname}</Item.Header>
