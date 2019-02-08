@@ -8,10 +8,24 @@ Geocode.setApiKey(appID);
 Geocode.enableDebug();
 
 class Map extends Component {
+  constructor(props) {
+    super(props)
+    this.markers = []
+    this.infoWindow = null
+  }
 
   componentDidUpdate(prevProps, _prevState) {
     if (prevProps.list !== this.props.list) {
-      this.renderMap()
+      this.markers = []; // reset on each render
+      this.renderMap();
+    }
+
+    console.log(this.props.selectedItem);
+    if (this.props.selectedItem) {
+      let selectedMarker = this.markers.find(m => {
+        return m.id === this.props.selectedItem.id;
+      });
+      this.showInfoWindow(selectedMarker);
     }
   }
 
@@ -26,13 +40,13 @@ class Map extends Component {
     var point = { lat: 22.2990446, lng: 114.1639289 };
     // Add window.google... to fix is not defined error
     var map = new window.google.maps.Map(document.getElementById('map'), { zoom: 13, center: point });
-
+    var bounds = new window.google.maps.LatLngBounds();
     // create an info window
-    var infoWindow = new window.google.maps.InfoWindow()
-
+    this.infoWindow = new window.google.maps.InfoWindow()
     // display dynamic markers
     this.props.list.map(l => {
 
+      // infoWindow styling
       var contentString = `<h3 style="margin-bottom: 0.2em"><a href="/shop/${l.id}">${l.shopname}</a></h3> 
                             <p style="font-weight: 500; margin-bottom: 0.2em">${l.address}</p>
                             <p style="margin-bottom: 0.2em">${l.address_2}</p>`
@@ -46,22 +60,39 @@ class Map extends Component {
           var points = { lat, lng }
           // create markers
           var marker = new window.google.maps.Marker({
+            id: l.id,
             position: points,
             map: map,
-            title: l.name
+            content: contentString,
+            name: l.shopname
           });
 
-          marker.addListener('click', function () {
+          // opening markers on click
+          marker.addListener('click', () => {
+            this.showInfoWindow(marker);
+          });
+          bounds.extend(marker.getPosition());
+          // markers pushed into an array of currently displayed markers - so that they can be selected from SearchResult list
+          this.markers.push(marker);
+          console.log(this.markers);
 
-            infoWindow.setContent(contentString)
-            // open an infowindow
-            infoWindow.open(map, marker)
-          }, error => {
-            console.error(error);
-          }
-          )
-        })
+        },
+        error => {
+          console.error(error);
+        }
+      )
     })
+  }
+
+  showInfoWindow(marker) {
+    if (marker) {
+      this.infoWindow.setContent(
+        marker.content
+      );
+      // open an infowindow
+      this.infoWindow.open(marker.map, marker);
+    }
+    return null
   }
 
   render() {

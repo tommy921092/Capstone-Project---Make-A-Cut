@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import Map from './MapResult';
 import FilterButtons from './FilterButtons';
-import ListItem from './SearchResultsCard';
+import ListItem, { Tag } from './SearchResultsCard';
 
 import './SearchResults.css';
 
@@ -17,7 +17,8 @@ export default class SearchResults extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchListing: []
+      searchListing: [],
+      selectedItem: null,
     }
   }
   // fetch query search results
@@ -41,6 +42,12 @@ export default class SearchResults extends Component {
       })
   }
 
+  showInfo(e, selectedItem) {
+    this.setState({ 'selectedItem': selectedItem });
+    console.log(this.state.selectedItem);
+    console.log('selected!')
+  }
+
   componentDidMount() {
     // calling our async action
     this.fetchListings();
@@ -51,6 +58,7 @@ export default class SearchResults extends Component {
 
   componentDidUpdate(prevProps, _prevState) {
     console.log(typeof (this.state.searchListing));
+    console.log(this.state.searchListing);
     // this is likely a dirty fix, to prevent fetchListings from repeatedly firing off
     if (prevProps.location.search !== this.props.location.search) {
       this.fetchListings();
@@ -73,14 +81,40 @@ export default class SearchResults extends Component {
                 <Item.Group link divided>
 
                   {this.state.searchListing.length > 0 ? this.state.searchListing.map(l =>
-                    <ListItem key={l.id} l={l} />
+                    // <ListItem key={l.id} l={l} /> // commented out until I can figure out how to pass onClick to component
+
+                    <Item key={l.id} onClick={ e => this.showInfo(e, l) }>
+                      <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
+                      <Item.Content>
+                        <Item.Header as='a' href={`/shop/${l.id}`}>{l.shopname}</Item.Header>
+                        <Item.Meta>
+                          <span>{l.address}</span>
+                        </Item.Meta>
+                        <Item.Description>{l.description}</Item.Description>
+                        <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
+                        <Item.Extra>
+
+                          {l.tag !== null ? l.tag.map(t =>
+                            <Tag key={l.tag.indexOf(t)} t={t} /> // dirty fix indexOf for tag key
+                          ) : null}
+
+                          <Label>
+                            <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
+                          </Label>
+                          <Label >
+                            <Icon name='hourglass half' style={{ margin: 'auto' }} />
+                          </Label>
+                        </Item.Extra>
+                      </Item.Content>
+                    </Item>
+
                   ) : <Header size="small">No results? I'll give you a bowl cut for free</Header>}
 
                 </Item.Group>
               </Grid.Column>
 
               <Grid.Column width={10} verticalAlign='middle'>
-                <Map list={this.state.searchListing} />
+                <Map list={this.state.searchListing} selectedItem={this.state.selectedItem} />
               </Grid.Column>
 
             </Grid>
@@ -90,7 +124,6 @@ export default class SearchResults extends Component {
     )
   }
 }
-
 
 // const mapStateToProps = state => {
 //   return {
