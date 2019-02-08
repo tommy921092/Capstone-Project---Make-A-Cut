@@ -1,109 +1,35 @@
 import React from "react";
-import { Item, Form, Rating } from "semantic-ui-react";
+import BookingItem from "./BookingItem";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
-class UserUpcoming extends React.Component {
+class UserPrevious extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { records: [], isCurrent: false };
+  }
+  componentDidMount() {
+    let token = localStorage.getItem("jwtToken");
+    //get userid
+    let id = jwtDecode(token).id;
+    axios.get(`/api/userProfile/previous/${id}`).then(result => {
+      console.log(result.data); // should be array of records
+      this.setState({ records: result.data });
+    });
+  }
+
   render() {
-    return (
-      <Item.Group>
-        <Item>
-          <Item.Image
-            size="medium"
-            src="https://react.semantic-ui.com/images/wireframe/image.png"
-          />
-          <Item.Content>
-            <Item.Header>Previous Booking 1</Item.Header>
-            <Item.Description>
-              <p>Shop Name: </p>
-              <p>Shop Address: </p>
-              <p>Date: </p>
-              <p>Time slot: </p>
-              <p>Service: </p>
-              <p>Payment: </p>
-              <p>Status: </p>
-            </Item.Description>
-            <Item.Header>Comment</Item.Header>
-            <Form>
-              <Form.TextArea disabled placeholder="Your comment" />
-            </Form>
-            <Item.Header>Rating</Item.Header><br />
-            <Rating icon="heart" defaultRating={3} maxRating={5} />
-          </Item.Content>
-        </Item>
-        <Item>
-          <Item.Image
-            size="medium"
-            src="https://react.semantic-ui.com/images/wireframe/image.png"
-          />
-          <Item.Content>
-            <Item.Header>Previous Booking 2</Item.Header>
-            <Item.Description>
-              <p>Shop Name: </p>
-              <p>Shop Address: </p>
-              <p>Date: </p>
-              <p>Time slot: </p>
-              <p>Services: </p>
-              <p>Payment: </p>
-              <p>Status: </p>
-            </Item.Description>
-            <Item.Header>Comment</Item.Header>
-            <Form>
-              <Form.TextArea disabled placeholder="Your comment" />
-            </Form>
-            <Item.Header>Rating</Item.Header><br />
-            <Rating icon="heart" defaultRating={3} maxRating={5} onClick={this.handleClick} />
-          </Item.Content>
-        </Item>
-        <Item>
-          <Item.Image
-            size="medium"
-            src="https://react.semantic-ui.com/images/wireframe/image.png"
-          />
-          <Item.Content>
-            <Item.Header>Previous Booking 3</Item.Header>
-            <Item.Description>
-              <p>Shop Name: </p>
-              <p>Shop Address: </p>
-              <p>Date: </p>
-              <p>Time slot: </p>
-              <p>Services: </p>
-              <p>Payment: </p>
-              <p>Status: </p>
-            </Item.Description>
-            <Item.Header>Comment</Item.Header>
-            <Form>
-              <Form.TextArea disabled placeholder="Your comment" />
-            </Form>
-            <Item.Header>Rating</Item.Header><br />
-            <Rating icon="heart" defaultRating={3} maxRating={5} />
-          </Item.Content>
-        </Item>
-        <Item>
-          <Item.Image
-            size="medium"
-            src="https://react.semantic-ui.com/images/wireframe/image.png"
-          />
-          <Item.Content>
-            <Item.Header>Previous Booking 4</Item.Header>
-            <Item.Description>
-              <p>Shop Name: </p>
-              <p>Shop Address: </p>
-              <p>Date: </p>
-              <p>Time slot: </p>
-              <p>Services: </p>
-              <p>Payment: </p>
-              <p>Status: </p>
-            </Item.Description>
-            <Item.Header>Comment</Item.Header>
-            <Form>
-              <Form.TextArea disabled placeholder="Your comment" />
-            </Form>
-            <Item.Header>Rating</Item.Header><br />
-            <Rating icon="heart" defaultRating={3} maxRating={5} />
-          </Item.Content>
-        </Item>
-      </Item.Group>
-    );
+    return this.state.records.map((record, index) => {
+      return (
+        <BookingItem
+          index={index + 1}
+          key={record.id}
+          record={record}
+          isCurrent={this.state.isCurrent}
+        />
+      );
+    });
   }
 }
 
-export default UserUpcoming;
+export default UserPrevious;

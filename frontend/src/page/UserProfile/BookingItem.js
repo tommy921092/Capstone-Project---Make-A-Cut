@@ -33,7 +33,7 @@ class BookingItem extends React.Component {
           />
           <Item.Content>
             <Item.Header>
-              {this.props.status === "confirmed"
+              {this.props.isCurrent === true
                 ? `Upcoming Booking${this.props.index}`
                 : `Previous Booking${this.props.index}`}
             </Item.Header>
@@ -147,7 +147,7 @@ class BookingItem extends React.Component {
                 </Table>
               </Segment>
             </Item.Description>
-            {this.props.status === "confirmed" ? (
+            {this.props.isCurrent === true ? (
               <Item.Extra>
                 <UserEditBookingModal />
                 <Button basic color="black" onClick={this.handleCancel}>
