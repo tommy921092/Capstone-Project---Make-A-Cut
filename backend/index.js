@@ -10,6 +10,7 @@ const shopService = require('./routes/shopService');
 const search = require('./routes/search');
 const menu = require('./routes/menu');
 const billing = require('./routes/billing');
+const booking = require ('./routes/booking');
 
 let app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/billing", billing)
 app.use("/api/shop", shop);
 app.use("/api/search", search);
 app.use("/api/menu", menu);
+app.use("/api/booking", booking);
 app.get("/", (req, res) => {
   res.send("Your fucking capstone backend is running la");
 });
