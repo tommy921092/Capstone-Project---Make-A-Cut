@@ -62,12 +62,43 @@ router.get("/current/:id", (req, res) => {
     .where({
       "booking._userid": userid
     })
-    // .andWhere({
-    //   // logic for checking whether the time is future
-    // })
     .then(rows => {
       console.log("getting the upcoming records");
-      res.send(rows);
+      res.send(
+        rows
+          .filter(
+            x =>
+              new Date(
+                x.bookingdate.split("_")[0].split("-")[2],
+                x.bookingdate.split("_")[0].split("-")[1] - 1,
+                x.bookingdate.split("_")[0].split("-")[0],
+                x.bookingdate.split("_")[1].split(":")[0],
+                x.bookingdate.split("_")[1].split(":")[1],
+                0
+              ) >= new Date()
+          )
+          .sort(function(a, b) {
+            //such that the records always show the most recent bookings at the top
+            return (
+              new Date(
+                b.bookingdate.split("_")[0].split("-")[2],
+                b.bookingdate.split("_")[0].split("-")[1] - 1,
+                b.bookingdate.split("_")[0].split("-")[0],
+                b.bookingdate.split("_")[1].split(":")[0],
+                b.bookingdate.split("_")[1].split(":")[1],
+                0
+              ) -
+              new Date(
+                a.bookingdate.split("_")[0].split("-")[2],
+                a.bookingdate.split("_")[0].split("-")[1] - 1,
+                a.bookingdate.split("_")[0].split("-")[0],
+                a.bookingdate.split("_")[1].split(":")[0],
+                a.bookingdate.split("_")[1].split(":")[1],
+                0
+              )
+            );
+          })
+      );
     })
     .catch(err => {
       console.log(err);
@@ -77,18 +108,18 @@ router.get("/current/:id", (req, res) => {
 //get previous booking record
 router.get("/previous/:id", (req, res) => {
   let userid = req.params.id;
-  res.send(userid);
   knex("booking")
     .select(
+      "booking.uid",
       "booking.id",
       "booking._shopid",
       "booking.bookingdate",
       "booking.status",
       "menu.name",
       "menu.price",
-      "shop.id as shopid",
       "shop.shopname",
       "shop.address",
+      "shop.photo",
       "shop.tel",
       "shop.website",
       "comment.id as commentid",
@@ -101,12 +132,43 @@ router.get("/previous/:id", (req, res) => {
     .where({
       "booking._userid": userid
     })
-    // .andWhere({
-    //   // logic for checking whether the time is future
-    // })
     .then(rows => {
       console.log("getting the previous records");
-      res.send(rows);
+      res.send(
+        rows
+          .filter(
+            x =>
+              new Date(
+                x.bookingdate.split("_")[0].split("-")[2],
+                x.bookingdate.split("_")[0].split("-")[1] - 1,
+                x.bookingdate.split("_")[0].split("-")[0],
+                x.bookingdate.split("_")[1].split(":")[0],
+                x.bookingdate.split("_")[1].split(":")[1],
+                0
+              ) < new Date()
+          )
+          .sort(function(a, b) {
+            //such that the records always show the most recent bookings at the top
+            return (
+              new Date(
+                b.bookingdate.split("_")[0].split("-")[2],
+                b.bookingdate.split("_")[0].split("-")[1] - 1,
+                b.bookingdate.split("_")[0].split("-")[0],
+                b.bookingdate.split("_")[1].split(":")[0],
+                b.bookingdate.split("_")[1].split(":")[1],
+                0
+              ) -
+              new Date(
+                a.bookingdate.split("_")[0].split("-")[2],
+                a.bookingdate.split("_")[0].split("-")[1] - 1,
+                a.bookingdate.split("_")[0].split("-")[0],
+                a.bookingdate.split("_")[1].split(":")[0],
+                a.bookingdate.split("_")[1].split(":")[1],
+                0
+              )
+            );
+          })
+      );
     })
     .catch(err => {
       console.log(err);

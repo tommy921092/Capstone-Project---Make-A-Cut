@@ -68,8 +68,100 @@ router.get("/current/:id", (req, res) => {
     )
     .fullOuterJoin("users", "booking._userid", "users.id")
     .fullOuterJoin("menu", "booking._menuid", "menu.id")
-    .where({"booking._shopid": shopid})
-    .then(rows => res.send(rows))
+    .where({ "booking._shopid": shopid })
+    .then(rows => {
+      console.log("getting the upcoming records");
+      res.send(
+        rows
+          .filter(
+            x =>
+              new Date(
+                x.bookingdate.split("_")[0].split("-")[2],
+                x.bookingdate.split("_")[0].split("-")[1] - 1,
+                x.bookingdate.split("_")[0].split("-")[0],
+                x.bookingdate.split("_")[1].split(":")[0],
+                x.bookingdate.split("_")[1].split(":")[1],
+                0
+              ) >= new Date()
+          )
+          .sort(function(a, b) {
+            //such that the records always show the most recent bookings at the top
+            return (
+              new Date(
+                b.bookingdate.split("_")[0].split("-")[2],
+                b.bookingdate.split("_")[0].split("-")[1] - 1,
+                b.bookingdate.split("_")[0].split("-")[0],
+                b.bookingdate.split("_")[1].split(":")[0],
+                b.bookingdate.split("_")[1].split(":")[1],
+                0
+              ) -
+              new Date(
+                a.bookingdate.split("_")[0].split("-")[2],
+                a.bookingdate.split("_")[0].split("-")[1] - 1,
+                a.bookingdate.split("_")[0].split("-")[0],
+                a.bookingdate.split("_")[1].split(":")[0],
+                a.bookingdate.split("_")[1].split(":")[1],
+                0
+              )
+            );
+          })
+      );
+    })
+    .catch(err => console.log(err));
+});
+
+router.get("/previous/:id", (req, res) => {
+  let shopid = req.params.id;
+  knex("booking")
+    .select(
+      "booking.bookingdate",
+      "booking.status",
+      "users.tel",
+      "users.fullname",
+      "menu.name",
+      "menu.price"
+    )
+    .fullOuterJoin("users", "booking._userid", "users.id")
+    .fullOuterJoin("menu", "booking._menuid", "menu.id")
+    .where({ "booking._shopid": shopid })
+    .then(rows => {
+      console.log("getting the upcoming records");
+      res.send(
+        rows
+          .filter(
+            x =>
+              new Date(
+                x.bookingdate.split("_")[0].split("-")[2],
+                x.bookingdate.split("_")[0].split("-")[1] - 1,
+                x.bookingdate.split("_")[0].split("-")[0],
+                x.bookingdate.split("_")[1].split(":")[0],
+                x.bookingdate.split("_")[1].split(":")[1],
+                0
+              ) < new Date()
+          )
+          .sort(function(a, b) {
+            //such that the records always show the most recent bookings at the top
+            return (
+              new Date(
+                b.bookingdate.split("_")[0].split("-")[2],
+                b.bookingdate.split("_")[0].split("-")[1] - 1,
+                b.bookingdate.split("_")[0].split("-")[0],
+                b.bookingdate.split("_")[1].split(":")[0],
+                b.bookingdate.split("_")[1].split(":")[1],
+                0
+              ) -
+              new Date(
+                a.bookingdate.split("_")[0].split("-")[2],
+                a.bookingdate.split("_")[0].split("-")[1] - 1,
+                a.bookingdate.split("_")[0].split("-")[0],
+                a.bookingdate.split("_")[1].split(":")[0],
+                a.bookingdate.split("_")[1].split(":")[1],
+                0
+              )
+            );
+          })
+      );
+    })
     .catch(err => console.log(err));
 });
 

@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 class UserUpcoming extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { records: [] };
+    this.state = { records: [], isCurrent: true };
   }
   componentDidMount() {
     let token = localStorage.getItem("jwtToken");
@@ -19,17 +19,17 @@ class UserUpcoming extends React.Component {
   }
 
   render() {
-      return this.state.records.map((record, index) => {
-        return (
-          <BookingItem
-            index={index + 1}
-            key={record.id}
-            record={record}
-            status={record.status}
-          />
-        );
-      });
-    }
+    return this.state.records.map((record, index) => {
+      return (
+        <BookingItem
+          index={index + 1}
+          key={record.id}
+          record={record}
+          isCurrent={this.state.isCurrent}
+        />
+      );
+    });
+  }
 }
 
 export default UserUpcoming;

@@ -25,7 +25,7 @@ export default class UserMenuWithContent extends Component {
       }
     };
     return (
-      <Grid container style={{ height: "70vh" }}>
+      <Grid container style={{ minHeight: "70vh" }}>
         <Grid.Column width={2}>
           <Menu fluid vertical tabular>
             <Menu.Item
