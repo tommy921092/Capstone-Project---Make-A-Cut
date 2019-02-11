@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Icon, Step, Container, Grid, Header} from 'semantic-ui-react'
-import queryString from 'query-string'
 
 
 import Step1 from './Step1'
 import Step2 from './Step2'
+import Step3 from './Step3'
 
 
 class ReservationPage extends Component {
@@ -65,7 +65,8 @@ class ReservationPage extends Component {
         backStep1={this.backStep1.bind(this)}
         goStep3={this.goStep3.bind(this)} />
     } else if (currentStep === 3) {
-      element = <Header>Payment Finish!!Your booking id is {this.state.uid}</Header>
+      element = <Step3 uid={this.state.uid}></Step3>
+      // element = <Header>Payment Finish!!Your booking id is {this.state.uid}</Header>
     } else {
       element = <Header>Error</Header>
     }

@@ -103,7 +103,7 @@ export default class ShopdetailPage extends Component {
                 </Grid.Column>
             </Grid.Row>
 
-            <Grid.Row>
+            {/* <Grid.Row>
                 <Grid.Column width={16}>
                     <Segment>
                         <Label color='red' ribbon>
@@ -115,7 +115,7 @@ export default class ShopdetailPage extends Component {
                         <StylistList />
                     </Segment>
                 </Grid.Column>
-            </Grid.Row>
+            </Grid.Row> */}
 
             <Grid.Row>
                 <Grid.Column width={16}>

@@ -62,6 +62,7 @@ router.get("/current/:id", (req, res) => {
     .where({
       "booking._userid": userid
     })
+    .andWhere("booking.status","confirmed")
     .then(rows => {
       console.log("getting the upcoming records");
       res.send(
@@ -132,20 +133,24 @@ router.get("/previous/:id", (req, res) => {
     .where({
       "booking._userid": userid
     })
+    .orWhere("booking.status","confirmed")
     .then(rows => {
       console.log("getting the previous records");
       res.send(
         rows
           .filter(
-            x =>
-              new Date(
+            (x) =>{
+              if(x.status == "completed"){
+                return true;
+              }
+              return new Date(
                 x.bookingdate.split("_")[0].split("-")[2],
                 x.bookingdate.split("_")[0].split("-")[1] - 1,
                 x.bookingdate.split("_")[0].split("-")[0],
                 x.bookingdate.split("_")[1].split(":")[0],
                 x.bookingdate.split("_")[1].split(":")[1],
                 0
-              ) < new Date()
+              ) < new Date()}
           )
           .sort(function(a, b) {
             //such that the records always show the most recent bookings at the top

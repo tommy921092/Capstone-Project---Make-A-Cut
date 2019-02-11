@@ -45,6 +45,7 @@ router.get('/date/:menuid', (req, res) => {
                     knex.select('bookingdate')
                     .from('booking')
                     .where('_shopid', IDresult[0]._shopid)
+                    .andWhere('status','confirmed')
                     .then((rows) => {
                         const map1 = rows.map(x => x.bookingdate)
                         res.send(map1)

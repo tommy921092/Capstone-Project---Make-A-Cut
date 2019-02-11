@@ -29,7 +29,6 @@ router.get('/:uid',(req,res)=>{
         }
 
     })
-    // res.send(req.params.uid);
 })
 
 module.exports = router;

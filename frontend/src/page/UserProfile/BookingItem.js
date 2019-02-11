@@ -8,8 +8,10 @@ import {
   Icon,
   Segment
 } from "semantic-ui-react";
-import axios from "axios";
+import QRCode from 'qrcode.react';
 import UserEditBookingModal from "./UserEditBookingModal";
+
+
 class BookingItem extends React.Component {
   constructor(props) {
     super(props);
@@ -141,6 +143,11 @@ class BookingItem extends React.Component {
                       </Table.Cell>
                       <Table.Cell width="12">
                         {this.props.record.status}
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell width="16">
+                      <QRCode value={this.props.record.uid}/>
                       </Table.Cell>
                     </Table.Row>
                   </Table.Body>

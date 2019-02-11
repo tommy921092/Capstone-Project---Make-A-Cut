@@ -6,25 +6,24 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 const districtOptions = [
-  { text: "Central and Western", value: "Central and Western" },
-  { text: "Eastern", value: "Eastern" },
-  { text: "Southern", value: "Southern" },
-  { text: "Wan Chai", value: "Wan Chai" },
-  { text: "Sham Shui Po", value: "Sham Shui Po" },
-  { text: "Kowloon City", value: "Kowloon City" },
-  { text: "Kwun Tong", value: "Kwun Tong" },
-  { text: "Wong Tai Sin", value: "Wong Tai Sin" },
-  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
-  { text: "Islands", value: "Islands" },
-  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
-  { text: "Kwai Tsing", value: "Kwai Tsing" },
-  { text: "North", value: "North" },
-  { text: "Sai Kung", value: "Sai Kung" },
-  { text: "Sha Tin", value: "Sha Tin" },
-  { text: "Tai Po", value: "Tai Po" },
-  { text: "Tsuen Wan", value: "Tsuen Wan" },
-  { text: "Tuen Mun", value: "Tuen Mun" },
-  { text: "Yuen Long", value: "Yuen Long" }
+  { key: "1", text: "Central and Western", value: "Central and Western" },
+  { key: "2", text: "Wan Chai", value: "Wan Chai" },
+  { key: "3", text: "Eastern", value: "Eastern" },
+  { key: "4", text: "Southern", value: "Southern" },
+  { key: "5", text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
+  { key: "6", text: "Sham Shui Po", value: "Sham Shui Po" },
+  { key: "7", text: "Kowloon City", value: "Kowloon City" },
+  { key: "8", text: "Wong Tai Sin", value: "Wong Tai Sin" },
+  { key: "9", text: "Kwun Tong", value: "Kwun Tong" },
+  { key: "10", text: "Kwai Tsing", value: "Kwai Tsing" },
+  { key: "11", text: "Tsuen Wan", value: "Tsuen Wan" },
+  { key: "12", text: "Tuen Mun", value: "Tuen Mun" },
+  { key: "13", text: "Yuen Long", value: "Yuen Long" },
+  { key: "14", text: "North", value: "North" },
+  { key: "15", text: "Tai Po", value: "Tai Po" },
+  { key: "16", text: "Sha Tin", value: "Sha Tin" },
+  { key: "17", text: "Sai Kung", value: "Sai Kung" },
+  { key: "18", text: "Islands", value: "Islands" }
 ];
 
 class UserProfile extends React.Component {
@@ -52,7 +51,6 @@ class UserProfile extends React.Component {
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
     axios.get(`/api/userProfile/profile/${id}`).then(result => {
-      console.log(result.data[0]);
       this.setState({
         username: result.data[0].username,
         fullName: result.data[0].fullname,
@@ -81,7 +79,6 @@ class UserProfile extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     //if saved with no error return successfully saved message
-    console.log("the state: ", this.state);
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
     this.setState({ success: true });

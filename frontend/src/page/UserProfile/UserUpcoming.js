@@ -13,7 +13,6 @@ class UserUpcoming extends React.Component {
     //get userid
     let id = jwtDecode(token).id;
     axios.get(`/api/userProfile/current/${id}`).then(result => {
-      console.log(result.data); // should be array of records
       this.setState({ records: result.data });
     });
   }
