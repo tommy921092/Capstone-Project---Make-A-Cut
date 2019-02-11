@@ -34,7 +34,7 @@ class FilterButtons extends Component {
           </Dropdown>
         </Menu.Item>
 
-        <Menu.Item fitted="horizontally">
+        {/* <Menu.Item fitted="horizontally">
           <Dropdown
             basic clearable
             options={[
@@ -46,11 +46,11 @@ class FilterButtons extends Component {
             name='services'
             multiple selection
           />
-        </Menu.Item>
+        </Menu.Item> */}
 
-        <Menu.Item fitted="horizontally">
+        {/* <Menu.Item fitted="horizontally">
           <Input onKeyPress={this.handleKeyPress} onChange={(e) => console.log(e.target.value)} icon='search' placeholder='Filter by name' />
-        </Menu.Item>
+        </Menu.Item> */}
 
       </Menu>
 

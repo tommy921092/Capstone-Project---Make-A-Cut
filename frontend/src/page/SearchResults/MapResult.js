@@ -20,7 +20,7 @@ class Map extends Component {
       this.renderMap();
     }
 
-    console.log(this.props.selectedItem);
+    console.log('current selected item : ', this.props.selectedItem);
     if (this.props.selectedItem) {
       let selectedMarker = this.markers.find(m => {
         return m.id === this.props.selectedItem.id;
@@ -37,15 +37,17 @@ class Map extends Component {
   initMap = () => {
 
     // create a map
-    var point = { lat: 22.2990446, lng: 114.1639289 };
+    var point = { lat: 22.3002358, lng: 114.1788634 };
     // Add window.google... to fix is not defined error
-    var map = new window.google.maps.Map(document.getElementById('map'), { zoom: 13, center: point });
-    var bounds = new window.google.maps.LatLngBounds();
+    var map = new window.google.maps.Map(document.getElementById('map'), { zoom: 14, center: point });
     // create an info window
     this.infoWindow = new window.google.maps.InfoWindow()
+    var bounds = new window.google.maps.LatLngBounds();
     // display dynamic markers
+    var address_count = 0;
     this.props.list.map(l => {
 
+      address_count++; // counter check for google map bounds logic
       // infoWindow styling
       var contentString = `<h3 style="margin-bottom: 0.2em"><a href="/shop/${l.id}">${l.shopname}</a></h3> 
                             <p style="font-weight: 500; margin-bottom: 0.2em">${l.address}</p>
@@ -56,8 +58,10 @@ class Map extends Component {
         response => {
           // return coordinates of address
           const { lat, lng } = response.results[0].geometry.location;
-          console.log(lat, lng);
+          // console.log(lat, lng);
           var points = { lat, lng }
+          console.log(points);
+          // console.log(points.lat, points.lng)
           // create markers
           var marker = new window.google.maps.Marker({
             id: l.id,
@@ -66,22 +70,27 @@ class Map extends Component {
             content: contentString,
             name: l.shopname
           });
+          console.log(marker);
 
           // opening markers on click
           marker.addListener('click', () => {
             this.showInfoWindow(marker);
           });
-          bounds.extend(marker.getPosition());
+          console.log(marker.position); // not returning coordinates as desired
+          bounds.extend( marker.position );
           // markers pushed into an array of currently displayed markers - so that they can be selected from SearchResult list
           this.markers.push(marker);
-          console.log(this.markers);
-
+          console.log(this.markers.length, address_count);
         },
         error => {
           console.error(error);
         }
       )
     })
+
+    if((this.markers.length == address_count) && (this.markers.length > 0)) {
+      map.fitBounds(bounds); // currently not working - geocoder latlng points are not being passed to marker in time
+    }
   }
 
   showInfoWindow(marker) {
