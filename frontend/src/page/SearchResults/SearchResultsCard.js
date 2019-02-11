@@ -2,16 +2,17 @@ import React  from 'react';
 import { Icon, Item, Label } from 'semantic-ui-react'
 
 // Logic for tag display
-function Tag(props) {
+export function Tag(props) {
   const hasTag = props.t;
   return <Label>{hasTag}</Label>
 }
 
 export default function ListItem(props) {
+
   const l = props.l;
 
   return (
-    <Item key={l.id} >
+    <Item onClick={ e => console.log(`I'm clicked!`) } >
       <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
       <Item.Content>
         <Item.Header as='a' href={`/shop/${l.id}`}>{l.shopname}</Item.Header>
