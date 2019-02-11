@@ -44,10 +44,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router routes={routes}>
       <ScrollToTop>
-        <div>
           <Navbar />
           {routes}
-        </div>
       </ScrollToTop>
     </Router>
 

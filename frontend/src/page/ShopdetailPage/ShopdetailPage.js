@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Header, Label, Dimmer, Loader, Image} from 'semantic-ui-react'
+import { Grid, Segment, Header, Label, Dimmer, Loader, Image } from 'semantic-ui-react'
 
 import BasicInfo from './BasicInfo';
 import ImageCarousel from './ImageCarousel';
@@ -35,15 +35,15 @@ export default class ShopdetailPage extends Component {
                         shopData
                     })
                     axios.get(`/api/shop/menu/${this.props.match.params.shopid}`)
-                    .then((result2)=>{
-                        if(result2.status === 200) {
-                            let menuData = result2.data
-                            this.setState({
-                                isLoading: false,
-                                menuData
-                            })
-                        }
-                    })
+                        .then((result2) => {
+                            if (result2.status === 200) {
+                                let menuData = result2.data
+                                this.setState({
+                                    isLoading: false,
+                                    menuData
+                                })
+                            }
+                        })
                 }
 
             })
@@ -69,16 +69,23 @@ export default class ShopdetailPage extends Component {
             'black',
         ]
 
+        const isMobile = window.innerWidth <= 768;
+
         const tagList = this.state.shopData.tag.map((tag) =>
             <Label key={tag} color={colors[Math.floor(Math.random() * colors.length)]}>{tag}</Label>
         );
 
+
         const renderObj = (<Grid container verticalAlign='top' style={{ minHeight: window.innerHeight * 0.8, padding: 20 }}>
+            {isMobile ? 
+            <div>
             <Grid.Row>
-                <Grid.Column width={4}>
+                <Grid.Column width={16} style={{marginTop:20,marginBottom:20}}>
                     <ImageCarousel photoArray={this.state.shopData.photo} />
                 </Grid.Column>
-                <Grid.Column width={12}>
+                </Grid.Row>
+                <Grid.Row>
+                <Grid.Column width={16}>
                     <Header as='h2' attached='top'>
                         {this.state.shopData.shopname}
                         {tagList}
@@ -89,7 +96,26 @@ export default class ShopdetailPage extends Component {
                         </div>
                     </Segment>
                 </Grid.Column>
-            </Grid.Row>
+            </Grid.Row> 
+            </div>
+            : 
+            <Grid.Row>
+                    <Grid.Column width={4}>
+                        <ImageCarousel photoArray={this.state.shopData.photo} />
+                    </Grid.Column>
+                    <Grid.Column width={12}>
+                        <Header as='h2' attached='top'>
+                            {this.state.shopData.shopname}
+                            {tagList}
+                        </Header>
+                        <Segment attached piled style={{ minHeight: 200, maxHeight: 200 }}>
+                            <div style={{ overflow: "hidden", textOverflow: "ellipsis", height: 180 }}>
+                                {this.state.shopData.description}
+                            </div>
+                        </Segment>
+                    </Grid.Column>
+                </Grid.Row>}
+
 
             <Grid.Row>
                 <Grid.Column width={16}>
@@ -144,13 +170,13 @@ export default class ShopdetailPage extends Component {
 
         </Grid>)
 
-        const loader = (  <Segment>
+        const loader = (<Segment>
             <Dimmer active>
-              <Loader />
+                <Loader />
             </Dimmer>
-        
+
             <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
-          </Segment>)
+        </Segment>)
 
         return (
             <div>

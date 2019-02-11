@@ -64,7 +64,9 @@ router.get("/current/:id", (req, res) => {
       "users.tel",
       "users.fullname",
       "menu.name",
-      "menu.price"
+      "menu.price",
+      "booking.status",
+      "booking.uid"
     )
     .fullOuterJoin("users", "booking._userid", "users.id")
     .fullOuterJoin("menu", "booking._menuid", "menu.id")

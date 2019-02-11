@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "semantic-ui-react";
+import { Table,Button } from "semantic-ui-react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
@@ -8,6 +8,7 @@ class ShopUpcoming extends React.Component {
     super(props);
     this.state = { records: [] };
   }
+
   componentDidMount() {
     let token = localStorage.getItem("jwtToken");
     //get merchantid
@@ -17,6 +18,17 @@ class ShopUpcoming extends React.Component {
       this.setState({ records: result.data });
     });
   }
+
+  handleComplete(uid) {
+    axios.get(`/api/booking/${uid}`)
+    .then((result)=>{
+      if (result.status === 200){
+        alert(`Order: ${uid} Complete`)
+        this.componentDidMount()
+      }
+    }).catch((e)=>{alert(e)})
+  }
+
   render() {
     return (
       <Table striped color="black">
@@ -28,6 +40,7 @@ class ShopUpcoming extends React.Component {
             <Table.HeaderCell>Contact Number</Table.HeaderCell>
             <Table.HeaderCell>Service</Table.HeaderCell>
             <Table.HeaderCell>Payment</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         {this.state.records.map(record => (
@@ -43,6 +56,10 @@ class ShopUpcoming extends React.Component {
               <Table.Cell>{record.tel}</Table.Cell>
               <Table.Cell>{record.name}</Table.Cell>
               <Table.Cell>{record.price}</Table.Cell>
+              <Table.Cell><Button 
+              color='teal' 
+              disabled={record.status !== "confirmed"}
+              onClick={()=>{this.handleComplete(record.uid)}}>Complete</Button></Table.Cell>
             </Table.Row>
           </Table.Body>
         ))}

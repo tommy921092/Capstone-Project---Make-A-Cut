@@ -182,10 +182,6 @@ class ShopSettings extends React.Component {
                 You can do same with CSS, the main idea is that all the elements up to the `Grid`
                 below must have a height of 100%.
               */}
-        <div
-          className="ui stacked segment"
-          style={{ maxWidth: 600, margin: "0 auto" }}
-        >
           <Form
             size="large"
             onSubmit={this.handleSubmit}
@@ -407,7 +403,6 @@ class ShopSettings extends React.Component {
               content="You've successfully updated your profile"
             />
           </Form>
-        </div>
       </div>
     );
   }

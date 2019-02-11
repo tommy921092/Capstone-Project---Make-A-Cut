@@ -11,7 +11,9 @@ export default class UserMenuWithContent extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
+    const isMobile = window.innerWidth <= 768;
     const { activeItem } = this.state;
+
     const getContent = () => {
       switch (activeItem) {
         case "Profile":
@@ -24,8 +26,10 @@ export default class UserMenuWithContent extends Component {
           return <UserProfile />;
       }
     };
-    return (
-      <Grid container style={{ minHeight: "70vh" }}>
+
+    const desktopContainer = () =>{
+      return (
+        <Grid container style={{ minHeight: "70vh" }}>
         <Grid.Column width={2}>
           <Menu fluid vertical tabular>
             <Menu.Item
@@ -50,6 +54,44 @@ export default class UserMenuWithContent extends Component {
           <Segment style={{ overflow: "auto" }}>{getContent()}</Segment>
         </Grid.Column>
       </Grid>
+      )
+    }
+
+    const mobileContainer = () =>{
+      return (      <Grid container style={{ minHeight: "70vh" }}>
+      <Grid.Row>
+      <Grid.Column width={16}>
+        <Menu fluid vertical style={{marginTop:20}}>
+          <Menu.Item
+            name="Profile"
+            active={activeItem === "Profile"}
+            onClick={this.handleItemClick}
+          />
+          <Menu.Item
+            name="Upcoming Booking"
+            active={activeItem === "Upcoming Booking"}
+            onClick={this.handleItemClick}
+          />
+          <Menu.Item
+            name="Previous Booking"
+            active={activeItem === "Previous Booking"}
+            onClick={this.handleItemClick}
+          />
+        </Menu>
+      </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+      <Grid.Column stretched width={16}>
+        <Segment style={{ overflow: "auto" }}>{getContent()}</Segment>
+      </Grid.Column>
+      </Grid.Row>
+    </Grid>)
+    }
+
+    return (
+      <div>
+      {isMobile ? mobileContainer() : desktopContainer()}
+      </div>
     );
   }
 }

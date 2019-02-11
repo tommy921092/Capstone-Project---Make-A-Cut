@@ -13,6 +13,9 @@ export default class ShopMenuWithContent extends Component {
 
   render() {
     const { activeItem } = this.state;
+    const isMobile = window.innerWidth <= 768;
+
+
     const getContent = () => {
       switch (activeItem) {
         case "Upcoming Booking":
@@ -27,8 +30,10 @@ export default class ShopMenuWithContent extends Component {
           return <ShopSettings />;
       }
     };
-    return (
-      <Grid container style={{ minHeight: "70vh" }}>
+
+    const desktopContainer = () =>{
+      return(
+        <Grid container style={{ minHeight: "70vh" }}>
         <Grid.Column width={4}>
           <Menu fluid vertical tabular>
             <Menu.Item
@@ -59,6 +64,53 @@ export default class ShopMenuWithContent extends Component {
           <Segment style={{ overflow: "auto" }}>{getContent()}</Segment>
         </Grid.Column>
       </Grid>
+      )
+    }
+
+    const mobileContainer = () =>{
+      return(
+        <Grid container style={{ minHeight: "70vh" }}>
+        <Grid.Row>
+        <Grid.Column width={16}>
+          <Menu fluid vertical style={{marginTop:20}}>
+            <Menu.Item
+              name="Account Settings"
+              active={activeItem === "Account Settings"}
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
+              name="Upcoming Booking"
+              active={activeItem === "Upcoming Booking"}
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
+              name="Previous Booking"
+              active={activeItem === "Previous Booking"}
+              onClick={this.handleItemClick}
+            />
+
+            <Menu.Item
+              name="Service Settings"
+              active={activeItem === "Service Settings"}
+              onClick={this.handleItemClick}
+            />
+          </Menu>
+        </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row>
+        <Grid.Column stretched width={16}>
+          <Segment style={{ overflow: "auto" }}>{getContent()}</Segment>
+        </Grid.Column>
+        </Grid.Row>
+      </Grid>
+      )
+    }
+
+    return (
+      <div>
+      {isMobile ? mobileContainer() : desktopContainer()}
+      </div>
     );
   }
 }

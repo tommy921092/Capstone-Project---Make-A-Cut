@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
-import { Segment, Container, Header, Form, Select, Input } from 'semantic-ui-react'
-import queryString from 'query-string'
+import { Segment, Container, Header, Form, Select, Input,Image } from 'semantic-ui-react'
 
 import Recommend from './Recommend'
 import Article from './Article'
 
 import bg from './img/bg.jpeg';
+import newslogo from './img/newslogo.png'
 
 export const locationOptions = [
     { key: '1', text: 'Central and Western', value: 'Central and Western' },
@@ -67,15 +67,15 @@ export default class HomePage extends Component {
     render() {
 
         return (
-            <Container fluid>
-                <Segment basic inverted style={{
+            <div>
+                <Segment inverted basic style={{
                     height: 600, margin: 0,
                     background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3) ), url(${bg})`,
                     backgroundPosition: 'top',
                     backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat'
+                    backgroundRepeat: 'repeat'
                 }}>
-                    <Container text fluid textAlign='center'>
+                    <Container text textAlign='center'>
                         <Header as='h1'
                             content='Find your style...'
                             inverted
@@ -103,20 +103,17 @@ export default class HomePage extends Component {
                         </Segment>
                     </Container>
                 </Segment >
-                <Container style={{ padding: '6rem' }}>
+                {/* <Container style={{ padding: '6rem' }}>
                     <Header
                         textAlign="center"
                         as="h1">Featured Shop</Header>
                     <Recommend />
-                </Container>
-                <Container fluid style={{ padding: '6rem', backgroundColor: '#8B0000' }}>
-                    <Header
-                        inverted
-                        textAlign="center"
-                        as="h1">Barber News</Header>
+                </Container> */}
+                <div style={{ padding: '3rem', backgroundColor: '#8B0000' }}>
+                <Image src={newslogo} size='medium' centered/>
                     <Article />
-                </Container>
-            </Container>
+                </div>
+                </div>
         )
     }
 }
