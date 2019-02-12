@@ -122,7 +122,7 @@ export default class Step2 extends Component {
                             locale="zh"
                             email={`${this.state.useremail}`}
                             token={token => this.handleToken(token)}
-                            stripeKey={process.env.REACT_APP_STRIPE_KEY}
+                            stripeKey='pk_test_ElRnKvw1HjxmC6MealwwSMjh'
                             disabled={this.state.isLoading}
                         >
                         <Button positive

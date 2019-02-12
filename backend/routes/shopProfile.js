@@ -61,6 +61,7 @@ router.get("/current/:id", (req, res) => {
   knex("booking")
     .select(
       "booking.bookingdate",
+      "booking.status",
       "users.tel",
       "users.fullname",
       "menu.name",

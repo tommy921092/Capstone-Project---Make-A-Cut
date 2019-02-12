@@ -14,11 +14,47 @@ class BookingItem extends React.Component {
   constructor(props) {
     super(props);
     this.handleCancel = this.handleCancel.bind(this);
+    this.state = {
+      rating: this.props.record.rating,
+      content: this.props.record.content,
+      isDisabled:
+        this.props.record.rating || this.props.record.status == "cancelled"
+          ? true
+          : false
+    };
   }
 
   handleCancel() {
     console.log("cancelled booking");
+    axios
+      .put(`/api/userProfile/cancelbooking/${this.props.record._bookingid}`)
+      .then(result => console.log(result));
   }
+
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log(this.state);
+    let data = {
+      _bookingid: this.props.record._bookingid,
+      _shopid: this.props.record._shopid,
+      _userid: this.props.record._userid,
+      rating: this.state.rating,
+      content: this.state.content
+    };
+    axios
+      .post("/api/userProfile/comment", data)
+      .then(result => console.log(result));
+    this.setState({ isDisabled: true });
+  };
+
+  handleRate(e, { rating, maxRating }) {
+    this.setState({ rating, maxRating });
+  }
+
   render() {
     return (
       <Item.Group>
@@ -38,23 +74,6 @@ class BookingItem extends React.Component {
                 : `Previous Booking${this.props.index}`}
             </Item.Header>
             <Item.Description>
-              {/* <p>Booking ID:{this.props.record.uid}</p>
-              <p>Shop Name:{this.props.record.shopname}</p>
-              <p>Shop Address:{this.props.record.address}</p>
-              <p>Shop Tel:{this.props.record.tel}</p>
-              <a href={this.props.record.website} target="_blank">
-                Shop Website
-              </a>
-              <p>
-                Date:{this.props.record.bookingdate.split("_", 2).slice(0)[0]}
-              </p>
-              <p>
-                Time slot:
-                {this.props.record.bookingdate.split("_", 2).slice(1)[0]}
-              </p>
-              <p>Service:{this.props.record.name}</p>
-              <p>Payment:{this.props.record.price}</p>
-              <p>Status:{this.props.record.status}</p> */}
               <Segment basic>
                 <Table singleLine striped style={{ border: 0 }}>
                   <Table.Body>
@@ -149,20 +168,43 @@ class BookingItem extends React.Component {
             </Item.Description>
             {this.props.isCurrent === true ? (
               <Item.Extra>
-                <UserEditBookingModal />
-                <Button basic color="black" onClick={this.handleCancel}>
+                {/* <UserEditBookingModal /> */}
+                <Button basic color="black" onClick={this.handleCancel} floated="right">
                   Cancel
                 </Button>
               </Item.Extra>
             ) : (
               <div>
                 <Item.Header>Comment</Item.Header>
-                <Form>
-                  <Form.TextArea placeholder="Your comment" />
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.TextArea
+                    name="content"
+                    placeholder="Your comment"
+                    onChange={this.handleChange}
+                    disabled={this.state.isDisabled}
+                    value={this.state.content}
+                  />
+                  <Item.Header>Rating</Item.Header>
+                  <br />
+                  <Rating
+                    icon="heart"
+                    maxRating={5}
+                    onRate={(e, rating) => {
+                      this.handleRate(e, rating);
+                    }}
+                    rating={this.state.rating}
+                    disabled={this.state.isDisabled}
+                  />
+                  <Button
+                    basic
+                    color="black"
+                    type="submit"
+                    floated="right"
+                    disabled={this.state.isDisabled}
+                  >
+                    Save
+                  </Button>
                 </Form>
-                <Item.Header>Rating</Item.Header>
-                <br />
-                <Rating icon="heart" defaultRating={3} maxRating={5} />
               </div>
             )}
           </Item.Content>

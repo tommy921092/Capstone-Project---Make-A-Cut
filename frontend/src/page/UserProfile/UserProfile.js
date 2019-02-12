@@ -14,9 +14,8 @@ const districtOptions = [
   { text: "Kowloon City", value: "Kowloon City" },
   { text: "Kwun Tong", value: "Kwun Tong" },
   { text: "Wong Tai Sin", value: "Wong Tai Sin" },
-  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
+  { text: "Yau Tsim Wong", value: "Yau Tsim Wong" },
   { text: "Islands", value: "Islands" },
-  { text: "Yau Tsim Mong", value: "Yau Tsim Mong" },
   { text: "Kwai Tsing", value: "Kwai Tsing" },
   { text: "North", value: "North" },
   { text: "Sai Kung", value: "Sai Kung" },
@@ -84,15 +83,15 @@ class UserProfile extends React.Component {
     console.log("the state: ", this.state);
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
-    this.setState({ success: true });
     let data = {
       username: this.state.username,
       fullname: this.state.fullName,
       age: this.state.age,
       tel: this.state.contactNumber,
-      district: this.state.district
+      district: this.state.district,
     };
     axios.put(`/api/userProfile/profile/${id}`, data);
+    this.setState({ success: true});
   };
 
   render() {

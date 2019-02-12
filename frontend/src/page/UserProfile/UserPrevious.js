@@ -23,7 +23,7 @@ class UserPrevious extends React.Component {
       return (
         <BookingItem
           index={index + 1}
-          key={record.id}
+          key={record._bookingid}
           record={record}
           isCurrent={this.state.isCurrent}
         />

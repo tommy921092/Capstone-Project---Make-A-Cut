@@ -1,43 +1,29 @@
-import React, { Component } from 'react'
-import { Comment,Icon} from 'semantic-ui-react'
+import React, { Component } from "react";
+import { Comment, Rating } from "semantic-ui-react";
+import faker from "faker";
 
 export default class UserComment extends Component {
-    render() {
-        return (
-            <Comment.Group>
-            <Comment>
-              <Comment.Avatar as='a' src='https://react.semantic-ui.com/images/avatar/small/stevie.jpg' />
-              <Comment.Content>
-                <Comment.Author>(UserName)</Comment.Author>
-                <Comment.Metadata>
-                  <div>2 days ago</div>
-                  <div>
-                    <Icon name='star' />
-                    1 Start
-                  </div>
-                </Comment.Metadata>
-                <Comment.Text>
-                  This barber shop is fucking on9.
-                </Comment.Text>
-              </Comment.Content>
-            </Comment>
-            <Comment>
-              <Comment.Avatar as='a' src='https://react.semantic-ui.com/images/avatar/small/stevie.jpg' />
-              <Comment.Content>
-                <Comment.Author>(UserName)</Comment.Author>
-                <Comment.Metadata>
-                  <div>2 days ago</div>
-                  <div>
-                    <Icon name='star' />
-                    5 Start
-                  </div>
-                </Comment.Metadata>
-                <Comment.Text>
-                  Hey guys, I love this shop.
-                </Comment.Text>
-              </Comment.Content>
-            </Comment>
-          </Comment.Group>
-        )
-    }
+  render() {
+    const commentList = this.props.commentData.map(comment => (
+      <Comment>
+        <Comment.Avatar as="a" src={faker.image.avatar()} />
+        <Comment.Content>
+          <Comment.Author>{comment.username}</Comment.Author>
+          <Comment.Metadata>
+            <div>CREATED AT {comment.created_at}</div>
+            <div>
+              <Rating icon="start" maxRating={5} rating={comment.rating} disabled={true}/>
+              {comment.rating} Star
+            </div>
+          </Comment.Metadata>
+          <Comment.Text>{comment.content}</Comment.Text>
+        </Comment.Content>
+      </Comment>
+    ));
+    return (
+      <Comment.Group>
+        {this.props.commentData.length > 0 ? commentList : <p>No Comment</p>}
+      </Comment.Group>
+    );
+  }
 }

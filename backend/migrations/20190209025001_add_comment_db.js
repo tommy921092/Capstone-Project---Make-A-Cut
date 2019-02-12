@@ -5,6 +5,8 @@ exports.up = function(knex, Promise) {
     table.foreign("_shopid").references("shop.id");
     table.integer("_userid").unsigned();
     table.foreign("_userid").references("users.id");
+    table.integer("_bookingid").unsigned();
+    table.foreign("_bookingid").references("booking.id");
     table.decimal("rating");
     table.text("content");
     table.boolean("valid").defaultTo(true);
@@ -13,5 +15,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable("booking");
+  return knex.schema.dropTable("comment");
 };

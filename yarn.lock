@@ -678,6 +678,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+faker@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-4.1.0.tgz#1e45bbbecc6774b3c195fad2835109c6d748cc3f"
+  integrity sha1-HkW7vsxndLPBlfrSg1EJxtdIzD8=
+
 fbjs@^0.8.16, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
@@ -1906,6 +1911,11 @@ react-facebook-login@^4.1.1:
   resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
   integrity sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw==
 
+react-geocode@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-geocode/-/react-geocode-0.1.2.tgz#9e7c8114fbd66550d32a417cf95d36fa4f1cd45f"
+  integrity sha512-XEJkEPmwufeGykul/eqJyA1WduXa3IGxJam5BA0jzYfs/KMjCrtQjJl1FcH9Cybn05oQnRVUsRW8OGwEmTER5g==
+
 react-google-login@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-google-login/-/react-google-login-5.0.0.tgz#b119338c923ae6ad84cbe9bb6ff6df96584b8ef7"
@@ -1913,10 +1923,6 @@ react-google-login@^5.0.0:
   dependencies:
     "@types/react" "*"
     prop-types "^15.6.0"
-react-geocode@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/react-geocode/-/react-geocode-0.1.2.tgz#9e7c8114fbd66550d32a417cf95d36fa4f1cd45f"
-  integrity sha512-XEJkEPmwufeGykul/eqJyA1WduXa3IGxJam5BA0jzYfs/KMjCrtQjJl1FcH9Cybn05oQnRVUsRW8OGwEmTER5g==
 
 react-is@^16.3.2, react-is@^16.6.3, react-is@^16.7.0:
   version "16.7.0"
