@@ -224,7 +224,30 @@ router.get("/comment/:id", (req, res) => {
       } else {
         var avgRate = 0;
       }
-      res.send({ rows, avgRate});
+      res.send({ rows, avgRate });
+    })
+    .catch(err => console.log(err));
+});
+
+router.get("/avgRate/:id", (req, res) => {
+  let shopid = req.params.id;
+  knex("comment")
+    .select("comment.rating")
+    .fullOuterJoin("users", "comment._userid", "users.id")
+    .fullOuterJoin("shop", "comment._shopid", "shop.id")
+    .where({ "comment._shopid": shopid })
+    .then(rows => {
+      let rateArr = rows.map(row => row.rating);
+      let temp = 0;
+      for (let val of rateArr) {
+        temp += Number(val);
+      }
+      if (rateArr.length > 0) {
+        var avgRate = temp / rateArr.length;
+      } else {
+        var avgRate = 0;
+      }
+      res.send({avgRate});
     })
     .catch(err => console.log(err));
 });
