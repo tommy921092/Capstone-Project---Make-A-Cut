@@ -27,12 +27,12 @@ export default function ListItem(props) {
             <Tag key={l.tag.indexOf(t)} t={t} /> // dirty fix indexOf for tag key
           ) : null}
 
-          <Label>
+          {/* <Label>
             <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
           </Label>
           <Label >
             <Icon name='hourglass half' style={{ margin: 'auto' }} />
-          </Label>
+          </Label> */}
         </Item.Extra>
       </Item.Content>
     </Item>
