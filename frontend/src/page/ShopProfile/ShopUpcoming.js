@@ -28,6 +28,7 @@ class ShopUpcoming extends React.Component {
             <Table.HeaderCell>Contact Number</Table.HeaderCell>
             <Table.HeaderCell>Service</Table.HeaderCell>
             <Table.HeaderCell>Payment</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         {this.state.records.map(record => (
@@ -43,6 +44,7 @@ class ShopUpcoming extends React.Component {
               <Table.Cell>{record.tel}</Table.Cell>
               <Table.Cell>{record.name}</Table.Cell>
               <Table.Cell>{record.price}</Table.Cell>
+              <Table.Cell>{record.status}</Table.Cell>
             </Table.Row>
           </Table.Body>
         ))}
