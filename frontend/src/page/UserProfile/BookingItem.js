@@ -10,6 +10,7 @@ import {
 } from "semantic-ui-react";
 import QRCode from 'qrcode.react';
 import UserEditBookingModal from "./UserEditBookingModal";
+import axios from 'axios';
 
 
 class BookingItem extends React.Component {

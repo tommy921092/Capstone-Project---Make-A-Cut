@@ -94,6 +94,8 @@ export default class ShopdetailPage extends Component {
       "black"
     ];
 
+    const isMobile = window.innerWidth <= 768;
+
     const tagList = this.state.shopData.tag.map(tag => (
       <Label
         key={tag}
@@ -109,28 +111,53 @@ export default class ShopdetailPage extends Component {
         verticalAlign="top"
         style={{ minHeight: window.innerHeight * 0.8, padding: 20 }}
       >
-        <Grid.Row>
-          <Grid.Column width={4}>
+        {isMobile ? <div><Grid.Row>
+          <Grid.Column width={16} style={{paddingTop:20,paddingBottom:20}}>
             <ImageCarousel photoArray={this.state.shopData.photo} />
           </Grid.Column>
-          <Grid.Column width={12}>
-            <Header as="h2" attached="top">
-              {this.state.shopData.shopname}
-              {tagList}
-            </Header>
-            <Segment attached piled style={{ minHeight: 200, maxHeight: 200 }}>
-              <div
-                style={{
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  height: 180
-                }}
-              >
-                {this.state.shopData.description}
-              </div>
-            </Segment>
-          </Grid.Column>
         </Grid.Row>
+          <Grid.Row>
+            <Grid.Column width={16}>
+              <Header as="h2" attached="top">
+                {this.state.shopData.shopname}
+                {tagList}
+              </Header>
+              <Segment attached piled style={{ minHeight: 200, maxHeight: 200 }}>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    height: 180
+                  }}
+                >
+                  {this.state.shopData.description}
+                </div>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row></div>
+          : <Grid.Row>
+            <Grid.Column width={4}>
+              <ImageCarousel photoArray={this.state.shopData.photo} />
+            </Grid.Column>
+            <Grid.Column width={12}>
+              <Header as="h2" attached="top">
+                {this.state.shopData.shopname}
+                {tagList}
+              </Header>
+              <Segment attached piled style={{ minHeight: 200, maxHeight: 200 }}>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    height: 180
+                  }}
+                >
+                  {this.state.shopData.description}
+                </div>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>}
+
 
         <Grid.Row>
           <Grid.Column width={16}>
@@ -139,12 +166,12 @@ export default class ShopdetailPage extends Component {
                 Info
               </Label>
               <span>Shop Details</span>
-              <BasicInfo shopData={this.state.shopData} avgRate={this.state.avgRate}/>
+              <BasicInfo shopData={this.state.shopData} avgRate={this.state.avgRate} />
             </Segment>
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row>
+        {/* <Grid.Row>
           <Grid.Column width={16}>
             <Segment>
               <Label color="red" ribbon>
@@ -156,7 +183,7 @@ export default class ShopdetailPage extends Component {
               <StylistList />
             </Segment>
           </Grid.Column>
-        </Grid.Row>
+        </Grid.Row> */}
 
         <Grid.Row>
           <Grid.Column width={16}>
@@ -178,7 +205,7 @@ export default class ShopdetailPage extends Component {
                 Comment
               </Label>
               <br />
-              <UserComment commentData={this.state.commentData}/>
+              <UserComment commentData={this.state.commentData} />
             </Segment>
           </Grid.Column>
         </Grid.Row>

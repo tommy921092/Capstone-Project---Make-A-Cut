@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Comment, Rating } from "semantic-ui-react";
 import faker from "faker";
+import moment from 'moment';
 
 export default class UserComment extends Component {
   render() {
@@ -10,7 +11,7 @@ export default class UserComment extends Component {
         <Comment.Content>
           <Comment.Author>{comment.username}</Comment.Author>
           <Comment.Metadata>
-            <div>CREATED AT {comment.created_at}</div>
+            <div>{moment(comment.created_at).fromNow()}</div>
             <div>
               <Rating icon="start" maxRating={5} rating={comment.rating} disabled={true}/>
               {comment.rating} Star
