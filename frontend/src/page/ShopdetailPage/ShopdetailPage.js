@@ -29,7 +29,8 @@ export default class ShopdetailPage extends Component {
         photo: [""]
       },
       menuData: {},
-      commentData: {}
+      commentData: {},
+      avgRate: 0
     };
   }
 
@@ -59,10 +60,12 @@ export default class ShopdetailPage extends Component {
                 )
                 .then(result3 => {
                   if (result3.status === 200) {
-                    let commentData = result3.data;
+                    let commentData = result3.data.rows;
+                    let avgRate = result3.data.avgRate;
                     this.setState({
                       isLoading: false,
-                      commentData
+                      commentData,
+                      avgRate
                     });
                   }
                 });
@@ -136,7 +139,7 @@ export default class ShopdetailPage extends Component {
                 Info
               </Label>
               <span>Shop Details</span>
-              <BasicInfo shopData={this.state.shopData} />
+              <BasicInfo shopData={this.state.shopData} avgRate={this.state.avgRate}/>
             </Segment>
           </Grid.Column>
         </Grid.Row>

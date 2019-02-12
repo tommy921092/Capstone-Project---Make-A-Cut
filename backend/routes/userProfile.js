@@ -214,7 +214,17 @@ router.get("/comment/:id", (req, res) => {
     .where({ "comment._shopid": shopid })
     .then(rows => {
       console.log("getting comments for the shop");
-      res.send(rows);
+      let rateArr = rows.map(row => row.rating);
+      let temp = 0;
+      for (let val of rateArr) {
+        temp += Number(val);
+      }
+      if (rateArr.length > 0) {
+        var avgRate = temp / rateArr.length;
+      } else {
+        var avgRate = 0;
+      }
+      res.send({ rows, avgRate});
     })
     .catch(err => console.log(err));
 });
