@@ -65,9 +65,12 @@ export default class SearchResults extends Component {
     }
   }
 
+
   render() {
-    return (
-      <Container fluid>
+    const isMobile = window.innerWidth <= 768;
+
+    const desktopContainer = () => {
+      return (<Container fluid>
         <Container fluid>
           <Container style={{ paddingTop: '0' }}>
             <FilterButtons fluid list={this.props.list} />
@@ -83,7 +86,7 @@ export default class SearchResults extends Component {
                   {this.state.searchListing.length > 0 ? this.state.searchListing.map(l =>
                     // <ListItem key={l.id} l={l} /> // commented out until I can figure out how to pass onClick to component
 
-                    <Item key={l.id} onClick={ e => this.showInfo(e, l) }>
+                    <Item key={l.id} onClick={e => this.showInfo(e, l)}>
                       <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
                       <Item.Content>
                         <Item.Header as='a' href={`/shop/${l.id}`}>{l.shopname}</Item.Header>
@@ -120,7 +123,68 @@ export default class SearchResults extends Component {
             </Grid>
           </Segment>
         </Container>
-      </Container>
+      </Container>)
+    }
+
+    const mobileContainer = () => {
+      return (      <Container fluid>
+          <Container style={{ paddingTop: '0' }}>
+            <FilterButtons list={this.props.list} />
+          </Container>
+
+            <Grid>
+          <Grid.Row>
+              <Grid.Column width={16} style={{ overflow: 'auto', minHeight: '80vh',padding:30 }}>
+                <Item.Group link divided>
+
+                  {this.state.searchListing.length > 0 ? this.state.searchListing.map(l =>
+                    // <ListItem key={l.id} l={l} /> // commented out until I can figure out how to pass onClick to component
+
+                    <Item key={l.id} onClick={ e => this.showInfo(e, l) }>
+                      <Item.Image size='small' rounded src={`/img/upload/${l.photo[0]}`} />
+                      <Item.Content>
+                        <Item.Header as='a' href={`/shop/${l.id}`}>{l.shopname}</Item.Header>
+                        <Item.Meta>
+                          <span>{l.address}</span>
+                        </Item.Meta>
+                        <Item.Description>{l.description}</Item.Description>
+                        <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
+                        <Item.Extra>
+
+                          {l.tag !== null ? l.tag.map(t =>
+                            <Tag key={l.tag.indexOf(t)} t={t} /> // dirty fix indexOf for tag key
+                          ) : null}
+
+                          <Label>
+                            <Icon name='hand scissors outline' style={{ margin: 'auto' }} />
+                          </Label>
+                          <Label >
+                            <Icon name='hourglass half' style={{ margin: 'auto' }} />
+                          </Label>
+                        </Item.Extra>
+                      </Item.Content>
+                    </Item>
+
+                  ) : <Header size="small">No results? I'll give you a bowl cut for free</Header>}
+
+                </Item.Group>
+              </Grid.Column>
+              </Grid.Row>
+
+              {/* <Grid.Row>
+              <Grid.Column width={16} verticalAlign='middle'>
+                <Map list={this.state.searchListing} selectedItem={this.state.selectedItem} />
+              </Grid.Column>
+              </Grid.Row> */}
+
+            </Grid>
+      </Container>)
+    }
+
+    return (
+      <div>
+      {isMobile ? mobileContainer() : desktopContainer()}
+      </div>
     )
   }
 }

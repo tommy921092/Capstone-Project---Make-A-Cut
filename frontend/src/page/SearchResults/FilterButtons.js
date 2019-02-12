@@ -14,7 +14,7 @@ class FilterButtons extends Component {
   render() {
     return (
 
-      <Menu secondary>
+      <Menu secondary stackable>
 
         <Menu.Item fitted="horizontally">
           <Dropdown button basic compact text='Price' name='prices'>

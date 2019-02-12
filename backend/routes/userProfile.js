@@ -45,7 +45,7 @@ router.get("/current/:id", (req, res) => {
   knex("booking")
     .select(
       "booking.uid",
-      "booking.id",
+      "booking.id as _bookingid",
       "booking._shopid",
       "booking.bookingdate",
       "booking.status",
@@ -112,8 +112,9 @@ router.get("/previous/:id", (req, res) => {
   knex("booking")
     .select(
       "booking.uid",
-      "booking.id",
+      "booking.id as _bookingid",
       "booking._shopid",
+      "booking._userid",
       "booking.bookingdate",
       "booking.status",
       "menu.name",
@@ -129,7 +130,7 @@ router.get("/previous/:id", (req, res) => {
     )
     .fullOuterJoin("menu", "booking._menuid", "menu.id")
     .fullOuterJoin("shop", "booking._shopid", "shop.id")
-    .fullOuterJoin("comment", "comment._shopid", "shop.id")
+    .fullOuterJoin("comment", "comment._bookingid", "booking.id")
     .where({
       "booking._userid": userid
     })
@@ -184,6 +185,75 @@ router.post("/booking", (req, res) => {
   knex("booking")
     .insert(req.body)
     .then(() => res.send("BOOKED"))
+    .catch(err => console.log(err));
+});
+
+router.put("/cancelbooking/:id", (req, res) => {
+  let bookingid = req.params.id;
+  knex("booking")
+    .update({ status: "cancelled" })
+    .where({ id: bookingid })
+    .then(() => res.send("CANCELLED"))
+    .catch(err => console.log(err));
+});
+
+router.post("/comment", (req, res) => {
+  knex("comment")
+    .insert(req.body)
+    .then(() => console.log("inserted comment"))
+    .catch(err => console.log(err));
+});
+
+router.get("/comment/:id", (req, res) => {
+  let shopid = req.params.id;
+  knex("comment")
+    .select(
+      "comment.rating",
+      "comment.content",
+      "comment.created_at",
+      "users.username",
+      "shop.shopname"
+    )
+    .fullOuterJoin("users", "comment._userid", "users.id")
+    .fullOuterJoin("shop", "comment._shopid", "shop.id")
+    .where({ "comment._shopid": shopid })
+    .then(rows => {
+      console.log("getting comments for the shop");
+      let rateArr = rows.map(row => row.rating);
+      let temp = 0;
+      for (let val of rateArr) {
+        temp += Number(val);
+      }
+      if (rateArr.length > 0) {
+        var avgRate = temp / rateArr.length;
+      } else {
+        var avgRate = 0;
+      }
+      res.send({ rows, avgRate });
+    })
+    .catch(err => console.log(err));
+});
+
+router.get("/avgRate/:id", (req, res) => {
+  let shopid = req.params.id;
+  knex("comment")
+    .select("comment.rating")
+    .fullOuterJoin("users", "comment._userid", "users.id")
+    .fullOuterJoin("shop", "comment._shopid", "shop.id")
+    .where({ "comment._shopid": shopid })
+    .then(rows => {
+      let rateArr = rows.map(row => row.rating);
+      let temp = 0;
+      for (let val of rateArr) {
+        temp += Number(val);
+      }
+      if (rateArr.length > 0) {
+        var avgRate = temp / rateArr.length;
+      } else {
+        var avgRate = 0;
+      }
+      res.send({avgRate});
+    })
     .catch(err => console.log(err));
 });
 

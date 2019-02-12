@@ -81,15 +81,15 @@ class UserProfile extends React.Component {
     //if saved with no error return successfully saved message
     let token = localStorage.getItem("jwtToken");
     let id = jwtDecode(token).id;
-    this.setState({ success: true });
     let data = {
       username: this.state.username,
       fullname: this.state.fullName,
       age: this.state.age,
       tel: this.state.contactNumber,
-      district: this.state.district
+      district: this.state.district,
     };
     axios.put(`/api/userProfile/profile/${id}`, data);
+    this.setState({ success: true});
   };
 
   render() {

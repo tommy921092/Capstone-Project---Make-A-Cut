@@ -19,9 +19,9 @@ export default class UserMenuWithContent extends Component {
         case "Profile":
           return <UserProfile />;
         case "Upcoming Booking":
-          return <UserUpcoming />;
+          return <UserUpcoming/>;
         case "Previous Booking":
-          return <UserPrevious />
+          return <UserPrevious/>
         default:
           return <UserProfile />;
       }
