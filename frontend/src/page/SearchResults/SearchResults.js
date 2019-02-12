@@ -158,7 +158,7 @@ export default class SearchResults extends Component {
                           <span>{l.address}</span>
                         </Item.Meta>
                         <Item.Description>{l.description}</Item.Description>
-                        <Item.Meta>Haircut - {l.pricerange}</Item.Meta>
+                        <Item.Meta>PriceRange - {l.pricerange}</Item.Meta>
                         <Item.Extra>
                           {l.tag !== null ? l.tag.map(t =>
                             <Tag key={l.tag.indexOf(t)} t={t} /> // dirty fix indexOf for tag key
